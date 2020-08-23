@@ -5,6 +5,13 @@ public interface User {
     // dell'utente, false altrimenti
     public boolean authenticate(String passw);
 
-    // ritorna il nome dello user
+    /*
+     * ritorna il nome dello user
+     */
     public String getName();
+
+    /*
+     * Sovrascrive il metodo clone di Object
+     */
+    public User clone() throws CloneNotSupportedException;
 }

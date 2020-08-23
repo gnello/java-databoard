@@ -83,7 +83,7 @@ public interface DataBoard<E extends Data> {
      * THROWS: se dato == null || category == null solleva una NullPointerException
      *         se passwd non è una password valida solleva una InvalidPasswordException
      *         se category non esiste in DataBoard solleva una CategoryNotFoundException
-     *         se dato è già stato aggiunto a una category qualsiasi solleva una DataAlreadyPutException
+     *         se dato è già stato aggiunto in DataBoard solleva una DataAlreadyPutException TODO: specificare category nella sottoclasse?
      *         se non è possibile inserire una deep copy di dato solleva una CloneNotSupportedException
      */
 
@@ -99,7 +99,7 @@ public interface DataBoard<E extends Data> {
      * RETURNS: restituisce una deep copy di dato
      * THROWS: se dato == null solleva una NullPointerException
      *         se passwd non è una password valida solleva una InvalidPasswordException
-     *         se dato non è presente in nessuna category solleva una DataNotFoundException
+     *         se dato non è presente DataBoard solleva una DataNotFoundException TODO: specificare category nella sottoclasse?
      *         se non è possibile restituire una copia del dato solleva una CloneNotSupportedException
      */
 
@@ -116,7 +116,7 @@ public interface DataBoard<E extends Data> {
      * RETURNS: restituisce una deep copy del dato rimosso
      * THROWS: se dato == null solleva una NullPointerException
      *         se passwd non è una password valida solleva una InvalidPasswordException
-     *         se dato non è presente in nessuna category solleva una DataNotFoundException
+     *         se dato non è presente in DataBoard solleva una DataNotFoundException TODO: specificare category nella sottoclasse?
      *         se non è possibile restituire una deep copy di dato solleva una CloneNotSupportedException
      */
 
@@ -125,18 +125,29 @@ public interface DataBoard<E extends Data> {
      * se vengono rispettati i controlli di identità
      */
     public List<E> getDataCategory(String passw, String category) throws NullPointerException,
-            InvalidPasswordException, CategoryNotFoundException;
+            InvalidPasswordException, CategoryNotFoundException, CloneNotSupportedException;
     /*
      * EFFECTS: crea e restituisce la lista dei dati presenti in category
      * RETURNS: restituisce la lista dei dati presenti in category
      * THROWS: se category == null solleva una NullPointerException
      *         se passwd non è una password valida solleva una InvalidPasswordException
      *         se category non è presente solleva una CategoryNotFoundException
+     *         se non è possibile restituire una deep copy della lista dei dati presenti
+     *         in category solleva una CloneNotSupportedException
      */
 
-    // Aggiunge un like a un dato
-    // se vengono rispettati i controlli di identità
-    void insertLike(String friend, E data);
+    /*
+     * Aggiunge un like a un dato
+     * se vengono rispettati i controlli di identità
+     */
+    public void insertLike(String friend, E data) throws NullPointerException, DataNotFoundException;
+    /*
+     * REQUIRES: data != null
+     * MODIFIES: this TODO: sovrascrivere nell'implementazione se modifica l'oggetto data, verificare sulle slide
+     * EFFECTS: aggiunge un like di friend a data
+     * THROWS: se data == null solleva una NullPointerException
+     *         se data non è presente in DataBoard solleva una DataNotFoundException TODO: specificare category nella sottoclasse?
+     */
 
     // restituisce un iteratore (senza remove) che genera tutti i dati in
     // bacheca ordinati rispetto al numero di like
@@ -177,8 +188,22 @@ public interface DataBoard<E extends Data> {
     public boolean hasData(E data) throws NullPointerException;
     /*
      * REQUIRES: data != null
-     * RETURNS: ritorna true se data è già stato inserito in una categoria
+     * RETURNS: ritorna true se data è già stato inserito in DataBoard TODO: specificare category nella sottoclasse?
      *          false altrimenti
      * THROWS: se data == null solleva una NullPointerException
+     */
+
+    /*
+     * Restituisce gli user che hanno inserito un like al dato
+     */
+    public List<User> getLikes(E data) throws NullPointerException, DataNotFoundException,
+            CloneNotSupportedException;
+    /*
+     * REQUIRES: data != null
+     * RETURNS: ritorna la lista degli user che hanno inserito un like al dato
+     * THROWS: se data == null solleva una NullPointerException
+     *         se data non è presente in DataBoard solleva una DataNotFoundException TODO: specificare category nella sottoclasse?
+     *         se non è possibile restituire una deep copy della lista dei likes presenti
+     *         in data solleva una CloneNotSupportedException
      */
 }

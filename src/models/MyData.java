@@ -1,12 +1,20 @@
 package models;
 
 import interfaces.Data;
+import interfaces.User;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MyData implements Data, Cloneable {
     private final Integer id;
 
+    private final ArrayList<User> likedByList;
+
     public MyData(Integer id) {
         this.id = id;
+
+        this.likedByList = new ArrayList<>();
     }
 
     @Override
@@ -21,6 +29,27 @@ public class MyData implements Data, Cloneable {
 
     public MyData clone() throws CloneNotSupportedException {
         return (MyData) super.clone();
+    }
+
+    @Override
+    public List<User> getLikes() throws CloneNotSupportedException {
+        //TODO: specificare nella specifica che è deep copy?
+        ArrayList<User> likesList = new ArrayList<>();
+
+        for (User item : this.likedByList) {
+            likesList.add(item.clone());
+        }
+
+        return likesList;
+    }
+
+    @Override
+    public void insertLike(String friend) throws NullPointerException {
+        if (friend == null) {
+            throw new NullPointerException();
+        }
+
+        this.likedByList.add(new MyUser(friend));
     }
 
     @Override

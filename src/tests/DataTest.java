@@ -3,6 +3,7 @@ package tests;
 import exceptions.*;
 import interfaces.Data;
 import interfaces.DataBoard;
+import interfaces.User;
 import models.MyData;
 
 import java.util.List;
@@ -46,7 +47,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
                 throw new TestException(testName);
             }
 
-        } catch (NullPointerException | InvalidPasswordException | CategoryNotFoundException
+        } catch (InvalidPasswordException | CategoryNotFoundException
                 | DataAlreadyPutException | CloneNotSupportedException e) {
             throw new TestException(testName);
         }
@@ -85,7 +86,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
             this.afterAll();
 
-        } catch (NullPointerException | InvalidPasswordException | CategoryNotFoundException
+        } catch (InvalidPasswordException | CategoryNotFoundException
                 | DataAlreadyPutException | CloneNotSupportedException e) {
             throw new TestException(testName);
         }
@@ -109,7 +110,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             this.afterAll();
 
             return;
-        } catch (NullPointerException | CategoryNotFoundException | DataAlreadyPutException
+        } catch (CategoryNotFoundException | DataAlreadyPutException
                 | CloneNotSupportedException e) {
             throw new TestException(testName);
         }
@@ -187,8 +188,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             this.afterAll();
 
             return;
-        } catch (InvalidPasswordException | NullPointerException | DataAlreadyPutException
-                | CloneNotSupportedException e) {
+        } catch (InvalidPasswordException | DataAlreadyPutException | CloneNotSupportedException e) {
             throw new TestException(testName);
         }
 
@@ -214,8 +214,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             this.afterAll();
 
             return;
-        } catch (InvalidPasswordException | NullPointerException | CategoryNotFoundException
-                | CloneNotSupportedException e) {
+        } catch (InvalidPasswordException | CategoryNotFoundException | CloneNotSupportedException e) {
             throw new TestException(testName);
         }
 
@@ -502,7 +501,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
                 return;
             }
-        } catch (InvalidPasswordException | CategoryNotFoundException e) {
+        } catch (InvalidPasswordException | CategoryNotFoundException | CloneNotSupportedException e) {
             throw new TestException(testName);
         }
 
@@ -527,7 +526,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             this.afterAll();
 
             return;
-        } catch (CategoryNotFoundException e) {
+        } catch (CategoryNotFoundException | CloneNotSupportedException e) {
             throw new TestException(testName);
         }
 
@@ -552,7 +551,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             this.afterAll();
 
             return;
-        } catch (InvalidPasswordException | CategoryNotFoundException e) {
+        } catch (InvalidPasswordException | CategoryNotFoundException | CloneNotSupportedException e) {
             throw new TestException(testName);
         }
 
@@ -577,10 +576,46 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             this.afterAll();
 
             return;
-        } catch (InvalidPasswordException e) {
+        } catch (InvalidPasswordException | CloneNotSupportedException e) {
             throw new TestException(testName);
         }
 
         throw new TestException(testName, "The data list of a category that doesn't exist was got.");
+    }
+
+    public void we_can_insert_a_like_with_a_valid_user()
+    {
+        String testName = AbstractTest.getCurrentMethodName();
+
+        this.beforeGetOrRemove();
+
+        if (!this.dataBoard.hasCategory(this.categoryName) || !this.dataBoard.hasData(this.data)) {
+            throw new TestException(testName);
+        }
+
+        try {
+            this.dataBoard.insertLike("tony", this.data);
+        } catch (DataNotFoundException e) {
+            throw new TestException(testName);
+        }
+
+        List<User> list;
+        try {
+            list = this.dataBoard.getLikes(this.data);
+        } catch (DataNotFoundException | CloneNotSupportedException e) {
+            throw new TestException(testName);
+        }
+
+        for (User tmp : list) {
+            if (tmp.getName().equals("tony")) {
+                AbstractTest.printSuccess(testName);
+
+                this.afterAll();
+
+                return;
+            }
+        }
+
+        throw new TestException(testName, "Can't insert a like.");
     }
 }

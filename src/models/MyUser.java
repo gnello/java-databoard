@@ -2,7 +2,7 @@ package models;
 
 import interfaces.User;
 
-public class MyUser implements User {
+public class MyUser implements User, Cloneable {
     private final String name;
     private final String password;
 
@@ -37,5 +37,9 @@ public class MyUser implements User {
     @Override
     public String getName() {
         return this.name;
+    }
+
+    public MyUser clone() throws CloneNotSupportedException {
+        return (MyUser) super.clone();
     }
 }

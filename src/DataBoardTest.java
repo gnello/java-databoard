@@ -79,6 +79,12 @@ public class DataBoardTest<E extends DataBoard<Data>> {
         dataTest.we_can_not_get_the_list_of_data_of_a_category_with_a_wrong_password();
         dataTest.we_can_not_get_the_list_of_data_of_a_null_category();
         dataTest.we_can_not_get_the_list_of_data_of_a_category_that_doesnt_exist();
+
+        //insert like
+        dataTest.we_can_insert_a_like_with_a_valid_user();
+//        dataTest.we_can_not_insert_a_like_with_a_wrong_user();
+//        dataTest.we_can_not_insert_a_like_into_a_null_data();
+//        dataTest.we_can_not_insert_a_like_into_a_data_that_doesnt_exist();
     }
 
 

@@ -220,7 +220,7 @@ public class MyDataBoard1<E extends Data> implements DataBoard<E> {
 
     @Override
     public List<E> getDataCategory(String passw, String category) throws NullPointerException,
-            InvalidPasswordException, CategoryNotFoundException {
+            InvalidPasswordException, CategoryNotFoundException, CloneNotSupportedException {
         // validazione
         if (!this.owner.authenticate(passw)) {
             throw new InvalidPasswordException();
@@ -234,7 +234,13 @@ public class MyDataBoard1<E extends Data> implements DataBoard<E> {
         for (Category<E> tmp : this.categories) {
             if (tmp.getName().equals(category)) {
                 // ritorna una deep copy della lista di dati della categoria
-                return new ArrayList<>(tmp.getAllData());
+                ArrayList<E> dataList = new ArrayList<>();
+
+                for (E item : tmp.getAllData()) {
+                    dataList.add((E)item.clone());
+                }
+
+                return dataList;
             }
         }
 
@@ -242,8 +248,19 @@ public class MyDataBoard1<E extends Data> implements DataBoard<E> {
     }
 
     @Override
-    public void insertLike(String friend, E data) {
+    public void insertLike(String friend, E data) throws NullPointerException, DataNotFoundException {
+        // trova il dato
+        for (Category<E> tmp : this.categories) {
+            if (tmp.hasData(data)) {
+                // inserisci il like
+                tmp.getData(data).insertLike(friend);
 
+                return;
+            }
+        }
+
+        // il dato non è stato trovato, errore
+        throw new DataNotFoundException();
     }
 
     @Override
@@ -299,5 +316,21 @@ public class MyDataBoard1<E extends Data> implements DataBoard<E> {
         }
 
         return false;
+    }
+
+    @Override
+    public List<User> getLikes(E data) throws NullPointerException, DataNotFoundException,
+            CloneNotSupportedException {
+        // trova il dato
+        for (Category<E> tmp : this.categories) {
+            if (tmp.hasData(data)) {
+                // ritorna la lista degli user che
+                // hanno inserito un like al dato
+                return tmp.getData(data).getLikes();
+            }
+        }
+
+        // il dato non è stato trovato, errore
+        throw new DataNotFoundException();
     }
 }

@@ -129,6 +129,6 @@ public class MyCategory<E extends Data> implements Category<E> {
 
     @Override
     public List<E> getAllData() {
-        return this.dataList;
+        return this.dataList; //TODO: rendere non modificabile
     }
 }
