@@ -534,6 +534,31 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
         throw new TestException(testName, "The given password it's not valid but the data list was got.");
     }
 
+    public void we_can_not_get_the_list_of_data_of_a_null_category()
+    {
+        String testName = AbstractTest.getCurrentMethodName();
+
+        this.beforeGetOrRemove();
+
+        if (!this.dataBoard.hasCategory(this.categoryName) || !this.dataBoard.hasData(this.data)) {
+            throw new TestException(testName);
+        }
+
+        try {
+            this.dataBoard.getDataCategory(this.password, null);
+        } catch (NullPointerException e) {
+            AbstractTest.printSuccess(testName);
+
+            this.afterAll();
+
+            return;
+        } catch (InvalidPasswordException | CategoryNotFoundException e) {
+            throw new TestException(testName);
+        }
+
+        throw new TestException(testName, "The data list of a null category was got.");
+    }
+
     public void we_can_not_get_the_list_of_data_of_a_category_that_doesnt_exist()
     {
         String testName = AbstractTest.getCurrentMethodName();

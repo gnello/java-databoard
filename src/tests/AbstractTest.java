@@ -18,7 +18,7 @@ public class AbstractTest<E extends DataBoard<?>> {
     // Stampa una stringa che indica il passaggio
     // del test passato come parametro
     protected static void printSuccess(String testName) {
-        System.out.println("[x] " + testName + " " + ANSI_GREEN + "test passed" + ANSI_RESET + ".");
+        System.out.println("[x] " + testName.replace("_", " ") + " " + ANSI_GREEN + "test passed" + ANSI_RESET + ".");
     }
 
     // ritorna il nome del metodo

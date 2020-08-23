@@ -219,11 +219,15 @@ public class MyDataBoard1<E extends Data> implements DataBoard<E> {
     }
 
     @Override
-    public List<E> getDataCategory(String passw, String category) throws InvalidPasswordException,
-            CategoryNotFoundException {
+    public List<E> getDataCategory(String passw, String category) throws NullPointerException,
+            InvalidPasswordException, CategoryNotFoundException {
         // validazione
         if (!this.owner.authenticate(passw)) {
             throw new InvalidPasswordException();
+        }
+
+        if (category == null) {
+            throw new NullPointerException();
         }
 
         // trova la categoria passata come parametro

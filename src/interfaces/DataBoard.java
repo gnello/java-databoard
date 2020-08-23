@@ -124,12 +124,13 @@ public interface DataBoard<E extends Data> {
      * Crea la lista dei dati in bacheca di una determinata categoria
      * se vengono rispettati i controlli di identità
      */
-    public List<E> getDataCategory(String passw, String category) throws InvalidPasswordException,
-            CategoryNotFoundException;
+    public List<E> getDataCategory(String passw, String category) throws NullPointerException,
+            InvalidPasswordException, CategoryNotFoundException;
     /*
      * EFFECTS: crea e restituisce la lista dei dati presenti in category
      * RETURNS: restituisce la lista dei dati presenti in category
-     * THROWS: se passwd non è una password valida solleva una InvalidPasswordException
+     * THROWS: se category == null solleva una NullPointerException
+     *         se passwd non è una password valida solleva una InvalidPasswordException
      *         se category non è presente solleva una CategoryNotFoundException
      */
 
