@@ -158,8 +158,12 @@ public class MyDataBoard1<E extends Data> implements DataBoard<E> {
         // trova la categoria passata come parametro
         for (Category<E> tmp : this.categories) {
             if (tmp.getName().equals(category)) {
-                // aggiungi il dato alla categoria
-                return tmp.addData(dato);
+                // aggiungi una deep copy di dato alla categoria
+                try {
+                    return tmp.addData((E)dato.clone());
+                } catch (CloneNotSupportedException e) {
+                    return false;
+                }
             }
         }
 
@@ -192,7 +196,7 @@ public class MyDataBoard1<E extends Data> implements DataBoard<E> {
 
     @Override
     public E remove(String passw, E dato) throws NullPointerException, InvalidPasswordException,
-            DataNotFoundException {
+            DataNotFoundException, CloneNotSupportedException {
         // validazione
         if (!this.owner.authenticate(passw)) {
             throw new InvalidPasswordException();
@@ -206,8 +210,8 @@ public class MyDataBoard1<E extends Data> implements DataBoard<E> {
         // cerca il dato nelle categorie
         for (Category<E> tmp : this.categories) {
             if (tmp.hasData(dato)) {
-                // rimuovi il dato e restituisci una shallow copy
-                return tmp.removeData(dato);
+                // rimuovi il dato e restituisci una deep copy
+                return (E)tmp.removeData(dato).clone();
             }
         }
 

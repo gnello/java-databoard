@@ -44,7 +44,8 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
                 throw new TestException(testName);
             }
 
-        } catch (NullPointerException | InvalidPasswordException | CategoryNotFoundException | DataAlreadyPutException e) {
+        } catch (NullPointerException | InvalidPasswordException | CategoryNotFoundException
+                | DataAlreadyPutException | CloneNotSupportedException e) {
             throw new TestException(testName);
         }
     }
@@ -82,7 +83,8 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
             this.afterAll();
 
-        } catch (NullPointerException | InvalidPasswordException | CategoryNotFoundException | DataAlreadyPutException e) {
+        } catch (NullPointerException | InvalidPasswordException | CategoryNotFoundException
+                | DataAlreadyPutException | CloneNotSupportedException e) {
             throw new TestException(testName);
         }
     }
@@ -105,7 +107,8 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             this.afterAll();
 
             return;
-        } catch (NullPointerException | CategoryNotFoundException | DataAlreadyPutException e) {
+        } catch (NullPointerException | CategoryNotFoundException | DataAlreadyPutException
+                | CloneNotSupportedException e) {
             throw new TestException(testName);
         }
 
@@ -130,7 +133,8 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             this.afterAll();
 
             return;
-        } catch (InvalidPasswordException | CategoryNotFoundException | DataAlreadyPutException e) {
+        } catch (InvalidPasswordException | CategoryNotFoundException | DataAlreadyPutException
+                | CloneNotSupportedException e) {
             throw new TestException(testName);
         }
 
@@ -155,7 +159,8 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             this.afterAll();
 
             return;
-        } catch (InvalidPasswordException | CategoryNotFoundException | DataAlreadyPutException e) {
+        } catch (InvalidPasswordException | CategoryNotFoundException | DataAlreadyPutException
+                | CloneNotSupportedException e) {
             throw new TestException(testName);
         }
 
@@ -180,7 +185,8 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             this.afterAll();
 
             return;
-        } catch (InvalidPasswordException | NullPointerException | DataAlreadyPutException e) {
+        } catch (InvalidPasswordException | NullPointerException | DataAlreadyPutException
+                | CloneNotSupportedException e) {
             throw new TestException(testName);
         }
 
@@ -206,7 +212,8 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             this.afterAll();
 
             return;
-        } catch (InvalidPasswordException | NullPointerException | CategoryNotFoundException e) {
+        } catch (InvalidPasswordException | NullPointerException | CategoryNotFoundException
+                | CloneNotSupportedException e) {
             throw new TestException(testName);
         }
 
@@ -354,7 +361,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
         try {
             this.dataBoard.remove(this.password, this.data);
-        } catch (InvalidPasswordException | DataNotFoundException e) {
+        } catch (InvalidPasswordException | DataNotFoundException | CloneNotSupportedException e) {
             throw new TestException(testName);
         }
 
@@ -387,7 +394,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             this.afterAll();
 
             return;
-        } catch (DataNotFoundException e) {
+        } catch (DataNotFoundException | CloneNotSupportedException e) {
             throw new TestException(testName);
         }
 
@@ -412,7 +419,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             this.afterAll();
 
             return;
-        } catch (InvalidPasswordException | DataNotFoundException e) {
+        } catch (InvalidPasswordException | DataNotFoundException | CloneNotSupportedException e) {
             throw new TestException(testName);
         }
 
@@ -437,7 +444,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             this.afterAll();
 
             return;
-        } catch (InvalidPasswordException e) {
+        } catch (InvalidPasswordException | CloneNotSupportedException e) {
             throw new TestException(testName);
         }
 
@@ -465,7 +472,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
                 return;
             }
-        } catch (InvalidPasswordException | DataNotFoundException e) {
+        } catch (InvalidPasswordException | DataNotFoundException | CloneNotSupportedException e) {
             throw new TestException(testName);
         }
 

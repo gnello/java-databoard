@@ -74,16 +74,17 @@ public interface DataBoard<E extends Data> {
      * se vengono rispettati i controlli di identità
      */
     public boolean put(String passw, E dato, String category) throws NullPointerException, InvalidPasswordException,
-            CategoryNotFoundException, DataAlreadyPutException;
+            CategoryNotFoundException, DataAlreadyPutException, CloneNotSupportedException;
     /*
      * REQUIRES: dato != null && category != null
      * MODIFIES: this
-     * EFFECTS: inserisce dato in DataBoard
+     * EFFECTS: inserisce una deep copy di dato in DataBoard
      * RETURNS: restituisce true se il dato è stato inserito, false altrimenti
      * THROWS: se dato == null || category == null solleva una NullPointerException
      *         se passwd non è una password valida solleva una InvalidPasswordException
      *         se category non esiste in DataBoard solleva una CategoryNotFoundException
      *         se dato è già stato aggiunto a una category qualsiasi solleva una DataAlreadyPutException
+     *         se non è possibile inserire una deep copy di dato solleva una CloneNotSupportedException
      */
 
     /*
@@ -107,15 +108,16 @@ public interface DataBoard<E extends Data> {
      * se vengono rispettati i controlli di identità
      */
     public E remove(String passw, E dato) throws NullPointerException, InvalidPasswordException,
-            DataNotFoundException;
+            DataNotFoundException, CloneNotSupportedException;
     /*
      * REQUIRES: dato != null
      * MODIFIES: this
      * EFFECTS: rimuove il dato da DataBoard e lo restituisce al chiamante
-     * RETURNS: restituisce il dato rimosso
+     * RETURNS: restituisce una deep copy del dato rimosso
      * THROWS: se dato == null solleva una NullPointerException
      *         se passwd non è una password valida solleva una InvalidPasswordException
      *         se dato non è presente in nessuna category solleva una DataNotFoundException
+     *         se non è possibile restituire una deep copy di dato solleva una CloneNotSupportedException
      */
 
     //Crea la lista dei dati in bacheca di una determinata categoria
