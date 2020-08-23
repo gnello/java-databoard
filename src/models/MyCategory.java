@@ -6,6 +6,7 @@ import interfaces.Data;
 import interfaces.User;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MyCategory<E extends Data> implements Category<E> {
     private final String name;
@@ -124,5 +125,10 @@ public class MyCategory<E extends Data> implements Category<E> {
 
         // il dato non è stato trovato nella categoria, errore
         throw new DataNotFoundException();
+    }
+
+    @Override
+    public List<E> getAllData() {
+        return this.dataList;
     }
 }

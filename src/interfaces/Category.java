@@ -2,6 +2,8 @@ package interfaces;
 
 import exceptions.DataNotFoundException;
 
+import java.util.List;
+
 public interface Category<E extends Data> {
     /*
      * Ritorna il nome della categoria
@@ -88,5 +90,14 @@ public interface Category<E extends Data> {
      * THROWS: se data == null solleva una NullPointerException
      *         se data non esiste nella categoria solleva una DataNotFoundException
      * RETURNS: restituisce una shallow copy di data
+     */
+
+    /*
+     * Restituisce la lista dei dati presenti nella categoria
+     */
+    public List<E> getAllData();
+    /*
+     * EFFECTS: genera e restituisce una lista di shallow copy dei dati presenti nella categoria
+     * RETURNS: restituisce la lista dei dati presenti nella categoria
      */
 }

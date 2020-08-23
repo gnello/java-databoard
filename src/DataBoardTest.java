@@ -73,6 +73,11 @@ public class DataBoardTest<E extends DataBoard<Data>> {
         dataTest.we_can_not_remove_a_null_data();
         dataTest.we_can_not_remove_a_data_that_doesnt_exist();
         dataTest.we_can_get_the_removed_data();
+
+        //get data category
+        dataTest.we_can_get_the_list_of_data_of_a_category_with_a_valid_password();
+        dataTest.we_can_not_get_the_list_of_data_of_a_category_with_a_wrong_password();
+        dataTest.we_can_not_get_the_list_of_data_of_a_category_that_doesnt_exist();
     }
 
 

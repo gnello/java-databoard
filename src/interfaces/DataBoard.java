@@ -120,13 +120,22 @@ public interface DataBoard<E extends Data> {
      *         se non è possibile restituire una deep copy di dato solleva una CloneNotSupportedException
      */
 
-    //Crea la lista dei dati in bacheca di una determinata categoria
-    // se vengono rispettati i controlli di identità
+    /*
+     * Crea la lista dei dati in bacheca di una determinata categoria
+     * se vengono rispettati i controlli di identità
+     */
+    public List<E> getDataCategory(String passw, String category) throws InvalidPasswordException,
+            CategoryNotFoundException;
+    /*
+     * EFFECTS: crea e restituisce la lista dei dati presenti in category
+     * RETURNS: restituisce la lista dei dati presenti in category
+     * THROWS: se passwd non è una password valida solleva una InvalidPasswordException
+     *         se category non è presente solleva una CategoryNotFoundException
+     */
+
     // Aggiunge un like a un dato
     // se vengono rispettati i controlli di identità
     void insertLike(String friend, E data);
-
-    public List<E> getDataCategory(String passw, String category);
 
     // restituisce un iteratore (senza remove) che genera tutti i dati in
     // bacheca ordinati rispetto al numero di like

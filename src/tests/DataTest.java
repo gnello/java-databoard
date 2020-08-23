@@ -5,6 +5,8 @@ import interfaces.Data;
 import interfaces.DataBoard;
 import models.MyData;
 
+import java.util.List;
+
 public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
     private final String categoryName;
 
@@ -477,5 +479,83 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
         }
 
         throw new TestException(testName, "Can't get the data removed.");
+    }
+
+    public void we_can_get_the_list_of_data_of_a_category_with_a_valid_password()
+    {
+        String testName = AbstractTest.getCurrentMethodName();
+
+        this.beforeGetOrRemove();
+
+        if (!this.dataBoard.hasCategory(this.categoryName) || !this.dataBoard.hasData(this.data)) {
+            throw new TestException(testName);
+        }
+
+        List<Data> dataList;
+        try {
+            dataList = this.dataBoard.getDataCategory(this.password, this.categoryName);
+
+            if (dataList.contains(this.data)) {
+                AbstractTest.printSuccess(testName);
+
+                this.afterAll();
+
+                return;
+            }
+        } catch (InvalidPasswordException | CategoryNotFoundException e) {
+            throw new TestException(testName);
+        }
+
+        throw new TestException(testName, "Can't get the list of data of a category.");
+    }
+
+    public void we_can_not_get_the_list_of_data_of_a_category_with_a_wrong_password()
+    {
+        String testName = AbstractTest.getCurrentMethodName();
+
+        this.beforeGetOrRemove();
+
+        if (!this.dataBoard.hasCategory(this.categoryName) || !this.dataBoard.hasData(this.data)) {
+            throw new TestException(testName);
+        }
+
+        try {
+            this.dataBoard.getDataCategory("0000", this.categoryName);
+        } catch (InvalidPasswordException e) {
+            AbstractTest.printSuccess(testName);
+
+            this.afterAll();
+
+            return;
+        } catch (CategoryNotFoundException e) {
+            throw new TestException(testName);
+        }
+
+        throw new TestException(testName, "The given password it's not valid but the data list was got.");
+    }
+
+    public void we_can_not_get_the_list_of_data_of_a_category_that_doesnt_exist()
+    {
+        String testName = AbstractTest.getCurrentMethodName();
+
+        this.beforeGetOrRemove();
+
+        if (!this.dataBoard.hasCategory(this.categoryName) || !this.dataBoard.hasData(this.data)) {
+            throw new TestException(testName);
+        }
+
+        try {
+            this.dataBoard.getDataCategory(this.password, "not_exists");
+        } catch (CategoryNotFoundException e) {
+            AbstractTest.printSuccess(testName);
+
+            this.afterAll();
+
+            return;
+        } catch (InvalidPasswordException e) {
+            throw new TestException(testName);
+        }
+
+        throw new TestException(testName, "The data list of a category that doesn't exist was got.");
     }
 }

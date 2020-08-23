@@ -219,13 +219,27 @@ public class MyDataBoard1<E extends Data> implements DataBoard<E> {
     }
 
     @Override
-    public void insertLike(String friend, E data) {
+    public List<E> getDataCategory(String passw, String category) throws InvalidPasswordException,
+            CategoryNotFoundException {
+        // validazione
+        if (!this.owner.authenticate(passw)) {
+            throw new InvalidPasswordException();
+        }
 
+        // trova la categoria passata come parametro
+        for (Category<E> tmp : this.categories) {
+            if (tmp.getName().equals(category)) {
+                // ritorna una deep copy della lista di dati della categoria
+                return new ArrayList<>(tmp.getAllData());
+            }
+        }
+
+        throw new CategoryNotFoundException();
     }
 
     @Override
-    public List<E> getDataCategory(String passw, String category) {
-        return null;
+    public void insertLike(String friend, E data) {
+
     }
 
     @Override
