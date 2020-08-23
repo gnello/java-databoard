@@ -443,4 +443,32 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
         throw new TestException(testName, "A data that doesn't exist was removed.");
     }
+
+    public void we_can_get_the_removed_data()
+    {
+        String testName = AbstractTest.getCurrentMethodName();
+
+        this.beforeGetOrRemove();
+
+        if (!this.dataBoard.hasCategory(this.categoryName) || !this.dataBoard.hasData(this.data)) {
+            throw new TestException(testName);
+        }
+
+        Data data;
+        try {
+            data = this.dataBoard.remove(this.password, this.data);
+
+            if (this.data.equals(data)) {
+                AbstractTest.printSuccess(testName);
+
+                this.afterAll();
+
+                return;
+            }
+        } catch (InvalidPasswordException | DataNotFoundException e) {
+            throw new TestException(testName);
+        }
+
+        throw new TestException(testName, "Can't get the data removed.");
+    }
 }
