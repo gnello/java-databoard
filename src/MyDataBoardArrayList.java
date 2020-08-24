@@ -175,11 +175,7 @@ public class MyDataBoardArrayList<E extends Data> implements DataBoard<E> {
         for (Category<E> tmp : this.categories) {
             if (tmp.getName().equals(category)) {
                 // aggiungi una deep copy di dato alla categoria
-                try {
-                    return tmp.addData((E)dato.clone());
-                } catch (CloneNotSupportedException e) { //TODO: remove clone ot supported exception
-                    return false;
-                }
+                return tmp.addData((E)dato.clone());
             }
         }
 

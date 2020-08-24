@@ -116,7 +116,7 @@ public class MyDataBoardTreeSet<E extends Data> implements DataBoard<E> {
 
     @Override
     public boolean put(String passw, E dato, String category) throws NullPointerException,
-            UnauthorizedAccessException, CategoryNotFoundException, DataAlreadyPutException, CloneNotSupportedException {
+            UnauthorizedAccessException, CategoryNotFoundException, DataAlreadyPutException {
         // validazione
         if (!this.owner.authenticate(passw)) {
             throw new UnauthorizedAccessException();
@@ -137,7 +137,7 @@ public class MyDataBoardTreeSet<E extends Data> implements DataBoard<E> {
         // imposta la categoria al dato
         dato.setCategory(category);
 
-        return this.dataList.add(dato);
+        return this.dataList.add((E)dato.clone());
     }
 
     @Override

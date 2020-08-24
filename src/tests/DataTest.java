@@ -51,8 +51,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
                 throw new TestException(testName);
             }
 
-        } catch (UnauthorizedAccessException | CategoryNotFoundException
-                | DataAlreadyPutException | CloneNotSupportedException e) {
+        } catch (UnauthorizedAccessException | CategoryNotFoundException | DataAlreadyPutException e) {
             throw new TestException(testName);
         }
     }
@@ -103,8 +102,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
             this.afterAll();
 
-        } catch (UnauthorizedAccessException | CategoryNotFoundException
-                | DataAlreadyPutException | CloneNotSupportedException e) {
+        } catch (UnauthorizedAccessException | CategoryNotFoundException | DataAlreadyPutException e) {
             throw new TestException(testName);
         }
     }
@@ -127,8 +125,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             this.afterAll();
 
             return;
-        } catch (CategoryNotFoundException | DataAlreadyPutException
-                | CloneNotSupportedException e) {
+        } catch (CategoryNotFoundException | DataAlreadyPutException e) {
             throw new TestException(testName);
         }
 
@@ -153,8 +150,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             this.afterAll();
 
             return;
-        } catch (UnauthorizedAccessException | CategoryNotFoundException | DataAlreadyPutException
-                | CloneNotSupportedException e) {
+        } catch (UnauthorizedAccessException | CategoryNotFoundException | DataAlreadyPutException e) {
             throw new TestException(testName);
         }
 
@@ -179,8 +175,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             this.afterAll();
 
             return;
-        } catch (UnauthorizedAccessException | CategoryNotFoundException | DataAlreadyPutException
-                | CloneNotSupportedException e) {
+        } catch (UnauthorizedAccessException | CategoryNotFoundException | DataAlreadyPutException e) {
             throw new TestException(testName);
         }
 
@@ -205,7 +200,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             this.afterAll();
 
             return;
-        } catch (UnauthorizedAccessException | DataAlreadyPutException | CloneNotSupportedException e) {
+        } catch (UnauthorizedAccessException | DataAlreadyPutException e) {
             throw new TestException(testName);
         }
 
@@ -237,7 +232,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             this.afterAll();
 
             return;
-        } catch (UnauthorizedAccessException | CategoryNotFoundException | CloneNotSupportedException e) {
+        } catch (UnauthorizedAccessException | CategoryNotFoundException e) {
             throw new TestException(testName);
         }
 

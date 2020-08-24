@@ -37,8 +37,7 @@ public class IteratorTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
         try {
             this.dataBoard.put(this.password, new MyData(1), "test");
-        } catch (UnauthorizedAccessException | CategoryNotFoundException | DataAlreadyPutException
-                | CloneNotSupportedException e) {
+        } catch (UnauthorizedAccessException | CategoryNotFoundException | DataAlreadyPutException e) {
             throw new TestException(testName);
         }
     }
@@ -118,8 +117,7 @@ public class IteratorTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             this.dataBoard.put(this.password, dato2, "test1");
             this.dataBoard.put(this.password, dato3, "test1");
             this.dataBoard.put(this.password, dato4, "test1");
-        } catch (UnauthorizedAccessException | CategoryNotFoundException | DataAlreadyPutException
-                | CloneNotSupportedException e) {
+        } catch (UnauthorizedAccessException | CategoryNotFoundException | DataAlreadyPutException e) {
             throw new TestException(testName);
         }
 
@@ -300,8 +298,7 @@ public class IteratorTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             this.dataBoard.put(this.password, data6, "category_b");
             this.dataBoard.put(this.password, data7, "category_b");
             this.dataBoard.put(this.password, data8, "category_c");
-        } catch (UnauthorizedAccessException | CategoryNotFoundException | DataAlreadyPutException
-                | CloneNotSupportedException e) {
+        } catch (UnauthorizedAccessException | CategoryNotFoundException | DataAlreadyPutException e) {
             throw new TestException(testName);
         }
 

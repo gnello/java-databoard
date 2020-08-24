@@ -31,8 +31,20 @@ public class MyData implements Data {
         return this.id;
     }
 
-    public MyData clone() throws CloneNotSupportedException {
-        return (MyData) super.clone();
+    public MyData clone() {
+        try {
+            return (MyData) super.clone();
+        } catch (CloneNotSupportedException e) {
+            MyData cloneData = new MyData(this.getId());
+
+            cloneData.setCategory(this.getCategory());
+
+            for (User item : this.getLikes()) {
+                cloneData.insertLike(item.getName());
+            }
+
+            return cloneData;
+        }
     }
 
     @Override

@@ -80,7 +80,7 @@ public interface DataBoard<E extends Data> {
      * se vengono rispettati i controlli di identità
      */
     public boolean put(String passw, E dato, String category) throws NullPointerException, UnauthorizedAccessException,
-            CategoryNotFoundException, DataAlreadyPutException, CloneNotSupportedException;
+            CategoryNotFoundException, DataAlreadyPutException;
     /*
      * REQUIRES: dato != null && category != null
      * MODIFIES: this TODO: togliere da qui e spostare nell'implementazione
@@ -90,7 +90,6 @@ public interface DataBoard<E extends Data> {
      *         se passwd non è una password valida solleva una UnauthorizedAccessException
      *         se category non esiste in DataBoard solleva una CategoryNotFoundException
      *         se dato è già stato aggiunto in DataBoard solleva una DataAlreadyPutException TODO: specificare category nella sottoclasse?
-     *         se non è possibile inserire una deep copy di dato solleva una CloneNotSupportedException TODO: rimuovere CloneNotSupportedException
      */
 
     /*

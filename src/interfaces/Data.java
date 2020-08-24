@@ -22,7 +22,7 @@ public interface Data extends Cloneable, Comparable<Data> {
     /*
      * Sovrascrive il metodo clone di Object
      */
-    public Data clone() throws CloneNotSupportedException;
+    public Data clone();
 
     /*
      * Restituisce gli user che hanno inserito un like al dato
