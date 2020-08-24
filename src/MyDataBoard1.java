@@ -96,7 +96,7 @@ public class MyDataBoard1<E extends Data> implements DataBoard<E> {
 
     @Override
     public void removeFriend(String category, String passw, String friend) throws NullPointerException,
-            UnauthorizedAccessException, CategoryNotFoundException, FriendNotFoundException {
+            UnauthorizedAccessException, CategoryNotFoundException, UserNotFoundException {
         // validazione
         if (!this.owner.authenticate(passw)) {
             throw new UnauthorizedAccessException();
@@ -129,7 +129,7 @@ public class MyDataBoard1<E extends Data> implements DataBoard<E> {
 
         // friend non è presente nella
         // categoria, errore
-        throw new FriendNotFoundException();
+        throw new UserNotFoundException();
     }
 
     @Override
@@ -309,8 +309,26 @@ public class MyDataBoard1<E extends Data> implements DataBoard<E> {
     }
 
     @Override
-    public Iterator<E> getFriendIterator(String friend) {
-        return null;
+    public Iterator<E> getFriendIterator(String friend) throws UserNotFoundException {
+        // cerca friend nelle categorie
+        User friendUser = new MyUser(friend);
+
+        for (Category<E> tmp : this.categories) {
+
+            // se lo trovo restituisci un iteratore
+            // con i dati della categoria
+            if (tmp.isReadableBy(friendUser)) {
+                List<E> dataList = new ArrayList<>();
+
+                // disabilita il metodo remove dell'iteratore che verrà generato
+                // sfruttando il metodo Collections.unmodifiableList
+                dataList = Collections.unmodifiableList(tmp.getAllData());
+
+                return dataList.iterator();
+            }
+        }
+
+        throw new UserNotFoundException();
     }
 
     @Override

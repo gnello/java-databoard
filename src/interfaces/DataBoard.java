@@ -57,7 +57,7 @@ public interface DataBoard<E extends Data> {
      * se vengono rispettati i controlli di identità
      */
     public void removeFriend(String category, String passw, String friend) throws NullPointerException,
-            UnauthorizedAccessException, CategoryNotFoundException, FriendNotFoundException;
+            UnauthorizedAccessException, CategoryNotFoundException, UserNotFoundException;
     /*
      * REQUIRES: category != null && friend != null
      * MODIFIES: this
@@ -65,7 +65,7 @@ public interface DataBoard<E extends Data> {
      * THROWS: se category == null || friend == null solleva una NullPointerException
      *         se passwd non è una password valida solleva una UnauthorizedAccessException
      *         se category non esiste in DataBoard solleva una CategoryNotFoundException
-     *         se friend non è presente in category solleva una FriendNotFoundException
+     *         se friend non è presente in category solleva una UserNotFoundException
      */
 
     /*
@@ -161,9 +161,16 @@ public interface DataBoard<E extends Data> {
      * THROWS: se passwd non è una password valida solleva una UnauthorizedAccessException
      */
 
-    // restituisce un iteratore (senza remove) che genera tutti i dati in
-    // bacheca condivisi
-    public Iterator<E> getFriendIterator(String friend);
+    /*
+     * restituisce un iteratore (senza remove) che genera tutti i dati in
+     * bacheca condivisi
+     */
+    public Iterator<E> getFriendIterator(String friend) throws UserNotFoundException;
+    /*
+     * RETURNS: restituisce un iteratore (senza remove) che genera tutti i dati in
+     *          bacheca condivisi con friend
+     * THROWS: se a friend non è stato aggiunto a nessuna categoria solleva una UserNotFoundException
+     */
 
     // … altre operazione da definire a scelta
 
