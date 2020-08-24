@@ -90,10 +90,10 @@ public class DataBoardTest<E extends DataBoard<Data>> {
         dataTest.we_can_not_insert_a_like_into_a_data_that_doesnt_exist();
 
         // get iterator
-        iteratorTest.we_can_get_a_iterator_with_a_valid_user();
-        iteratorTest.we_can_not_get_a_iterator_with_a_wrong_user();
-        iteratorTest.we_can_get_a_iterator_ordered_by_likes_desc();
-        iteratorTest.we_can_get_a_iterator_that_doesnt_support_remove_method();
+        iteratorTest.we_can_get_an_iterator_with_a_valid_user();
+        iteratorTest.we_can_not_get_an_iterator_with_a_wrong_user();
+        iteratorTest.we_can_get_an_iterator_ordered_by_likes_desc();
+        iteratorTest.we_can_get_an_iterator_that_doesnt_support_remove_method();
     }
 
 

@@ -21,7 +21,7 @@ public class IteratorTest<E extends DataBoard<Data>> extends AbstractTest<E> {
         this.friend = new MyUser("tony");
     }
 
-    public void we_can_get_a_iterator_with_a_valid_user()
+    public void we_can_get_an_iterator_with_a_valid_user()
     {
         String testName = AbstractTest.getCurrentMethodName();
 
@@ -41,7 +41,7 @@ public class IteratorTest<E extends DataBoard<Data>> extends AbstractTest<E> {
         throw new TestException(testName, "Can't get an iterator.");
     }
 
-    public void we_can_not_get_a_iterator_with_a_wrong_user()
+    public void we_can_not_get_an_iterator_with_a_wrong_user()
     {
         String testName = AbstractTest.getCurrentMethodName();
 
@@ -56,7 +56,7 @@ public class IteratorTest<E extends DataBoard<Data>> extends AbstractTest<E> {
         throw new TestException(testName, "The password it's invalid but we get an iterator.");
     }
 
-    public void we_can_get_a_iterator_ordered_by_likes_desc()
+    public void we_can_get_an_iterator_ordered_by_likes_desc()
     {
         String testName = AbstractTest.getCurrentMethodName();
 
@@ -129,7 +129,7 @@ public class IteratorTest<E extends DataBoard<Data>> extends AbstractTest<E> {
         throw new TestException(testName, "We can't get an iterator ordered by likes desc.");
     }
 
-    public void we_can_get_a_iterator_that_doesnt_support_remove_method()
+    public void we_can_get_an_iterator_that_doesnt_support_remove_method()
     {
         String testName = AbstractTest.getCurrentMethodName();
 
