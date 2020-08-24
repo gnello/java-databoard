@@ -130,7 +130,7 @@ public class MyDataBoardArrayList<E extends Data> implements DataBoard<E> {
 
         // trova la categoria
         for (Category<E> tmp : this.categories) {
-            if (tmp.getName().equals(category)) { //TODO: ridefinire equals?
+            if (tmp.getName().equals(category)) {
                 User friendUser = new MyUser(friend);
 
                 // se friend è presente nella
@@ -281,7 +281,7 @@ public class MyDataBoardArrayList<E extends Data> implements DataBoard<E> {
                 List<User> likesList = dataItem.getLikes();
 
                 for (User user : likesList) {
-                    if (user.getName().equals(friend)) {
+                    if (user.equals(new MyUser(friend))) {
                         throw new FriendAlreadyAddedException();
                     }
                 }

@@ -109,7 +109,7 @@ public class MyDataBoardTreeSet<E extends Data> implements DataBoard<E> {
             throw new UserNotFoundException();
         }
 
-        this.categories.get(category).removeIf(el -> el.getName().equals(friend));
+        this.categories.get(category).removeIf(el -> el.equals(new MyUser(friend)));
     }
 
     @Override
@@ -233,7 +233,7 @@ public class MyDataBoardTreeSet<E extends Data> implements DataBoard<E> {
                 List<User> likesList = item.getLikes();
 
                 for (User user : likesList) {
-                    if (user.getName().equals(friend)) { //TODO: rewrite equals?
+                    if (user.equals(new MyUser(friend))) {
                         throw new FriendAlreadyAddedException();
                     }
                 }
@@ -315,7 +315,7 @@ public class MyDataBoardTreeSet<E extends Data> implements DataBoard<E> {
     @Override
     public boolean isReadableBy(String category, User user) throws NullPointerException {
         for (User item : this.categories.get(category)) {
-            if (item.getName().equals(user.getName())) { //TODO: ridefinire equals?
+            if (item.equals(user)) {
                 return true;
             }
         }

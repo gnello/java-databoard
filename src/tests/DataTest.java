@@ -624,8 +624,8 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             throw new TestException(testName);
         }
 
-        for (User tmp : list) {
-            if (tmp.getName().equals(this.friend.getName())) {
+        for (User item : list) {
+            if (item.equals(this.friend)) {
                 AbstractTest.printSuccess(testName);
 
                 this.afterAll();

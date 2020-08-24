@@ -46,4 +46,27 @@ public class MyUser implements User, Cloneable {
             return new MyUser(this.name, this.password);
         }
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        MyUser user = (MyUser) o;
+
+        return this.getName().equals(user.getName());
+    }
+
+    @Override
+    /*
+     * Sovrascrivi per non violare il general contract di Object.hashCode(),
+     */
+    public int hashCode() {
+        return this.getName().hashCode();
+    }
 }

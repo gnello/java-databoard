@@ -47,15 +47,15 @@ public class MyCategory<E extends Data> implements Category<E> {
         }
 
         // rimuovi lo user dagli user con i permessi di lettura
-        this.readableByList.removeIf(el -> el.getName().equals(user.getName()));
+        this.readableByList.removeIf(el -> el.equals(user));
     }
 
     @Override
     public boolean isReadableBy(User user) {
         // cerca lo user nella lista dagli user con i permessi di lettura
-        for (User tmp : this.readableByList) {
+        for (User item : this.readableByList) {
             // se lo user è presente allora ha i permessi di lettura
-            if (tmp.getName().equals(user.getName())) {//TODO: ridefinire equals?
+            if (item.equals(user)) {
                 return true;
             }
         }
