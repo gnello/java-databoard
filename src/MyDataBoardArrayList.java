@@ -29,12 +29,18 @@ public class MyDataBoardArrayList<E extends Data> implements DataBoard<E> {
      *                  c.categories.get(i).getAllData().get(j).equals(c.categories.get(i).getAllData().get(k)) == false
      */
 
-    // inizializza l'array categories e
-    // assegna l'owner della bacheca
+    /*
+     * inizializza this e
+     * assegna l'owner della bacheca
+     */
     public MyDataBoardArrayList(User owner) {
         this.owner = owner;
         this.categories = new ArrayList<>();
     }
+    /*
+     * EFFECTS: inizializza this ad array vuoto
+     * e inizializza l'owner con lo user passato come argomento
+     */
 
     @Override
     public void createCategory(String category, String passw) throws UnauthorizedAccessException,

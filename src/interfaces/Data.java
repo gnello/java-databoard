@@ -12,7 +12,7 @@ public interface Data extends Cloneable, Comparable<Data> {
      */
 
     /*
-     * Restituisce l'id del dato //TODO: serve per equals?
+     * Restituisce l'id del dato
      */
     public Integer getId();
     /*
@@ -43,7 +43,22 @@ public interface Data extends Cloneable, Comparable<Data> {
      * THROWS: se data == null solleva una NullPointerException
      */
 
-    //TODO: fare specifica
+    /*
+     * Assegna una categoria
+     */
     public void setCategory(String category) throws NullPointerException;
+    /*
+     * REQUIRES: category != null
+     * MODIFIES: this
+     * EFFECTS: assegna una categoria a this
+     * THROWS: se category == null solleva una NullPointerException
+     */
+
+    /*
+     * Restituisce la categoria a cui appartiene il dato
+     */
     public String getCategory();
+    /*
+     * RETURNS: restituisce la categoria di this
+     */
 }

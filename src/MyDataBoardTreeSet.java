@@ -13,20 +13,23 @@ public class MyDataBoardTreeSet<E extends Data> implements DataBoard<E> {
     private final TreeSet<E> dataList;
     private final HashMap<String, ArrayList<User>> categories;
 
-    // assegna l'owner della bacheca
+    /*
+     * inizializza this e
+     * assegna l'owner della bacheca
+     */
     public MyDataBoardTreeSet(User owner) {
         this.owner = owner;
         this.dataList = new TreeSet<>();
         this.categories = new HashMap<>();
     }
+    /*
+     * EFFECTS: inizializza this a tree set vuoto
+     * e inizializza l'owner con lo user passato come argomento
+     */
 
     @Override
     public void createCategory(String category, String passw) throws UnauthorizedAccessException,
             CategoryAlreadyExistsException {
-        /*
-         * MODIFIES: this
-         */
-
         // validazione
         if (!this.owner.authenticate(passw)) {
             throw new UnauthorizedAccessException();
@@ -46,10 +49,6 @@ public class MyDataBoardTreeSet<E extends Data> implements DataBoard<E> {
     @Override
     public void removeCategory(String category, String passw) throws UnauthorizedAccessException,
             CategoryNotFoundException {
-        /*
-         * MODIFIES: this
-         */
-
         // validazione
         if (!this.owner.authenticate(passw)) {
             throw new UnauthorizedAccessException();

@@ -49,7 +49,6 @@ public class MyData implements Data {
 
     @Override
     public List<User> getLikes() {
-        //TODO: specificare nella specifica che è deep copy?
         ArrayList<User> likesList = new ArrayList<>();
 
         for (User item : this.likedByList) {
