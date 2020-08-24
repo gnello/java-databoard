@@ -8,14 +8,30 @@ import models.MyUser;
 
 import java.util.*;
 
-public class MyDataBoard1<E extends Data> implements DataBoard<E> {
+public class MyDataBoardArrayList<E extends Data> implements DataBoard<E> {
+    // lo user proprietario della bacheca
     private final User owner;
 
     private final ArrayList<Category<E>> categories;
 
+    /*
+     * AF: α(c) = { c.categories.get(i).getAllData().get(k) |
+     *                  0 <= k < c.categories.get(i).getAllData().size()
+     *                  && 0 <= i < c.categories.size() }
+     *
+     * IR: I(c) = c.categories != null
+     *              e per ogni i tale che 0 <= i < c.categories.size(), c.categories.get(i).getAllData() != null
+     *              e per ogni i, k tale che 0 <= i < c.categories.size()
+     *                  && 0 <= k < c.categories.get(i).getAllData().size(),
+     *                  c.categories.get(i).getAllData().get(k) implementa l'interfaccia Data
+     *              e per tutti gli i, j, k tali che 0 <= i < c.categories.size()
+     *                  && 0 <= j < k < c.categories.get(i).getAllData().size(),
+     *                  c.categories.get(i).getAllData().get(j).equals(c.categories.get(i).getAllData().get(k)) == false
+     */
+
     // inizializza l'array categories e
     // assegna l'owner della bacheca
-    public MyDataBoard1(User owner) {
+    public MyDataBoardArrayList(User owner) {
         this.owner = owner;
         this.categories = new ArrayList<>();
     }
@@ -72,6 +88,11 @@ public class MyDataBoard1<E extends Data> implements DataBoard<E> {
             throw new NullPointerException();
         }
 
+        // fail fast, don't wait the end of the for loop
+        if (!this.hasCategory(category)) {
+            throw new CategoryNotFoundException();
+        }
+
         // trova la categoria
         for (Category<E> tmp : this.categories) {
             if (tmp.getName().equals(category)) {
@@ -83,15 +104,12 @@ public class MyDataBoard1<E extends Data> implements DataBoard<E> {
                     throw new FriendAlreadyAddedException();
                 }
 
-                // aggiungi firend alla categoria
+                // aggiungi friend alla categoria
                 tmp.allowRead(friendUser);
-
 
                 return;
             }
         }
-
-        throw new CategoryNotFoundException();
     }
 
     @Override
@@ -112,7 +130,7 @@ public class MyDataBoard1<E extends Data> implements DataBoard<E> {
 
         // trova la categoria
         for (Category<E> tmp : this.categories) {
-            if (tmp.getName().equals(category)) {
+            if (tmp.getName().equals(category)) { //TODO: ridefinire equals?
                 User friendUser = new MyUser(friend);
 
                 // se friend è presente nella
@@ -159,7 +177,7 @@ public class MyDataBoard1<E extends Data> implements DataBoard<E> {
                 // aggiungi una deep copy di dato alla categoria
                 try {
                     return tmp.addData((E)dato.clone());
-                } catch (CloneNotSupportedException e) {
+                } catch (CloneNotSupportedException e) { //TODO: remove clone ot supported exception
                     return false;
                 }
             }
@@ -254,14 +272,14 @@ public class MyDataBoard1<E extends Data> implements DataBoard<E> {
         }
 
         // trova il dato
-        for (Category<E> tmp : this.categories) {
-            if (tmp.hasData(data)) {
+        for (Category<E> item : this.categories) {
+            if (item.hasData(data)) {
                 // controlla se friend può leggere data
-                if (!tmp.isReadableBy(new MyUser(friend))) {
+                if (!item.isReadableBy(new MyUser(friend))) {
                     throw new UnauthorizedAccessException();
                 }
 
-                E dataItem = tmp.getData(data);
+                E dataItem = item.getData(data);
 
                 // controlla se friend ha già inserito un like
                 List<User> likesList = dataItem.getLikes();
@@ -351,11 +369,11 @@ public class MyDataBoard1<E extends Data> implements DataBoard<E> {
     @Override
     public boolean isReadableBy(String category, User user) throws NullPointerException {
         // trova la categoria
-        for (Category<E> tmp : this.categories) {
-            if (tmp.getName().equals(category)) {
+        for (Category<E> item : this.categories) {
+            if (item.getName().equals(category)) {
                 // sfrutta il metodo isReadableBy dell'interfaccia Category
                 // per determinare se lo user può leggere i dati della categoria
-                return tmp.isReadableBy(user);
+                return item.isReadableBy(user);
             }
         }
 
@@ -378,6 +396,11 @@ public class MyDataBoard1<E extends Data> implements DataBoard<E> {
 
     @Override
     public List<User> getLikes(E data) throws NullPointerException, DataNotFoundException {
+        //validazione
+        if (data == null) {
+            throw new NullPointerException();
+        }
+
         // trova il dato
         for (Category<E> tmp : this.categories) {
             if (tmp.hasData(data)) {

@@ -223,8 +223,14 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
         }
 
         try {
+            this.dataBoard.createCategory(this.categoryName + "2", this.password);
+        } catch (UnauthorizedAccessException | CategoryAlreadyExistsException e) {
+            throw new TestException(testName);
+        }
+
+        try {
             this.dataBoard.put(this.password, this.data, this.categoryName);
-            this.dataBoard.put(this.password, this.data, this.categoryName);
+            this.dataBoard.put(this.password, this.data, this.categoryName + "2");
         } catch (DataAlreadyPutException e) {
             AbstractTest.printSuccess(testName);
 

@@ -10,10 +10,14 @@ import java.util.List;
 public class MyData implements Data {
     private final Integer id;
 
+    private String category;
+
     private final ArrayList<User> likedByList;
 
     public MyData(Integer id) {
         this.id = id;
+
+        this.category = null;
 
         this.likedByList = new ArrayList<>();
     }
@@ -51,6 +55,20 @@ public class MyData implements Data {
         }
 
         this.likedByList.add(new MyUser(friend));
+    }
+
+    @Override
+    public void setCategory(String category) throws NullPointerException {
+        if (category == null) {
+            throw new NullPointerException();
+        }
+
+        this.category = category;
+    }
+
+    @Override
+    public String getCategory() {
+        return this.category;
     }
 
     @Override

@@ -6,6 +6,7 @@ import interfaces.Data;
 import interfaces.User;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class MyCategory<E extends Data> implements Category<E> {
@@ -54,7 +55,7 @@ public class MyCategory<E extends Data> implements Category<E> {
         // cerca lo user nella lista dagli user con i permessi di lettura
         for (User tmp : this.readableByList) {
             // se lo user è presente allora ha i permessi di lettura
-            if (tmp.getName().equals(user.getName())) {
+            if (tmp.getName().equals(user.getName())) {//TODO: ridefinire equals?
                 return true;
             }
         }
@@ -113,13 +114,13 @@ public class MyCategory<E extends Data> implements Category<E> {
         }
 
         // cerca il dato nella lista dei dati della categoria
-        for (E tmp : this.dataList) {
+        for (E item : this.dataList) {
 
             // se lo trovo lo rimuovo e lo ritorno al chiamante
-            if (tmp.equals(data)) {
+            if (item.equals(data)) {
                 this.dataList.remove(data);
 
-                return tmp;
+                return item;
             }
         }
 
@@ -129,6 +130,6 @@ public class MyCategory<E extends Data> implements Category<E> {
 
     @Override
     public List<E> getAllData() {
-        return this.dataList; //TODO: rendere non modificabile
+        return Collections.unmodifiableList(this.dataList); //TODO: va bene così?
     }
 }

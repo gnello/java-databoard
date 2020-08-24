@@ -16,7 +16,7 @@ public interface Data extends Cloneable, Comparable<Data> {
      */
 
     /*
-     * Restituisce l'id del dato
+     * Restituisce l'id del dato //TODO: serve per equals?
      */
     public Integer getId();
     /*
@@ -46,4 +46,8 @@ public interface Data extends Cloneable, Comparable<Data> {
      * EFFECTS: aggiunge un like di friend
      * THROWS: se data == null solleva una NullPointerException
      */
+
+    //TODO: fare specifica
+    public void setCategory(String category) throws NullPointerException;
+    public String getCategory();
 }

@@ -11,14 +11,20 @@ public class Main {
         String password = "1234";
         User owner = new MyUser("Jon Doe", password);
 
-        MyDataBoard1<Data> myDataBoard1 = new MyDataBoard1<>(owner);
+        // istanzia le due implementazioni dell'interfaccia DataBoard
+        MyDataBoardArrayList<Data> myDataBoardArrayList = new MyDataBoardArrayList<>(owner);
+        MyDataBoardTreeSet<Data> myDataBoardTreeSet = new MyDataBoardTreeSet<>(owner);
 
-        DataBoardTest<DataBoard<Data>> dataBoardTests1 = new DataBoardTest<>(myDataBoard1, password);
+        // crea un'istanza della suite di test per ogni implementazione di DataBoard
+        DataBoardTest<DataBoard<Data>> dataBoardTestsArrayListImplementation = new DataBoardTest<>(myDataBoardArrayList, password);
+        DataBoardTest<DataBoard<Data>> dataBoardTestsTreeSetImplementation = new DataBoardTest<>(myDataBoardTreeSet, password);
 
+        // esegui i test
         System.out.println(ANSI_CYAN + "\nStarting ArrayList implementation tests..." + ANSI_RESET);
-        dataBoardTests1.run();
+        dataBoardTestsArrayListImplementation.run();
 
         System.out.println(ANSI_CYAN + "\nStarting TreeSet implementation tests..." + ANSI_RESET);
+        dataBoardTestsTreeSetImplementation.run();
     }
 
 }
