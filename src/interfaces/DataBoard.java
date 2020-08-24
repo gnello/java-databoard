@@ -112,7 +112,7 @@ public interface DataBoard<E extends Data> {
      * se vengono rispettati i controlli di identità
      */
     public E remove(String passw, E dato) throws NullPointerException, UnauthorizedAccessException,
-            DataNotFoundException, CloneNotSupportedException;
+            DataNotFoundException;
     /*
      * REQUIRES: dato != null
      * MODIFIES: this TODO: togliere da qui e spostare nell'implementazione
@@ -121,7 +121,6 @@ public interface DataBoard<E extends Data> {
      * THROWS: se dato == null solleva una NullPointerException
      *         se passwd non è una password valida solleva una UnauthorizedAccessException
      *         se dato non è presente in DataBoard solleva una DataNotFoundException TODO: specificare category nella sottoclasse?
-     *         se non è possibile restituire una deep copy di dato solleva una CloneNotSupportedException TODO: rimuovere CloneNotSupportedException
      */
 
     /*

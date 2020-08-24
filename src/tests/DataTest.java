@@ -380,7 +380,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
         try {
             this.dataBoard.remove(this.password, this.data);
-        } catch (UnauthorizedAccessException | DataNotFoundException | CloneNotSupportedException e) {
+        } catch (UnauthorizedAccessException | DataNotFoundException e) {
             throw new TestException(testName);
         }
 
@@ -413,7 +413,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             this.afterAll();
 
             return;
-        } catch (DataNotFoundException | CloneNotSupportedException e) {
+        } catch (DataNotFoundException e) {
             throw new TestException(testName);
         }
 
@@ -438,7 +438,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             this.afterAll();
 
             return;
-        } catch (UnauthorizedAccessException | DataNotFoundException | CloneNotSupportedException e) {
+        } catch (UnauthorizedAccessException | DataNotFoundException e) {
             throw new TestException(testName);
         }
 
@@ -463,7 +463,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             this.afterAll();
 
             return;
-        } catch (UnauthorizedAccessException | CloneNotSupportedException e) {
+        } catch (UnauthorizedAccessException e) {
             throw new TestException(testName);
         }
 
@@ -491,7 +491,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
                 return;
             }
-        } catch (UnauthorizedAccessException | DataNotFoundException | CloneNotSupportedException e) {
+        } catch (UnauthorizedAccessException | DataNotFoundException e) {
             throw new TestException(testName);
         }
 

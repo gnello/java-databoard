@@ -184,7 +184,7 @@ public class MyDataBoardArrayList<E extends Data> implements DataBoard<E> {
 
     @Override
     public E get(String passw, E dato) throws NullPointerException, UnauthorizedAccessException,
-            DataNotFoundException, CloneNotSupportedException {
+            DataNotFoundException {
         // validazione
         if (!this.owner.authenticate(passw)) {
             throw new UnauthorizedAccessException();
@@ -208,7 +208,7 @@ public class MyDataBoardArrayList<E extends Data> implements DataBoard<E> {
 
     @Override
     public E remove(String passw, E dato) throws NullPointerException, UnauthorizedAccessException,
-            DataNotFoundException, CloneNotSupportedException {
+            DataNotFoundException {
         // validazione
         if (!this.owner.authenticate(passw)) {
             throw new UnauthorizedAccessException();
@@ -232,7 +232,7 @@ public class MyDataBoardArrayList<E extends Data> implements DataBoard<E> {
 
     @Override
     public List<E> getDataCategory(String passw, String category) throws NullPointerException,
-            UnauthorizedAccessException, CategoryNotFoundException, CloneNotSupportedException {
+            UnauthorizedAccessException, CategoryNotFoundException {
         // validazione
         if (!this.owner.authenticate(passw)) {
             throw new UnauthorizedAccessException();
