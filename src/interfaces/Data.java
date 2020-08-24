@@ -1,9 +1,5 @@
 package interfaces;
 
-import exceptions.DataNotFoundException;
-import models.MyData;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.List;
 
 public interface Data extends Cloneable, Comparable<Data> {

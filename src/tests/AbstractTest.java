@@ -1,7 +1,6 @@
 package tests;
 
 import interfaces.DataBoard;
-import org.jetbrains.annotations.NotNull;
 
 public class AbstractTest<E extends DataBoard<?>> {
     protected E dataBoard;
@@ -23,8 +22,7 @@ public class AbstractTest<E extends DataBoard<?>> {
 
     // ritorna il nome del metodo
     // che ha invocato getMethodName
-    protected static @NotNull
-    String getCurrentMethodName()
+    protected static String getCurrentMethodName()
     {
         return new Throwable()
                 .getStackTrace()[1]

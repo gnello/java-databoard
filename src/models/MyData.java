@@ -2,7 +2,6 @@ package models;
 
 import interfaces.Data;
 import interfaces.User;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -95,7 +94,7 @@ public class MyData implements Data {
     }
 
     @Override
-    public int compareTo(@NotNull Data data) {
+    public int compareTo(Data data) {
         return data.getId() - this.getId();
     }
 }
