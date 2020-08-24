@@ -39,6 +39,7 @@ public class MyDataBoardArrayList<E extends Data> implements DataBoard<E> {
     @Override
     public void createCategory(String category, String passw) throws UnauthorizedAccessException,
             CategoryAlreadyExistsException {
+
         // validazione
         if (!this.owner.authenticate(passw)) {
             throw new UnauthorizedAccessException();
@@ -59,6 +60,7 @@ public class MyDataBoardArrayList<E extends Data> implements DataBoard<E> {
     @Override
     public void removeCategory(String category, String passw) throws UnauthorizedAccessException,
             CategoryNotFoundException {
+
         // validazione
         if (!this.owner.authenticate(passw)) {
             throw new UnauthorizedAccessException();
@@ -79,6 +81,7 @@ public class MyDataBoardArrayList<E extends Data> implements DataBoard<E> {
     @Override
     public void addFriend(String category, String passw, String friend) throws NullPointerException,
             UnauthorizedAccessException, CategoryNotFoundException, FriendAlreadyAddedException {
+
         // validazione
         if (!this.owner.authenticate(passw)) {
             throw new UnauthorizedAccessException();
@@ -94,18 +97,18 @@ public class MyDataBoardArrayList<E extends Data> implements DataBoard<E> {
         }
 
         // trova la categoria
-        for (Category<E> tmp : this.categories) {
-            if (tmp.getName().equals(category)) {
+        for (Category<E> item : this.categories) {
+            if (item.getName().equals(category)) {
                 User friendUser = new MyUser(friend);
 
                 // verifica che friend non sia già
                 // stato aggiunto alla categoria
-                if (tmp.isReadableBy(friendUser)) {
+                if (item.isReadableBy(friendUser)) {
                     throw new FriendAlreadyAddedException();
                 }
 
                 // aggiungi friend alla categoria
-                tmp.allowRead(friendUser);
+                item.allowRead(friendUser);
 
                 return;
             }

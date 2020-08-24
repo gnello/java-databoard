@@ -23,6 +23,10 @@ public class MyDataBoardTreeSet<E extends Data> implements DataBoard<E> {
     @Override
     public void createCategory(String category, String passw) throws UnauthorizedAccessException,
             CategoryAlreadyExistsException {
+        /*
+         * MODIFIES: this
+         */
+
         // validazione
         if (!this.owner.authenticate(passw)) {
             throw new UnauthorizedAccessException();
@@ -42,6 +46,10 @@ public class MyDataBoardTreeSet<E extends Data> implements DataBoard<E> {
     @Override
     public void removeCategory(String category, String passw) throws UnauthorizedAccessException,
             CategoryNotFoundException {
+        /*
+         * MODIFIES: this
+         */
+
         // validazione
         if (!this.owner.authenticate(passw)) {
             throw new UnauthorizedAccessException();

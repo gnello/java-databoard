@@ -21,7 +21,7 @@ public interface DataBoard<E extends Data> {
             CategoryAlreadyExistsException;
     /*
      * REQUIRES: category != null
-     * MODIFIES: this TODO: togliere da qui e spostare nell'implementazione
+     * MODIFIES: this
      * EFFECTS: crea la nuova categoria
      * THROWS: se passwd non è una password valida solleva una UnauthorizedAccessException
      *         se category == null solleva una NullPointerException
@@ -36,7 +36,7 @@ public interface DataBoard<E extends Data> {
             CategoryNotFoundException;
     /*
      * REQUIRES: category != null
-     * MODIFIES: this TODO: togliere da qui e spostare nell'implementazione
+     * MODIFIES: this
      * EFFECTS: rimuove la categoria
      * THROWS: se passwd non è una password valida solleva una UnauthorizedAccessException
      *         se category == null solleva una NullPointerException
@@ -51,7 +51,7 @@ public interface DataBoard<E extends Data> {
             UnauthorizedAccessException, CategoryNotFoundException, FriendAlreadyAddedException;
     /*
      * REQUIRES: category != null && friend != null
-     * MODIFIES: this TODO: togliere da qui e spostare nell'implementazione
+     * MODIFIES: this
      * EFFECTS: aggiunge friend a category
      * THROWS: se category == null || friend == null solleva una NullPointerException
      *         se passwd non è una password valida solleva una UnauthorizedAccessException
@@ -67,7 +67,7 @@ public interface DataBoard<E extends Data> {
             UnauthorizedAccessException, CategoryNotFoundException, UserNotFoundException;
     /*
      * REQUIRES: category != null && friend != null
-     * MODIFIES: this TODO: togliere da qui e spostare nell'implementazione
+     * MODIFIES: this
      * EFFECTS: rimuove friend da category
      * THROWS: se category == null || friend == null solleva una NullPointerException
      *         se passwd non è una password valida solleva una UnauthorizedAccessException
@@ -83,13 +83,13 @@ public interface DataBoard<E extends Data> {
             CategoryNotFoundException, DataAlreadyPutException;
     /*
      * REQUIRES: dato != null && category != null
-     * MODIFIES: this TODO: togliere da qui e spostare nell'implementazione
+     * MODIFIES: this
      * EFFECTS: inserisce una deep copy di dato in DataBoard
      * RETURNS: restituisce true se il dato è stato inserito, false altrimenti
      * THROWS: se dato == null || category == null solleva una NullPointerException
      *         se passwd non è una password valida solleva una UnauthorizedAccessException
      *         se category non esiste in DataBoard solleva una CategoryNotFoundException
-     *         se dato è già stato aggiunto in DataBoard solleva una DataAlreadyPutException TODO: specificare category nella sottoclasse?
+     *         se dato è già stato aggiunto in DataBoard solleva una DataAlreadyPutException
      */
 
     /*
@@ -103,7 +103,7 @@ public interface DataBoard<E extends Data> {
      * RETURNS: restituisce una deep copy di dato
      * THROWS: se dato == null solleva una NullPointerException
      *         se passwd non è una password valida solleva una UnauthorizedAccessException
-     *         se dato non è presente DataBoard solleva una DataNotFoundException TODO: specificare category nella sottoclasse?
+     *         se dato non è presente DataBoard solleva una DataNotFoundException
      */
 
     /*
@@ -114,12 +114,12 @@ public interface DataBoard<E extends Data> {
             DataNotFoundException;
     /*
      * REQUIRES: dato != null
-     * MODIFIES: this TODO: togliere da qui e spostare nell'implementazione
+     * MODIFIES: this
      * EFFECTS: rimuove il dato da DataBoard
      * RETURNS: restituisce una deep copy del dato rimosso
      * THROWS: se dato == null solleva una NullPointerException
      *         se passwd non è una password valida solleva una UnauthorizedAccessException
-     *         se dato non è presente in DataBoard solleva una DataNotFoundException TODO: specificare category nella sottoclasse?
+     *         se dato non è presente in DataBoard solleva una DataNotFoundException
      */
 
     /*
@@ -144,10 +144,10 @@ public interface DataBoard<E extends Data> {
             UnauthorizedAccessException, FriendAlreadyAddedException;
     /*
      * REQUIRES: data != null
-     * MODIFIES: this TODO: togliere da qui e spostare nell'implementazione
+     * MODIFIES: this
      * EFFECTS: aggiunge un like di friend a data
      * THROWS: se data == null solleva una NullPointerException
-     *         se data non è presente in DataBoard solleva una DataNotFoundException TODO: specificare category nella sottoclasse?
+     *         se data non è presente in DataBoard solleva una DataNotFoundException
      *         se friend non è autorizzato a leggere data solleva una UnauthorizedAccessException
      *         se friend ha già aggiunto un like solleva una FriendAlreadyAddedException
      */
@@ -205,7 +205,7 @@ public interface DataBoard<E extends Data> {
     public boolean hasData(E data) throws NullPointerException;
     /*
      * REQUIRES: data != null
-     * RETURNS: ritorna true se data è già stato inserito in this TODO: specificare category nella sottoclasse?
+     * RETURNS: ritorna true se data è già stato inserito in this
      *          false altrimenti
      * THROWS: se data == null solleva una NullPointerException
      */
@@ -218,6 +218,6 @@ public interface DataBoard<E extends Data> {
      * REQUIRES: data != null
      * RETURNS: ritorna la lista degli user che hanno inserito un like al dato
      * THROWS: se data == null solleva una NullPointerException
-     *         se data non è presente in DataBoard solleva una DataNotFoundException TODO: specificare category nella sottoclasse?
+     *         se data non è presente in DataBoard solleva una DataNotFoundException
      */
 }

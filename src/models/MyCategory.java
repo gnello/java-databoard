@@ -130,6 +130,6 @@ public class MyCategory<E extends Data> implements Category<E> {
 
     @Override
     public List<E> getAllData() {
-        return Collections.unmodifiableList(this.dataList); //TODO: va bene così?
+        return Collections.unmodifiableList(this.dataList);
     }
 }
