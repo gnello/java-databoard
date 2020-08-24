@@ -318,7 +318,7 @@ public class MyDataBoard1<E extends Data> implements DataBoard<E> {
             // se lo trovo restituisci un iteratore
             // con i dati della categoria
             if (tmp.isReadableBy(friendUser)) {
-                List<E> dataList = new ArrayList<>();
+                List<E> dataList;
 
                 // disabilita il metodo remove dell'iteratore che verrà generato
                 // sfruttando il metodo Collections.unmodifiableList
