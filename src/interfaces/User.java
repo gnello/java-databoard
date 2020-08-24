@@ -13,5 +13,5 @@ public interface User {
     /*
      * Sovrascrive il metodo clone di Object
      */
-    public User clone() throws CloneNotSupportedException;
+    public User clone();
 }

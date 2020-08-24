@@ -6,9 +6,7 @@ import interfaces.User;
 import models.MyCategory;
 import models.MyUser;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class MyDataBoard1<E extends Data> implements DataBoard<E> {
     private final User owner;
@@ -23,11 +21,11 @@ public class MyDataBoard1<E extends Data> implements DataBoard<E> {
     }
 
     @Override
-    public void createCategory(String category, String passw) throws InvalidPasswordException,
+    public void createCategory(String category, String passw) throws UnauthorizedAccessException,
             CategoryAlreadyExistsException {
         // validazione
         if (!this.owner.authenticate(passw)) {
-            throw new InvalidPasswordException();
+            throw new UnauthorizedAccessException();
         }
 
         if (category == null) {
@@ -43,11 +41,11 @@ public class MyDataBoard1<E extends Data> implements DataBoard<E> {
     }
 
     @Override
-    public void removeCategory(String category, String passw) throws InvalidPasswordException,
+    public void removeCategory(String category, String passw) throws UnauthorizedAccessException,
             CategoryNotFoundException {
         // validazione
         if (!this.owner.authenticate(passw)) {
-            throw new InvalidPasswordException();
+            throw new UnauthorizedAccessException();
         }
 
         if (category == null) {
@@ -64,10 +62,10 @@ public class MyDataBoard1<E extends Data> implements DataBoard<E> {
 
     @Override
     public void addFriend(String category, String passw, String friend) throws NullPointerException,
-            InvalidPasswordException, CategoryNotFoundException, FriendAlreadyAddedException {
+            UnauthorizedAccessException, CategoryNotFoundException, FriendAlreadyAddedException {
         // validazione
         if (!this.owner.authenticate(passw)) {
-            throw new InvalidPasswordException();
+            throw new UnauthorizedAccessException();
         }
 
         if (category == null || friend == null) {
@@ -98,10 +96,10 @@ public class MyDataBoard1<E extends Data> implements DataBoard<E> {
 
     @Override
     public void removeFriend(String category, String passw, String friend) throws NullPointerException,
-            InvalidPasswordException, CategoryNotFoundException, FriendNotFoundException {
+            UnauthorizedAccessException, CategoryNotFoundException, FriendNotFoundException {
         // validazione
         if (!this.owner.authenticate(passw)) {
-            throw new InvalidPasswordException();
+            throw new UnauthorizedAccessException();
         }
 
         if (category == null || friend == null) {
@@ -135,11 +133,11 @@ public class MyDataBoard1<E extends Data> implements DataBoard<E> {
     }
 
     @Override
-    public boolean put(String passw, E dato, String category) throws NullPointerException, InvalidPasswordException,
+    public boolean put(String passw, E dato, String category) throws NullPointerException, UnauthorizedAccessException,
             CategoryNotFoundException, DataAlreadyPutException {
         // validazione
         if (!this.owner.authenticate(passw)) {
-            throw new InvalidPasswordException();
+            throw new UnauthorizedAccessException();
         }
 
         // fail fast, non aspettare il NullPointerException di tmp.addData(dato)
@@ -171,11 +169,11 @@ public class MyDataBoard1<E extends Data> implements DataBoard<E> {
     }
 
     @Override
-    public E get(String passw, E dato) throws NullPointerException, InvalidPasswordException,
+    public E get(String passw, E dato) throws NullPointerException, UnauthorizedAccessException,
             DataNotFoundException, CloneNotSupportedException {
         // validazione
         if (!this.owner.authenticate(passw)) {
-            throw new InvalidPasswordException();
+            throw new UnauthorizedAccessException();
         }
 
         // fail fast, non aspettare il NullPointerException di dato.clone()
@@ -195,11 +193,11 @@ public class MyDataBoard1<E extends Data> implements DataBoard<E> {
     }
 
     @Override
-    public E remove(String passw, E dato) throws NullPointerException, InvalidPasswordException,
+    public E remove(String passw, E dato) throws NullPointerException, UnauthorizedAccessException,
             DataNotFoundException, CloneNotSupportedException {
         // validazione
         if (!this.owner.authenticate(passw)) {
-            throw new InvalidPasswordException();
+            throw new UnauthorizedAccessException();
         }
 
         // fail fast, non aspettare il NullPointerException di tmp.removeData(dato)
@@ -220,10 +218,10 @@ public class MyDataBoard1<E extends Data> implements DataBoard<E> {
 
     @Override
     public List<E> getDataCategory(String passw, String category) throws NullPointerException,
-            InvalidPasswordException, CategoryNotFoundException, CloneNotSupportedException {
+            UnauthorizedAccessException, CategoryNotFoundException, CloneNotSupportedException {
         // validazione
         if (!this.owner.authenticate(passw)) {
-            throw new InvalidPasswordException();
+            throw new UnauthorizedAccessException();
         }
 
         if (category == null) {
@@ -248,12 +246,34 @@ public class MyDataBoard1<E extends Data> implements DataBoard<E> {
     }
 
     @Override
-    public void insertLike(String friend, E data) throws NullPointerException, DataNotFoundException {
+    public void insertLike(String friend, E data) throws NullPointerException, DataNotFoundException,
+            UnauthorizedAccessException, FriendAlreadyAddedException {
+        // validazione
+        if (data == null) {
+            throw new NullPointerException();
+        }
+
         // trova il dato
         for (Category<E> tmp : this.categories) {
             if (tmp.hasData(data)) {
+                // controlla se friend può leggere data
+                if (!tmp.isReadableBy(new MyUser(friend))) {
+                    throw new UnauthorizedAccessException();
+                }
+
+                E dataItem = tmp.getData(data);
+
+                // controlla se friend ha già inserito un like
+                List<User> likesList = dataItem.getLikes();
+
+                for (User user : likesList) {
+                    if (user.getName().equals(friend)) {
+                        throw new FriendAlreadyAddedException();
+                    }
+                }
+
                 // inserisci il like
-                tmp.getData(data).insertLike(friend);
+                dataItem.insertLike(friend);
 
                 return;
             }
@@ -264,8 +284,28 @@ public class MyDataBoard1<E extends Data> implements DataBoard<E> {
     }
 
     @Override
-    public Iterator<E> getIterator(String passw) {
-        return null;
+    public Iterator<E> getIterator(String passw) throws UnauthorizedAccessException {
+        // validazione
+        if (!this.owner.authenticate(passw)) {
+            throw new UnauthorizedAccessException();
+        }
+
+        // mergia tutti i dati delle category
+        List<E> dataList = new ArrayList<>();
+
+        for (Category<E> item : this.categories) {
+            dataList.addAll(item.getAllData());
+        }
+
+        // ordina decrescente
+        Collections.sort(dataList);
+
+        // disabilita il metodo remove dell'iteratore che verrà generato
+        // sfruttando il metodo Collections.unmodifiableList
+        dataList = Collections.unmodifiableList(dataList);
+
+        // ritorna l'iteratore
+        return dataList.iterator();
     }
 
     @Override

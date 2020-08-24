@@ -2,11 +2,12 @@ package models;
 
 import interfaces.Data;
 import interfaces.User;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyData implements Data, Cloneable {
+public class MyData implements Data {
     private final Integer id;
 
     private final ArrayList<User> likedByList;
@@ -32,7 +33,7 @@ public class MyData implements Data, Cloneable {
     }
 
     @Override
-    public List<User> getLikes() throws CloneNotSupportedException {
+    public List<User> getLikes() {
         //TODO: specificare nella specifica che è deep copy?
         ArrayList<User> likesList = new ArrayList<>();
 
@@ -72,5 +73,10 @@ public class MyData implements Data, Cloneable {
      */
     public int hashCode() {
         return this.id;
+    }
+
+    @Override
+    public int compareTo(@NotNull Data data) {
+        return data.getLikes().size() - this.getLikes().size();
     }
 }

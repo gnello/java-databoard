@@ -2,7 +2,7 @@ package tests;
 
 import exceptions.CategoryAlreadyExistsException;
 import exceptions.CategoryNotFoundException;
-import exceptions.InvalidPasswordException;
+import exceptions.UnauthorizedAccessException;
 import exceptions.TestException;
 import interfaces.Data;
 import interfaces.DataBoard;
@@ -10,6 +10,8 @@ import interfaces.DataBoard;
 public class CategoryTest<E extends DataBoard<Data>> extends AbstractTest<E> {
     private final String categoryName;
 
+    // Assegna dataBoard e password,
+    // inizializza categoryName
     public CategoryTest(E dataBoard, String password) {
         super(dataBoard, password);
 
@@ -22,7 +24,7 @@ public class CategoryTest<E extends DataBoard<Data>> extends AbstractTest<E> {
         if (!this.dataBoard.hasCategory(this.categoryName)) {
             try {
                 this.dataBoard.createCategory(this.categoryName, this.password);
-            } catch (InvalidPasswordException | CategoryAlreadyExistsException e) {
+            } catch (UnauthorizedAccessException | CategoryAlreadyExistsException e) {
                 throw new TestException(methodName, "Can't create category \"" + this.categoryName + "\".");
             }
         }
@@ -34,7 +36,7 @@ public class CategoryTest<E extends DataBoard<Data>> extends AbstractTest<E> {
         if (this.dataBoard.hasCategory(this.categoryName)) {
             try {
                 this.dataBoard.removeCategory(this.categoryName, this.password);
-            } catch (InvalidPasswordException | CategoryNotFoundException e) {
+            } catch (UnauthorizedAccessException | CategoryNotFoundException e) {
                 throw new TestException(methodName, "Can't remove category \"" + this.categoryName + "\".");
             }
         }
@@ -50,7 +52,7 @@ public class CategoryTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
         try {
             this.dataBoard.createCategory(this.categoryName, this.password);
-        } catch (InvalidPasswordException | CategoryAlreadyExistsException e) {
+        } catch (UnauthorizedAccessException | CategoryAlreadyExistsException e) {
             throw new TestException(testName);
         }
 
@@ -69,7 +71,7 @@ public class CategoryTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
         try {
             this.dataBoard.createCategory(this.categoryName, null);
-        } catch (InvalidPasswordException e) {
+        } catch (UnauthorizedAccessException e) {
             AbstractTest.printSuccess(testName);
 
             this.afterAll();
@@ -94,7 +96,7 @@ public class CategoryTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             this.afterAll();
 
             return;
-        } catch (InvalidPasswordException | CategoryAlreadyExistsException e) {
+        } catch (UnauthorizedAccessException | CategoryAlreadyExistsException e) {
             throw new TestException(testName);
         }
 
@@ -114,7 +116,7 @@ public class CategoryTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             this.afterAll();
 
             return;
-        } catch (InvalidPasswordException e) {
+        } catch (UnauthorizedAccessException e) {
             throw new TestException(testName);
         }
 
@@ -129,7 +131,7 @@ public class CategoryTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
         try {
             this.dataBoard.removeCategory(this.categoryName, this.password);
-        } catch (InvalidPasswordException | CategoryNotFoundException e) {
+        } catch (UnauthorizedAccessException | CategoryNotFoundException e) {
             throw new TestException(testName);
         }
 
@@ -150,7 +152,7 @@ public class CategoryTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
         try {
             this.dataBoard.removeCategory(this.categoryName, null);
-        } catch (InvalidPasswordException e) {
+        } catch (UnauthorizedAccessException e) {
             AbstractTest.printSuccess(testName);
 
             this.afterAll();
@@ -177,7 +179,7 @@ public class CategoryTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             this.afterAll();
 
             return;
-        } catch (InvalidPasswordException | CategoryNotFoundException e) {
+        } catch (UnauthorizedAccessException | CategoryNotFoundException e) {
             throw new TestException(testName);
         }
 
@@ -196,7 +198,7 @@ public class CategoryTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             this.afterAll();
 
             return;
-        } catch (InvalidPasswordException e) {
+        } catch (UnauthorizedAccessException e) {
             throw new TestException(testName);
         }
 

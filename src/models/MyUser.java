@@ -39,7 +39,11 @@ public class MyUser implements User, Cloneable {
         return this.name;
     }
 
-    public MyUser clone() throws CloneNotSupportedException {
-        return (MyUser) super.clone();
+    public MyUser clone() {
+        try {
+            return (MyUser) super.clone();
+        } catch (CloneNotSupportedException e) {
+            return new MyUser(this.name, this.password);
+        }
     }
 }

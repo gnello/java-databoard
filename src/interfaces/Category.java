@@ -62,7 +62,6 @@ public interface Category<E extends Data> {
     public boolean hasData(E data) throws NullPointerException;
     /*
      * REQUIRES: data != null
-     * EFFECTS: controlla se data appartiene alla categoria
      * THROWS: se data == null solleva una NullPointerException
      * RETURNS: restituisce true se data appartiene alla categoria,
      *          false altrimenti
@@ -74,7 +73,7 @@ public interface Category<E extends Data> {
     public E getData(E data) throws NullPointerException, DataNotFoundException;
     /*
      * REQUIRES: data != null
-     * EFFECTS: restituisce una shallow copy di data se data appartiene alla categoria
+     * EFFECTS: restituisce una shallow copy di data
      * THROWS: se data == null solleva una NullPointerException
      *         se data non esiste nella categoria solleva una DataNotFoundException
      * RETURNS: restituisce data se data appartiene alla categoria
@@ -86,7 +85,7 @@ public interface Category<E extends Data> {
     public E removeData(E data) throws NullPointerException, DataNotFoundException;
     /*
      * REQUIRES: data != null
-     * EFFECTS: rimuove data dalla categoria e restituisce una shallow copy di data
+     * EFFECTS: rimuove data dalla categoria
      * THROWS: se data == null solleva una NullPointerException
      *         se data non esiste nella categoria solleva una DataNotFoundException
      * RETURNS: restituisce una shallow copy di data
@@ -97,7 +96,6 @@ public interface Category<E extends Data> {
      */
     public List<E> getAllData();
     /*
-     * EFFECTS: genera e restituisce una lista di shallow copy dei dati presenti nella categoria
-     * RETURNS: restituisce la lista dei dati presenti nella categoria
+     * RETURNS: restituisce una lista di shallow copy dei dati presenti nella categoria
      */
 }

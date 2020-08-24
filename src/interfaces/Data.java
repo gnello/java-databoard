@@ -2,10 +2,11 @@ package interfaces;
 
 import exceptions.DataNotFoundException;
 import models.MyData;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public interface Data {
+public interface Data extends Cloneable, Comparable<Data> {
     /*
      * Stampa il dato come stringa
      */
@@ -30,7 +31,7 @@ public interface Data {
     /*
      * Restituisce gli user che hanno inserito un like al dato
      */
-    public List<User> getLikes() throws CloneNotSupportedException;
+    public List<User> getLikes();
     /*
      * RETURNS: ritorna una lista degli user che hanno inserito un like al dato
      */

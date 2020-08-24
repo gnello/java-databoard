@@ -10,13 +10,13 @@ public interface DataBoard<E extends Data> {
      * Crea una categoria di dati
      * se vengono rispettati i controlli di identità
      */
-    public void createCategory(String category, String passw) throws InvalidPasswordException, CategoryAlreadyExistsException;
+    public void createCategory(String category, String passw) throws UnauthorizedAccessException,
+            CategoryAlreadyExistsException;
     /*
      * REQUIRES: category != null
      * MODIFIES: this
-     * EFFECTS: crea la nuova categoria se passw è una password valida e se category
-     *          non è presente nella DataBoard
-     * THROWS: se passwd non è una password valida solleva una InvalidPasswordException
+     * EFFECTS: crea la nuova categoria
+     * THROWS: se passwd non è una password valida solleva una UnauthorizedAccessException
      *         se category == null solleva una NullPointerException
      *         se category è già presente in DataBoard solleva una CategoryAlreadyExistsException
      */
@@ -25,13 +25,13 @@ public interface DataBoard<E extends Data> {
      * Rimuove una categoria di dati
      * se vengono rispettati i controlli di identità
      */
-    public void removeCategory(String category, String passw) throws InvalidPasswordException, CategoryNotFoundException;
+    public void removeCategory(String category, String passw) throws UnauthorizedAccessException,
+            CategoryNotFoundException;
     /*
      * REQUIRES: category != null
      * MODIFIES: this
-     * EFFECTS: rimuove la categoria se passw è una password valida e se category
-     *          è presente nella DataBoard
-     * THROWS: se passwd non è una password valida solleva una InvalidPasswordException
+     * EFFECTS: rimuove la categoria
+     * THROWS: se passwd non è una password valida solleva una UnauthorizedAccessException
      *         se category == null solleva una NullPointerException
      *         se category non esiste in DataBoard solleva una CategoryNotFoundException
      */
@@ -41,13 +41,13 @@ public interface DataBoard<E extends Data> {
      * se vengono rispettati i controlli di identità
      */
     public void addFriend(String category, String passw, String friend) throws NullPointerException,
-            InvalidPasswordException, CategoryNotFoundException, FriendAlreadyAddedException;
+            UnauthorizedAccessException, CategoryNotFoundException, FriendAlreadyAddedException;
     /*
      * REQUIRES: category != null && friend != null
      * MODIFIES: this
      * EFFECTS: aggiunge friend a category
      * THROWS: se category == null || friend == null solleva una NullPointerException
-     *         se passwd non è una password valida solleva una InvalidPasswordException
+     *         se passwd non è una password valida solleva una UnauthorizedAccessException
      *         se category non esiste in DataBoard solleva una CategoryNotFoundException
      *         se friend è già presente in category solleva una FriendAlreadyAddedException
      */
@@ -57,14 +57,13 @@ public interface DataBoard<E extends Data> {
      * se vengono rispettati i controlli di identità
      */
     public void removeFriend(String category, String passw, String friend) throws NullPointerException,
-            InvalidPasswordException, CategoryNotFoundException, FriendNotFoundException;
+            UnauthorizedAccessException, CategoryNotFoundException, FriendNotFoundException;
     /*
      * REQUIRES: category != null && friend != null
      * MODIFIES: this
-     * EFFECTS: rimuove friend da category se passw è una password valida e se category
-     *          è presente nella DataBoard
+     * EFFECTS: rimuove friend da category
      * THROWS: se category == null || friend == null solleva una NullPointerException
-     *         se passwd non è una password valida solleva una InvalidPasswordException
+     *         se passwd non è una password valida solleva una UnauthorizedAccessException
      *         se category non esiste in DataBoard solleva una CategoryNotFoundException
      *         se friend non è presente in category solleva una FriendNotFoundException
      */
@@ -73,7 +72,7 @@ public interface DataBoard<E extends Data> {
      * Inserisce un dato in bacheca
      * se vengono rispettati i controlli di identità
      */
-    public boolean put(String passw, E dato, String category) throws NullPointerException, InvalidPasswordException,
+    public boolean put(String passw, E dato, String category) throws NullPointerException, UnauthorizedAccessException,
             CategoryNotFoundException, DataAlreadyPutException, CloneNotSupportedException;
     /*
      * REQUIRES: dato != null && category != null
@@ -81,7 +80,7 @@ public interface DataBoard<E extends Data> {
      * EFFECTS: inserisce una deep copy di dato in DataBoard
      * RETURNS: restituisce true se il dato è stato inserito, false altrimenti
      * THROWS: se dato == null || category == null solleva una NullPointerException
-     *         se passwd non è una password valida solleva una InvalidPasswordException
+     *         se passwd non è una password valida solleva una UnauthorizedAccessException
      *         se category non esiste in DataBoard solleva una CategoryNotFoundException
      *         se dato è già stato aggiunto in DataBoard solleva una DataAlreadyPutException TODO: specificare category nella sottoclasse?
      *         se non è possibile inserire una deep copy di dato solleva una CloneNotSupportedException
@@ -91,14 +90,13 @@ public interface DataBoard<E extends Data> {
      * Restituisce una copia del dato in bacheca
      * se vengono rispettati i controlli di identità
      */
-    public E get(String passw, E dato) throws NullPointerException, InvalidPasswordException,
+    public E get(String passw, E dato) throws NullPointerException, UnauthorizedAccessException,
             DataNotFoundException, CloneNotSupportedException;
     /*
      * REQUIRES: dato != null
-     * EFFECTS: ottiene una copia del dato in DataBoard
      * RETURNS: restituisce una deep copy di dato
      * THROWS: se dato == null solleva una NullPointerException
-     *         se passwd non è una password valida solleva una InvalidPasswordException
+     *         se passwd non è una password valida solleva una UnauthorizedAccessException
      *         se dato non è presente DataBoard solleva una DataNotFoundException TODO: specificare category nella sottoclasse?
      *         se non è possibile restituire una copia del dato solleva una CloneNotSupportedException
      */
@@ -107,15 +105,15 @@ public interface DataBoard<E extends Data> {
      * Rimuove il dato dalla bacheca
      * se vengono rispettati i controlli di identità
      */
-    public E remove(String passw, E dato) throws NullPointerException, InvalidPasswordException,
+    public E remove(String passw, E dato) throws NullPointerException, UnauthorizedAccessException,
             DataNotFoundException, CloneNotSupportedException;
     /*
      * REQUIRES: dato != null
      * MODIFIES: this
-     * EFFECTS: rimuove il dato da DataBoard e lo restituisce al chiamante
+     * EFFECTS: rimuove il dato da DataBoard
      * RETURNS: restituisce una deep copy del dato rimosso
      * THROWS: se dato == null solleva una NullPointerException
-     *         se passwd non è una password valida solleva una InvalidPasswordException
+     *         se passwd non è una password valida solleva una UnauthorizedAccessException
      *         se dato non è presente in DataBoard solleva una DataNotFoundException TODO: specificare category nella sottoclasse?
      *         se non è possibile restituire una deep copy di dato solleva una CloneNotSupportedException
      */
@@ -125,12 +123,11 @@ public interface DataBoard<E extends Data> {
      * se vengono rispettati i controlli di identità
      */
     public List<E> getDataCategory(String passw, String category) throws NullPointerException,
-            InvalidPasswordException, CategoryNotFoundException, CloneNotSupportedException;
+            UnauthorizedAccessException, CategoryNotFoundException, CloneNotSupportedException;
     /*
-     * EFFECTS: crea e restituisce la lista dei dati presenti in category
      * RETURNS: restituisce la lista dei dati presenti in category
      * THROWS: se category == null solleva una NullPointerException
-     *         se passwd non è una password valida solleva una InvalidPasswordException
+     *         se passwd non è una password valida solleva una UnauthorizedAccessException
      *         se category non è presente solleva una CategoryNotFoundException
      *         se non è possibile restituire una deep copy della lista dei dati presenti
      *         in category solleva una CloneNotSupportedException
@@ -140,19 +137,29 @@ public interface DataBoard<E extends Data> {
      * Aggiunge un like a un dato
      * se vengono rispettati i controlli di identità
      */
-    public void insertLike(String friend, E data) throws NullPointerException, DataNotFoundException;
+    public void insertLike(String friend, E data) throws NullPointerException, DataNotFoundException,
+            UnauthorizedAccessException, FriendAlreadyAddedException;
     /*
      * REQUIRES: data != null
      * MODIFIES: this TODO: sovrascrivere nell'implementazione se modifica l'oggetto data, verificare sulle slide
      * EFFECTS: aggiunge un like di friend a data
      * THROWS: se data == null solleva una NullPointerException
      *         se data non è presente in DataBoard solleva una DataNotFoundException TODO: specificare category nella sottoclasse?
+     *         se friend non è autorizzato a leggere data solleva una UnauthorizedAccessException
+     *         se friend ha già aggiunto un like solleva una FriendAlreadyAddedException
      */
 
-    // restituisce un iteratore (senza remove) che genera tutti i dati in
-    // bacheca ordinati rispetto al numero di like
-    // se vengono rispettati i controlli di identità
-    public Iterator<E> getIterator(String passw);
+    /*
+     * restituisce un iteratore (senza remove) che genera tutti i dati in
+     * bacheca ordinati rispetto al numero di like
+     * se vengono rispettati i controlli di identità
+     */
+    public Iterator<E> getIterator(String passw) throws UnauthorizedAccessException;
+    /*
+     * RETURNS: restituisce un iteratore (senza remove) che genera tutti i dati in
+     *          bacheca ordinati rispetto al numero di like in ordine decrescente
+     * THROWS: se passwd non è una password valida solleva una UnauthorizedAccessException
+     */
 
     // restituisce un iteratore (senza remove) che genera tutti i dati in
     // bacheca condivisi

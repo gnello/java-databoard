@@ -5,6 +5,7 @@ import interfaces.Data;
 import interfaces.DataBoard;
 import interfaces.User;
 import models.MyData;
+import models.MyUser;
 
 import java.util.List;
 
@@ -13,14 +14,17 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
     private final Data data;
 
-    // Assegna dataBoard e password, crea una categoria
-    // di default per i test su friend, inizializza
-    // categoryName e friendName
+    private final User friend;
+
+    // Assegna dataBoard e password,
+    // inizializza categoryName, data e friend
     public DataTest(E dataBoard, String password) {
         super(dataBoard, password);
 
         this.categoryName = "test_category";
         this.data = new MyData(1);
+
+        this.friend = new MyUser("jarvis");
     }
 
     private void beforeAll()
@@ -29,7 +33,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
         try {
             this.dataBoard.createCategory(this.categoryName, this.password);
-        } catch (InvalidPasswordException | CategoryAlreadyExistsException e) {
+        } catch (UnauthorizedAccessException | CategoryAlreadyExistsException e) {
             throw new TestException(testName);
         }
     }
@@ -47,8 +51,21 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
                 throw new TestException(testName);
             }
 
-        } catch (InvalidPasswordException | CategoryNotFoundException
+        } catch (UnauthorizedAccessException | CategoryNotFoundException
                 | DataAlreadyPutException | CloneNotSupportedException e) {
+            throw new TestException(testName);
+        }
+    }
+
+    private void beforeLike()
+    {
+        this.beforeGetOrRemove();
+
+        String testName = AbstractTest.getCurrentMethodName();
+
+        try {
+            this.dataBoard.addFriend(this.categoryName, this.password, this.friend.getName());
+        } catch (UnauthorizedAccessException | CategoryNotFoundException | FriendAlreadyAddedException e) {
             throw new TestException(testName);
         }
     }
@@ -59,7 +76,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
         if (this.dataBoard.hasCategory(this.categoryName)) {
             try {
                 this.dataBoard.removeCategory(this.categoryName, this.password);
-            } catch (InvalidPasswordException | CategoryNotFoundException e) {
+            } catch (UnauthorizedAccessException | CategoryNotFoundException e) {
                 throw new TestException(methodName, "Can't remove category \"" + this.categoryName + "\".");
             }
         }
@@ -86,7 +103,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
             this.afterAll();
 
-        } catch (InvalidPasswordException | CategoryNotFoundException
+        } catch (UnauthorizedAccessException | CategoryNotFoundException
                 | DataAlreadyPutException | CloneNotSupportedException e) {
             throw new TestException(testName);
         }
@@ -104,7 +121,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
         try {
             this.dataBoard.put("0000", this.data, this.categoryName);
-        } catch (InvalidPasswordException e) {
+        } catch (UnauthorizedAccessException e) {
             AbstractTest.printSuccess(testName);
 
             this.afterAll();
@@ -136,7 +153,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             this.afterAll();
 
             return;
-        } catch (InvalidPasswordException | CategoryNotFoundException | DataAlreadyPutException
+        } catch (UnauthorizedAccessException | CategoryNotFoundException | DataAlreadyPutException
                 | CloneNotSupportedException e) {
             throw new TestException(testName);
         }
@@ -162,7 +179,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             this.afterAll();
 
             return;
-        } catch (InvalidPasswordException | CategoryNotFoundException | DataAlreadyPutException
+        } catch (UnauthorizedAccessException | CategoryNotFoundException | DataAlreadyPutException
                 | CloneNotSupportedException e) {
             throw new TestException(testName);
         }
@@ -188,7 +205,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             this.afterAll();
 
             return;
-        } catch (InvalidPasswordException | DataAlreadyPutException | CloneNotSupportedException e) {
+        } catch (UnauthorizedAccessException | DataAlreadyPutException | CloneNotSupportedException e) {
             throw new TestException(testName);
         }
 
@@ -214,7 +231,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             this.afterAll();
 
             return;
-        } catch (InvalidPasswordException | CategoryNotFoundException | CloneNotSupportedException e) {
+        } catch (UnauthorizedAccessException | CategoryNotFoundException | CloneNotSupportedException e) {
             throw new TestException(testName);
         }
 
@@ -234,7 +251,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
         Data data;
         try {
             data = this.dataBoard.get(this.password, this.data);
-        } catch (CloneNotSupportedException | InvalidPasswordException | DataNotFoundException e) {
+        } catch (CloneNotSupportedException | UnauthorizedAccessException | DataNotFoundException e) {
             throw new TestException(testName);
         }
 
@@ -262,7 +279,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
         Data data;
         try {
             data = this.dataBoard.get(this.password, this.data);
-        } catch (CloneNotSupportedException | InvalidPasswordException | DataNotFoundException e) {
+        } catch (CloneNotSupportedException | UnauthorizedAccessException | DataNotFoundException e) {
             throw new TestException(testName);
         }
 
@@ -287,7 +304,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
         try {
             this.dataBoard.get("0000", this.data);
-        } catch (InvalidPasswordException e) {
+        } catch (UnauthorizedAccessException e) {
             AbstractTest.printSuccess(testName);
 
             this.afterAll();
@@ -318,7 +335,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             this.afterAll();
 
             return;
-        } catch (CloneNotSupportedException | InvalidPasswordException | DataNotFoundException e) {
+        } catch (CloneNotSupportedException | UnauthorizedAccessException | DataNotFoundException e) {
             throw new TestException(testName);
         }
 
@@ -343,7 +360,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             this.afterAll();
 
             return;
-        } catch (CloneNotSupportedException | InvalidPasswordException e) {
+        } catch (CloneNotSupportedException | UnauthorizedAccessException e) {
             throw new TestException(testName);
         }
 
@@ -362,7 +379,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
         try {
             this.dataBoard.remove(this.password, this.data);
-        } catch (InvalidPasswordException | DataNotFoundException | CloneNotSupportedException e) {
+        } catch (UnauthorizedAccessException | DataNotFoundException | CloneNotSupportedException e) {
             throw new TestException(testName);
         }
 
@@ -389,7 +406,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
         try {
             this.dataBoard.remove("0000", this.data);
-        } catch (InvalidPasswordException e) {
+        } catch (UnauthorizedAccessException e) {
             AbstractTest.printSuccess(testName);
 
             this.afterAll();
@@ -420,7 +437,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             this.afterAll();
 
             return;
-        } catch (InvalidPasswordException | DataNotFoundException | CloneNotSupportedException e) {
+        } catch (UnauthorizedAccessException | DataNotFoundException | CloneNotSupportedException e) {
             throw new TestException(testName);
         }
 
@@ -445,7 +462,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             this.afterAll();
 
             return;
-        } catch (InvalidPasswordException | CloneNotSupportedException e) {
+        } catch (UnauthorizedAccessException | CloneNotSupportedException e) {
             throw new TestException(testName);
         }
 
@@ -473,7 +490,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
                 return;
             }
-        } catch (InvalidPasswordException | DataNotFoundException | CloneNotSupportedException e) {
+        } catch (UnauthorizedAccessException | DataNotFoundException | CloneNotSupportedException e) {
             throw new TestException(testName);
         }
 
@@ -501,7 +518,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
                 return;
             }
-        } catch (InvalidPasswordException | CategoryNotFoundException | CloneNotSupportedException e) {
+        } catch (UnauthorizedAccessException | CategoryNotFoundException | CloneNotSupportedException e) {
             throw new TestException(testName);
         }
 
@@ -520,7 +537,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
         try {
             this.dataBoard.getDataCategory("0000", this.categoryName);
-        } catch (InvalidPasswordException e) {
+        } catch (UnauthorizedAccessException e) {
             AbstractTest.printSuccess(testName);
 
             this.afterAll();
@@ -551,7 +568,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             this.afterAll();
 
             return;
-        } catch (InvalidPasswordException | CategoryNotFoundException | CloneNotSupportedException e) {
+        } catch (UnauthorizedAccessException | CategoryNotFoundException | CloneNotSupportedException e) {
             throw new TestException(testName);
         }
 
@@ -576,7 +593,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             this.afterAll();
 
             return;
-        } catch (InvalidPasswordException | CloneNotSupportedException e) {
+        } catch (UnauthorizedAccessException | CloneNotSupportedException e) {
             throw new TestException(testName);
         }
 
@@ -587,15 +604,15 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
     {
         String testName = AbstractTest.getCurrentMethodName();
 
-        this.beforeGetOrRemove();
+        this.beforeLike();
 
         if (!this.dataBoard.hasCategory(this.categoryName) || !this.dataBoard.hasData(this.data)) {
             throw new TestException(testName);
         }
 
         try {
-            this.dataBoard.insertLike("tony", this.data);
-        } catch (DataNotFoundException e) {
+            this.dataBoard.insertLike(this.friend.getName(), this.data);
+        } catch (DataNotFoundException | UnauthorizedAccessException | FriendAlreadyAddedException e) {
             throw new TestException(testName);
         }
 
@@ -607,7 +624,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
         }
 
         for (User tmp : list) {
-            if (tmp.getName().equals("tony")) {
+            if (tmp.getName().equals(this.friend.getName())) {
                 AbstractTest.printSuccess(testName);
 
                 this.afterAll();
@@ -617,5 +634,102 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
         }
 
         throw new TestException(testName, "Can't insert a like.");
+    }
+
+    public void we_can_not_insert_a_like_with_a_wrong_user()
+    {
+        String testName = AbstractTest.getCurrentMethodName();
+
+        this.beforeLike();
+
+        if (!this.dataBoard.hasCategory(this.categoryName) || !this.dataBoard.hasData(this.data)) {
+            throw new TestException(testName);
+        }
+
+        try {
+            this.dataBoard.insertLike("tony", this.data);
+        } catch (UnauthorizedAccessException e) {
+                AbstractTest.printSuccess(testName);
+
+                this.afterAll();
+
+                return;
+        } catch (DataNotFoundException | FriendAlreadyAddedException e) {
+            throw new TestException(testName);
+        }
+
+        throw new TestException(testName, "The given user has not access to data but can insert a like.");
+    }
+
+    public void we_can_not_insert_a_like_twice_for_the_same_user()
+    {
+        String testName = AbstractTest.getCurrentMethodName();
+
+        this.beforeLike();
+
+        if (!this.dataBoard.hasCategory(this.categoryName) || !this.dataBoard.hasData(this.data)) {
+            throw new TestException(testName);
+        }
+
+        try {
+            this.dataBoard.insertLike(this.friend.getName(), this.data);
+            this.dataBoard.insertLike(this.friend.getName(), this.data);
+        } catch (FriendAlreadyAddedException e) {
+                AbstractTest.printSuccess(testName);
+
+                this.afterAll();
+
+                return;
+        } catch (DataNotFoundException | UnauthorizedAccessException e) {
+            throw new TestException(testName);
+        }
+
+        throw new TestException(testName, "The given user inserted a like twice.");
+    }
+
+    public void we_can_not_insert_a_like_into_a_null_data()
+    {
+        String testName = AbstractTest.getCurrentMethodName();
+
+        this.beforeLike();
+
+        if (!this.dataBoard.hasCategory(this.categoryName) || !this.dataBoard.hasData(this.data)) {
+            throw new TestException(testName);
+        }
+
+        try {
+            this.dataBoard.insertLike(this.friend.getName(), null);
+        } catch (NullPointerException e) {
+                AbstractTest.printSuccess(testName);
+
+                this.afterAll();
+
+                return;
+        } catch (DataNotFoundException | UnauthorizedAccessException | FriendAlreadyAddedException e) {
+            throw new TestException(testName);
+        }
+
+        throw new TestException(testName, "The given user inserted a like in a null data.");
+    }
+
+    public void we_can_not_insert_a_like_into_a_data_that_doesnt_exist()
+    {
+        String testName = AbstractTest.getCurrentMethodName();
+
+        this.beforeLike();
+
+        try {
+            this.dataBoard.insertLike(this.friend.getName(), new MyData(2020));
+        } catch (DataNotFoundException e) {
+                AbstractTest.printSuccess(testName);
+
+                this.afterAll();
+
+                return;
+        } catch (UnauthorizedAccessException | FriendAlreadyAddedException e) {
+            throw new TestException(testName);
+        }
+
+        throw new TestException(testName, "The given user inserted a like in a data that doesn't exist.");
     }
 }
