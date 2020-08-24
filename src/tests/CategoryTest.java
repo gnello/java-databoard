@@ -1,11 +1,9 @@
 package tests;
 
-import exceptions.CategoryAlreadyExistsException;
-import exceptions.CategoryNotFoundException;
-import exceptions.UnauthorizedAccessException;
-import exceptions.TestException;
+import exceptions.*;
 import interfaces.Data;
 import interfaces.DataBoard;
+import models.MyData;
 
 public class CategoryTest<E extends DataBoard<Data>> extends AbstractTest<E> {
     private final String categoryName;
@@ -203,5 +201,40 @@ public class CategoryTest<E extends DataBoard<Data>> extends AbstractTest<E> {
         }
 
         throw new TestException(testName, "A category that not exists was attempt to remove.");
+    }
+
+    public void we_can_remove_a_category_and_all_its_data()
+    {
+        String testName = AbstractTest.getCurrentMethodName();
+
+        this.beforeRemove();
+
+        MyData data = new MyData(1);
+
+        try {
+            this.dataBoard.put(this.password, data, this.categoryName);
+        } catch (UnauthorizedAccessException | CategoryNotFoundException | DataAlreadyPutException e) {
+            throw new TestException(testName);
+        }
+
+        try {
+            this.dataBoard.removeCategory(this.categoryName, this.password);
+        } catch (CategoryNotFoundException | UnauthorizedAccessException e) {
+            throw new TestException(testName);
+        }
+
+        try {
+            this.dataBoard.get(this.password, data);
+        } catch (DataNotFoundException e) {
+            AbstractTest.printSuccess(testName);
+
+            this.afterAll();
+
+            return;
+        } catch (UnauthorizedAccessException e) {
+            throw new TestException(testName);
+        }
+
+        throw new TestException(testName, "A category was removed but not its data.");
     }
 }

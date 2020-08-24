@@ -37,6 +37,7 @@ public class DataBoardTest<E extends DataBoard<Data>> {
         categoryTest.we_can_not_remove_a_category_with_a_wrong_password();
         categoryTest.we_can_not_remove_a_category_with_a_null_name();
         categoryTest.we_can_not_remove_a_category_that_doesnt_exist();
+        categoryTest.we_can_remove_a_category_and_all_its_data();
 
         // add friend
         friendTest.we_can_add_a_friend_to_a_category_with_a_valid_password();

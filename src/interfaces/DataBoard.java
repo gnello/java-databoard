@@ -97,14 +97,13 @@ public interface DataBoard<E extends Data> {
      * se vengono rispettati i controlli di identità
      */
     public E get(String passw, E dato) throws NullPointerException, UnauthorizedAccessException,
-            DataNotFoundException, CloneNotSupportedException;
+            DataNotFoundException;
     /*
      * REQUIRES: dato != null
      * RETURNS: restituisce una deep copy di dato
      * THROWS: se dato == null solleva una NullPointerException
      *         se passwd non è una password valida solleva una UnauthorizedAccessException
      *         se dato non è presente DataBoard solleva una DataNotFoundException TODO: specificare category nella sottoclasse?
-     *         se non è possibile restituire una copia del dato solleva una CloneNotSupportedException TODO: rimuovere CloneNotSupportedException
      */
 
     /*
@@ -128,14 +127,13 @@ public interface DataBoard<E extends Data> {
      * se vengono rispettati i controlli di identità
      */
     public List<E> getDataCategory(String passw, String category) throws NullPointerException,
-            UnauthorizedAccessException, CategoryNotFoundException, CloneNotSupportedException;
+            UnauthorizedAccessException, CategoryNotFoundException;
     /*
      * RETURNS: restituisce la lista dei dati della categoria passata come parametro
      * THROWS: se category == null solleva una NullPointerException
      *         se passwd non è una password valida solleva una UnauthorizedAccessException
      *         se category non è presente solleva una CategoryNotFoundException
      *         se non è possibile restituire una deep copy della lista dei dati presenti
-     *         in category solleva una CloneNotSupportedException TODO: rimuovere CloneNotSupportedException
      */
 
     /*

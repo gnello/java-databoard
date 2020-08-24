@@ -55,8 +55,6 @@ public class MyDataBoardTreeSet<E extends Data> implements DataBoard<E> {
             throw new CategoryNotFoundException();
         }
 
-        //TODO: inserire test dedicato
-
         // rimuovi prima i dati della categoria
         this.emptyData(category);
 
