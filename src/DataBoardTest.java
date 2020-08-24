@@ -99,6 +99,8 @@ public class DataBoardTest<E extends DataBoard<Data>> {
         iteratorTest.we_can_get_a_friend_iterator_with_a_valid_user();
         iteratorTest.we_can_not_get_a_friend_iterator_with_a_wrong_user();
         iteratorTest.we_can_get_a_friend_iterator_that_doesnt_support_remove_method();
+        iteratorTest.we_can_get_a_friend_iterator_with_all_his_readable_data();
+        iteratorTest.we_can_get_an_empty_friend_iterator();
     }
 
 

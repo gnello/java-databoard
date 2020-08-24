@@ -316,7 +316,7 @@ public class MyDataBoardArrayList<E extends Data> implements DataBoard<E> {
         }
 
         // ordina decrescente
-        Collections.sort(dataList);
+        dataList.sort(Comparator.comparingInt(o -> -(o.getLikes().size())));
 
         // disabilita il metodo remove dell'iteratore che verrà generato
         // sfruttando il metodo Collections.unmodifiableList
@@ -328,24 +328,33 @@ public class MyDataBoardArrayList<E extends Data> implements DataBoard<E> {
 
     @Override
     public Iterator<E> getFriendIterator(String friend) throws UserNotFoundException {
+        List<E> dataList = new ArrayList<>();
+
+        boolean friendFound = false;
+
         // cerca friend nelle categorie
         User friendUser = new MyUser(friend);
 
-        for (Category<E> tmp : this.categories) {
+        for (Category<E> item : this.categories) {
 
             // se lo trovo restituisci un iteratore
             // con i dati della categoria
-            if (tmp.isReadableBy(friendUser)) {
-                List<E> dataList;
+            if (item.isReadableBy(friendUser)) {
+                friendFound = true;
 
-                // disabilita il metodo remove dell'iteratore che verrà generato
-                // sfruttando il metodo Collections.unmodifiableList
-                dataList = Collections.unmodifiableList(tmp.getAllData());
-
-                return dataList.iterator();
+                dataList.addAll(item.getAllData());
             }
         }
 
+        if (friendFound) {
+            // disabilita il metodo remove dell'iteratore che verrà generato
+            // sfruttando il metodo Collections.unmodifiableList
+            dataList = Collections.unmodifiableList(dataList);
+
+            return dataList.iterator();
+        }
+
+        // lo user non ha dati leggibili, errore
         throw new UserNotFoundException();
     }
 

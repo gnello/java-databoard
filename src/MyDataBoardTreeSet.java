@@ -225,7 +225,7 @@ public class MyDataBoardTreeSet<E extends Data> implements DataBoard<E> {
         // cerco il dato
         for (E item : this.dataList) {
             if (item.equals(data)) {
-                //controlla che firend abbia
+                //controlla che friend abbia
                 // i permessi di lettura
                 if (!this.isReadableBy(item.getCategory(), new MyUser(friend))) {
                     throw new UnauthorizedAccessException();
@@ -253,12 +253,55 @@ public class MyDataBoardTreeSet<E extends Data> implements DataBoard<E> {
 
     @Override
     public Iterator<E> getIterator(String passw) throws UnauthorizedAccessException {
-        return null;
+        // validazione
+        if (!this.owner.authenticate(passw)) {
+            throw new UnauthorizedAccessException();
+        }
+
+        // converti il TreeSet in ArrayList
+        List<E> dataList = new ArrayList<>(this.dataList);
+
+        // ordina decrescente
+        dataList.sort(Comparator.comparingInt(o -> -(o.getLikes().size())));
+
+        // disabilita il metodo remove dell'iteratore che verrà generato
+        // sfruttando il metodo Collections.unmodifiableList
+        dataList = Collections.unmodifiableList(dataList);
+
+        // ritorna l'iteratore
+        return dataList.iterator();
     }
 
     @Override
     public Iterator<E> getFriendIterator(String friend) throws UserNotFoundException {
-        return null;
+        List<E> dataList = new ArrayList<>();
+
+        for (E item : this.dataList) {
+            if (this.isReadableBy(item.getCategory(), new MyUser(friend))) {
+                dataList.add(item);
+            }
+        }
+
+        if (dataList.size() == 0) {
+            boolean friendFound = false;
+
+            for (String item : this.categories.keySet()) {
+                if (this.isReadableBy(item, new MyUser(friend))) {
+                    friendFound = true;
+                }
+            }
+
+            if (!friendFound) {
+                throw new UserNotFoundException();
+            }
+        }
+
+        // disabilita il metodo remove dell'iteratore che verrà generato
+        // sfruttando il metodo Collections.unmodifiableList
+        dataList = Collections.unmodifiableList(dataList);
+
+        // ritorna l'iteratore
+        return dataList.iterator();
     }
 
     @Override

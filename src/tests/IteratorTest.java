@@ -263,5 +263,129 @@ public class IteratorTest<E extends DataBoard<Data>> extends AbstractTest<E> {
         throw new TestException(testName, "We can remove elements from a friend iterator.");
     }
 
+    public void we_can_get_a_friend_iterator_with_all_his_readable_data()
+    {
+        String testName = AbstractTest.getCurrentMethodName();
 
+        try {
+            this.dataBoard.createCategory("category_a", this.password);
+            this.dataBoard.createCategory("category_b", this.password);
+            this.dataBoard.createCategory("category_c", this.password);
+        } catch (UnauthorizedAccessException | CategoryAlreadyExistsException e) {
+            throw new TestException(testName);
+        }
+
+        try {
+            this.dataBoard.addFriend("category_a", this.password, this.friend.getName());
+            this.dataBoard.addFriend("category_b", this.password, this.friend.getName());
+        } catch (UnauthorizedAccessException | CategoryNotFoundException | FriendAlreadyAddedException e) {
+            throw new TestException(testName);
+        }
+
+        Data data1 = new MyData(1);
+        Data data2 = new MyData(2);
+        Data data3 = new MyData(3);
+        Data data4 = new MyData(4);
+        Data data5 = new MyData(5);
+        Data data6 = new MyData(6);
+        Data data7 = new MyData(7);
+        Data data8 = new MyData(8);
+
+        try {
+            this.dataBoard.put(this.password, data1, "category_a");
+            this.dataBoard.put(this.password, data2, "category_a");
+            this.dataBoard.put(this.password, data3, "category_a");
+            this.dataBoard.put(this.password, data4, "category_a");
+            this.dataBoard.put(this.password, data5, "category_b");
+            this.dataBoard.put(this.password, data6, "category_b");
+            this.dataBoard.put(this.password, data7, "category_b");
+            this.dataBoard.put(this.password, data8, "category_c");
+        } catch (UnauthorizedAccessException | CategoryNotFoundException | DataAlreadyPutException
+                | CloneNotSupportedException e) {
+            throw new TestException(testName);
+        }
+
+        Iterator<Data> iterator;
+
+        try {
+            iterator = this.dataBoard.getFriendIterator(this.friend.getName());
+        } catch (UserNotFoundException e) {
+            throw new TestException(testName);
+        }
+
+        boolean containsAllData = true;
+
+        while (iterator.hasNext()) {
+            Data iteratorData = iterator.next();
+
+            if ((!iteratorData.equals(data1)
+                    && !iteratorData.equals(data2)
+                    && !iteratorData.equals(data3)
+                    && !iteratorData.equals(data4)
+                    && !iteratorData.equals(data5)
+                    && !iteratorData.equals(data6)
+                    && !iteratorData.equals(data7)
+                ) || iteratorData.equals(data8)) {
+                containsAllData = false;
+            }
+        }
+
+        if (containsAllData) {
+            AbstractTest.printSuccess(testName);
+
+            try {
+                this.dataBoard.removeCategory("category_a", this.password);
+                this.dataBoard.removeCategory("category_b", this.password);
+                this.dataBoard.removeCategory("category_c", this.password);
+            } catch (UnauthorizedAccessException | CategoryNotFoundException e) {
+                throw new TestException(testName);
+            }
+
+            return;
+        }
+
+        throw new TestException(testName, "We cant get a friend iterator with all his readable data.");
+    }
+
+    public void we_can_get_an_empty_friend_iterator()
+    {
+        String testName = AbstractTest.getCurrentMethodName();
+
+        try {
+            this.dataBoard.createCategory("category_a", this.password);
+            this.dataBoard.createCategory("category_b", this.password);
+        } catch (UnauthorizedAccessException | CategoryAlreadyExistsException e) {
+            throw new TestException(testName);
+        }
+
+        try {
+            this.dataBoard.addFriend("category_a", this.password, this.friend.getName());
+            this.dataBoard.addFriend("category_b", this.password, this.friend.getName());
+        } catch (UnauthorizedAccessException | CategoryNotFoundException | FriendAlreadyAddedException e) {
+            throw new TestException(testName);
+        }
+
+        Iterator<Data> iterator;
+
+        try {
+            iterator = this.dataBoard.getFriendIterator(this.friend.getName());
+        } catch (UserNotFoundException e) {
+            throw new TestException(testName);
+        }
+
+        if (!iterator.hasNext()) {
+            AbstractTest.printSuccess(testName);
+
+            try {
+                this.dataBoard.removeCategory("category_a", this.password);
+                this.dataBoard.removeCategory("category_b", this.password);
+            } catch (UnauthorizedAccessException | CategoryNotFoundException e) {
+                throw new TestException(testName);
+            }
+
+            return;
+        }
+
+        throw new TestException(testName, "We cant get an empty friend.");
+    }
 }

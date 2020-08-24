@@ -82,6 +82,7 @@ public class MyData implements Data {
         }
 
         MyData data = (MyData) o;
+
         return this.getId().equals(data.getId());
     }
 
@@ -95,6 +96,6 @@ public class MyData implements Data {
 
     @Override
     public int compareTo(@NotNull Data data) {
-        return data.getLikes().size() - this.getLikes().size();
+        return data.getId() - this.getId();
     }
 }
