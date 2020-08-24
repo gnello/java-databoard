@@ -619,7 +619,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
         List<User> list;
         try {
             list = this.dataBoard.getLikes(this.data);
-        } catch (DataNotFoundException | CloneNotSupportedException e) {
+        } catch (DataNotFoundException e) {
             throw new TestException(testName);
         }
 

@@ -377,8 +377,7 @@ public class MyDataBoard1<E extends Data> implements DataBoard<E> {
     }
 
     @Override
-    public List<User> getLikes(E data) throws NullPointerException, DataNotFoundException,
-            CloneNotSupportedException {
+    public List<User> getLikes(E data) throws NullPointerException, DataNotFoundException {
         // trova il dato
         for (Category<E> tmp : this.categories) {
             if (tmp.hasData(data)) {

@@ -210,14 +210,11 @@ public interface DataBoard<E extends Data> {
     /*
      * Restituisce gli user che hanno inserito un like al dato
      */
-    public List<User> getLikes(E data) throws NullPointerException, DataNotFoundException,
-            CloneNotSupportedException;
+    public List<User> getLikes(E data) throws NullPointerException, DataNotFoundException;
     /*
      * REQUIRES: data != null
      * RETURNS: ritorna la lista degli user che hanno inserito un like al dato
      * THROWS: se data == null solleva una NullPointerException
      *         se data non è presente in DataBoard solleva una DataNotFoundException TODO: specificare category nella sottoclasse?
-     *         se non è possibile restituire una deep copy della lista dei likes presenti
-     *         in data solleva una CloneNotSupportedException
      */
 }
