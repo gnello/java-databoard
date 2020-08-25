@@ -146,17 +146,19 @@ public class MyData implements Data {
      */
 
     /*
-     * Sovrascrivi per non violare il general contract di Object.hashCode(),
-     * ad esempio se due oggetti sono uguali secondo il metodo equals,
-     * anche i loro hashCode devono esserlo
+     * Sovrascrive hashCode() per non violare il general contract
+     * di Object.hashCode(), ad esempio se due oggetti sono uguali
+     * secondo il metodo equals, anche i loro hashCode devono esserlo
      */
     public int hashCode() {
         // il campo id è anche usato per
         // la comparazione in equals()
-        return this.id;
+        // quindi è perfetto per non violare
+        // il general contract di Object.hashCode()
+        return this.id.hashCode();
     }
     /*
-     * RETURNS: restituisce l'id di this
+     * RETURNS: restituisce un hashCode di this
      */
 
     /*
