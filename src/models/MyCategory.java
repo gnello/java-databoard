@@ -15,7 +15,7 @@ public class MyCategory<E extends Data> implements Category<E> {
     private final ArrayList<User> readableByList;
     private final ArrayList<E> dataList;
 
-    // inizializza l'array readableByList e
+    // inizializza this, l'array readableByList e
     // assegna il nome della categoria
     public MyCategory(String name) {
         this.name = name;
@@ -35,7 +35,7 @@ public class MyCategory<E extends Data> implements Category<E> {
             throw new NullPointerException();
         }
 
-        // aggiunge lo user agli user con i permessi di lettura
+        // aggiunge user agli user con i permessi di lettura
         this.readableByList.add(user);
     }
 
@@ -46,7 +46,7 @@ public class MyCategory<E extends Data> implements Category<E> {
             throw new NullPointerException();
         }
 
-        // rimuovi lo user dagli user con i permessi di lettura
+        // rimuovi user dagli user con i permessi di lettura
         this.readableByList.removeIf(el -> el.equals(user));
     }
 

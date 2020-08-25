@@ -45,7 +45,6 @@ public class MyDataBoardArrayList<E extends Data> implements DataBoard<E> {
     @Override
     public void createCategory(String category, String passw) throws UnauthorizedAccessException,
             CategoryAlreadyExistsException {
-
         // validazione
         if (!this.owner.authenticate(passw)) {
             throw new UnauthorizedAccessException();
@@ -66,7 +65,6 @@ public class MyDataBoardArrayList<E extends Data> implements DataBoard<E> {
     @Override
     public void removeCategory(String category, String passw) throws UnauthorizedAccessException,
             CategoryNotFoundException {
-
         // validazione
         if (!this.owner.authenticate(passw)) {
             throw new UnauthorizedAccessException();
@@ -87,7 +85,6 @@ public class MyDataBoardArrayList<E extends Data> implements DataBoard<E> {
     @Override
     public void addFriend(String category, String passw, String friend) throws NullPointerException,
             UnauthorizedAccessException, CategoryNotFoundException, FriendAlreadyAddedException {
-
         // validazione
         if (!this.owner.authenticate(passw)) {
             throw new UnauthorizedAccessException();
@@ -138,14 +135,14 @@ public class MyDataBoardArrayList<E extends Data> implements DataBoard<E> {
         }
 
         // trova la categoria
-        for (Category<E> tmp : this.categories) {
-            if (tmp.getName().equals(category)) {
+        for (Category<E> item : this.categories) {
+            if (item.getName().equals(category)) {
                 User friendUser = new MyUser(friend);
 
                 // se friend è presente nella
                 // categoria rimuovilo
-                if (tmp.isReadableBy(friendUser)) {
-                    tmp.denyRead(friendUser);
+                if (item.isReadableBy(friendUser)) {
+                    item.denyRead(friendUser);
 
                     return;
                 }
@@ -160,15 +157,15 @@ public class MyDataBoardArrayList<E extends Data> implements DataBoard<E> {
     }
 
     @Override
-    public boolean put(String passw, E dato, String category) throws NullPointerException, UnauthorizedAccessException,
+    public boolean put(String passw, E data, String category) throws NullPointerException, UnauthorizedAccessException,
             CategoryNotFoundException, DataAlreadyPutException {
         // validazione
         if (!this.owner.authenticate(passw)) {
             throw new UnauthorizedAccessException();
         }
 
-        // fail fast, non aspettare il NullPointerException di tmp.addData(dato)
-        if (dato == null || category == null) {
+        // fail fast, non aspettare il NullPointerException di item.addData(data)
+        if (data == null || category == null) {
             throw new NullPointerException();
         }
 
@@ -176,15 +173,15 @@ public class MyDataBoardArrayList<E extends Data> implements DataBoard<E> {
             throw new CategoryNotFoundException();
         }
 
-        if (this.hasData(dato)) {
+        if (this.hasData(data)) {
             throw new DataAlreadyPutException();
         }
 
         // trova la categoria passata come parametro
-        for (Category<E> tmp : this.categories) {
-            if (tmp.getName().equals(category)) {
-                // aggiungi una deep copy di dato alla categoria
-                return tmp.addData((E)dato.clone());
+        for (Category<E> item : this.categories) {
+            if (item.getName().equals(category)) {
+                // aggiungi una deep copy di data alla categoria
+                return item.addData((E) data.clone());
             }
         }
 
@@ -192,23 +189,23 @@ public class MyDataBoardArrayList<E extends Data> implements DataBoard<E> {
     }
 
     @Override
-    public E get(String passw, E dato) throws NullPointerException, UnauthorizedAccessException,
+    public E get(String passw, E data) throws NullPointerException, UnauthorizedAccessException,
             DataNotFoundException {
         // validazione
         if (!this.owner.authenticate(passw)) {
             throw new UnauthorizedAccessException();
         }
 
-        // fail fast, non aspettare il NullPointerException di dato.clone()
-        if (dato == null) {
+        // fail fast, non aspettare il NullPointerException di a.clone()
+        if (data == null) {
             throw new NullPointerException();
         }
 
         // cerca il dato nelle categorie
-        for (Category<E> tmp : this.categories) {
-            if (tmp.hasData(dato)) {
+        for (Category<E> item : this.categories) {
+            if (item.hasData(data)) {
                 // restituisci una deep copy del dato
-                return (E)tmp.getData(dato).clone();
+                return (E)item.getData(data).clone();
             }
         }
 
@@ -216,23 +213,23 @@ public class MyDataBoardArrayList<E extends Data> implements DataBoard<E> {
     }
 
     @Override
-    public E remove(String passw, E dato) throws NullPointerException, UnauthorizedAccessException,
+    public E remove(String passw, E data) throws NullPointerException, UnauthorizedAccessException,
             DataNotFoundException {
         // validazione
         if (!this.owner.authenticate(passw)) {
             throw new UnauthorizedAccessException();
         }
 
-        // fail fast, non aspettare il NullPointerException di tmp.removeData(dato)
-        if (dato == null) {
+        // fail fast, non aspettare il NullPointerException di item.removeData(data)
+        if (data == null) {
             throw new NullPointerException();
         }
 
         // cerca il dato nelle categorie
-        for (Category<E> tmp : this.categories) {
-            if (tmp.hasData(dato)) {
+        for (Category<E> item : this.categories) {
+            if (item.hasData(data)) {
                 // rimuovi il dato e restituisci una deep copy
-                return (E)tmp.removeData(dato).clone();
+                return (E)item.removeData(data).clone();
             }
         }
 
@@ -252,13 +249,13 @@ public class MyDataBoardArrayList<E extends Data> implements DataBoard<E> {
         }
 
         // trova la categoria passata come parametro
-        for (Category<E> tmp : this.categories) {
-            if (tmp.getName().equals(category)) {
+        for (Category<E> item : this.categories) {
+            if (item.getName().equals(category)) {
                 // ritorna una deep copy della lista di dati della categoria
                 ArrayList<E> dataList = new ArrayList<>();
 
-                for (E item : tmp.getAllData()) {
-                    dataList.add((E)item.clone());
+                for (E subItem : item.getAllData()) {
+                    dataList.add((E)subItem.clone());
                 }
 
                 return dataList;
@@ -337,13 +334,13 @@ public class MyDataBoardArrayList<E extends Data> implements DataBoard<E> {
 
         boolean friendFound = false;
 
-        // cerca friend nelle categorie
         User friendUser = new MyUser(friend);
 
+        // cerca friend nelle categorie
         for (Category<E> item : this.categories) {
 
-            // se lo trovo restituisci un iteratore
-            // con i dati della categoria
+            // se lo trovo aggiungi i dati
+            // della categoria alla lista
             if (item.isReadableBy(friendUser)) {
                 friendFound = true;
 
@@ -356,10 +353,12 @@ public class MyDataBoardArrayList<E extends Data> implements DataBoard<E> {
             // sfruttando il metodo Collections.unmodifiableList
             dataList = Collections.unmodifiableList(dataList);
 
+            // restituisci l'iteratore creato
             return dataList.iterator();
         }
 
-        // lo user non ha dati leggibili, errore
+        // non esistono categorie leggibili
+        // da friend, errore
         throw new UserNotFoundException();
     }
 
@@ -371,8 +370,8 @@ public class MyDataBoardArrayList<E extends Data> implements DataBoard<E> {
         }
 
         // cerca la categoria, se la trova ritorna true
-        for (Category<E> tmp : this.categories) {
-            if (tmp.getName().equals(category)) {
+        for (Category<E> item : this.categories) {
+            if (item.getName().equals(category)) {
                 return true;
             }
         }
@@ -396,11 +395,16 @@ public class MyDataBoardArrayList<E extends Data> implements DataBoard<E> {
 
     @Override
     public boolean hasData(E data) throws NullPointerException {
+        //validazione
+        if (data == null) {
+            throw new NullPointerException();
+        }
+
         // controlla in ogni categoria se è presente il dato
         // passato come parametro sfruttando il metodo hasData
         // dell'interfaccia Category
-        for (Category<E> tmp : this.categories) {
-            if (tmp.hasData(data)) {
+        for (Category<E> item : this.categories) {
+            if (item.hasData(data)) {
                 return true;
             }
         }
@@ -416,11 +420,11 @@ public class MyDataBoardArrayList<E extends Data> implements DataBoard<E> {
         }
 
         // trova il dato
-        for (Category<E> tmp : this.categories) {
-            if (tmp.hasData(data)) {
+        for (Category<E> item : this.categories) {
+            if (item.hasData(data)) {
                 // ritorna la lista degli user che
                 // hanno inserito un like al dato
-                return tmp.getData(data).getLikes();
+                return item.getData(data).getLikes();
             }
         }
 

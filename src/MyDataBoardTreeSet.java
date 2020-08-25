@@ -14,6 +14,15 @@ public class MyDataBoardTreeSet<E extends Data> implements DataBoard<E> {
     private final HashMap<String, ArrayList<User>> categories;
 
     /*
+     * AF: α(c) = { this.datalist.iterator().next() |
+     *                  this.datalist.iterator().hasNext() }
+     *
+     * IR: I(c) = this.dataList != null
+     *              e mentre this.datalist.iterator().hasNext(),
+     *                  per ogni E data = this.datalist.iterator().next(), data implementa l'interfaccia Data
+     */
+
+    /*
      * inizializza this e
      * assegna l'owner della bacheca
      */
@@ -43,6 +52,7 @@ public class MyDataBoardTreeSet<E extends Data> implements DataBoard<E> {
             throw new CategoryAlreadyExistsException();
         }
 
+        // aggiungi la categoria
         this.categories.put(category, new ArrayList<>());
     }
 
@@ -93,6 +103,8 @@ public class MyDataBoardTreeSet<E extends Data> implements DataBoard<E> {
             throw new FriendAlreadyAddedException();
         }
 
+        // prendi la categoria (se siamo arrivati qui siamo
+        // sicuri che esiste) e aggiungi friend alla categoria
         this.categories.get(category).add(new MyUser(friend));
     }
 
@@ -116,18 +128,20 @@ public class MyDataBoardTreeSet<E extends Data> implements DataBoard<E> {
             throw new UserNotFoundException();
         }
 
+        // prendi la categoria (se siamo arrivati qui siamo
+        // sicuri che esiste) e rimuovi friend dalla categoria
         this.categories.get(category).removeIf(el -> el.equals(new MyUser(friend)));
     }
 
     @Override
-    public boolean put(String passw, E dato, String category) throws NullPointerException,
+    public boolean put(String passw, E data, String category) throws NullPointerException,
             UnauthorizedAccessException, CategoryNotFoundException, DataAlreadyPutException {
         // validazione
         if (!this.owner.authenticate(passw)) {
             throw new UnauthorizedAccessException();
         }
 
-        if (dato == null || category == null) {
+        if (data == null || category == null) {
             throw new NullPointerException();
         }
 
@@ -135,30 +149,33 @@ public class MyDataBoardTreeSet<E extends Data> implements DataBoard<E> {
             throw new CategoryNotFoundException();
         }
 
-        if (this.hasData(dato)) {
+        if (this.hasData(data)) {
             throw new DataAlreadyPutException();
         }
 
         // imposta la categoria al dato
-        dato.setCategory(category);
+        data.setCategory(category);
 
-        return this.dataList.add((E)dato.clone());
+        // aggiungi una deep copy di data
+        return this.dataList.add((E) data.clone());
     }
 
     @Override
-    public E get(String passw, E dato) throws NullPointerException, UnauthorizedAccessException,
+    public E get(String passw, E data) throws NullPointerException, UnauthorizedAccessException,
             DataNotFoundException {
         // validazione
         if (!this.owner.authenticate(passw)) {
             throw new UnauthorizedAccessException();
         }
 
-        if (dato == null) {
+        if (data == null) {
             throw new NullPointerException();
         }
 
+        // cerca il dato in this
         for (E item : this.dataList) {
-            if (item.equals(dato)) {
+            if (item.equals(data)) {
+                // restituisci una deep copy del dato
                 return (E)item.clone();
             }
         }
@@ -167,22 +184,24 @@ public class MyDataBoardTreeSet<E extends Data> implements DataBoard<E> {
     }
 
     @Override
-    public E remove(String passw, E dato) throws NullPointerException, UnauthorizedAccessException,
+    public E remove(String passw, E data) throws NullPointerException, UnauthorizedAccessException,
             DataNotFoundException {
         // validazione
         if (!this.owner.authenticate(passw)) {
             throw new UnauthorizedAccessException();
         }
 
-        if (dato == null) {
+        if (data == null) {
             throw new NullPointerException();
         }
 
+        // cerca il dato in this
         for (E item : this.dataList) {
-            if (item.equals(dato)) {
-                this.dataList.removeIf(el -> el.equals(dato));
+            if (item.equals(data)) {
+                // rimuovi il dato e restituisci una deep copy
+                this.dataList.removeIf(el -> el.equals(data));
 
-                return item;
+                return (E)item.clone();
             }
         }
 
@@ -281,12 +300,16 @@ public class MyDataBoardTreeSet<E extends Data> implements DataBoard<E> {
     public Iterator<E> getFriendIterator(String friend) throws UserNotFoundException {
         List<E> dataList = new ArrayList<>();
 
+        // scorri this e aggiungi alla lista i dati
+        // appartenenti a categorie leggibili da friend
         for (E item : this.dataList) {
             if (this.isReadableBy(item.getCategory(), new MyUser(friend))) {
                 dataList.add(item);
             }
         }
 
+        // se la lista è vuota controlla se esistono
+        // categorie leggibili da friend
         if (dataList.size() == 0) {
             boolean friendFound = false;
 
@@ -296,6 +319,8 @@ public class MyDataBoardTreeSet<E extends Data> implements DataBoard<E> {
                 }
             }
 
+            // non esistono categorie leggibili
+            // da friend, errore
             if (!friendFound) {
                 throw new UserNotFoundException();
             }
@@ -321,12 +346,16 @@ public class MyDataBoardTreeSet<E extends Data> implements DataBoard<E> {
 
     @Override
     public boolean isReadableBy(String category, User user) throws NullPointerException {
+        // scorri gli user di category
+        // per vedere se user è presente
         for (User item : this.categories.get(category)) {
             if (item.equals(user)) {
                 return true;
             }
         }
 
+        // user non è presente
+        // in category
         return false;
     }
 
@@ -337,6 +366,7 @@ public class MyDataBoardTreeSet<E extends Data> implements DataBoard<E> {
             throw new NullPointerException();
         }
 
+        // scorri this per confrontare i dati
         for (E item : this.dataList) {
             if (item.equals(data)) {
                 return true;

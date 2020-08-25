@@ -4,9 +4,9 @@ import java.util.List;
 
 public interface Data extends Cloneable, Comparable<Data> {
     /*
-     * OVERVIEW: un Data è una quadrupla di elementi che consistono
-     *           in un id, un testo, una categoria e un elenco di user
-     *           che hanno inserito un like al dato
+     * OVERVIEW: un oggetto di tipo Data è una quadrupla di elementi
+     * che consistono in un id, un testo, una categoria e un elenco
+     * di user che hanno inserito un like
      *
      * Elemento tipico: <Integer, String, String, {user_1, ..., user_n}>
      */
@@ -24,7 +24,7 @@ public interface Data extends Cloneable, Comparable<Data> {
      */
     public Integer getId();
     /*
-     * RETURNS: restituisce l'id del dato
+     * RETURNS: restituisce l'id di this
      */
 
     /*

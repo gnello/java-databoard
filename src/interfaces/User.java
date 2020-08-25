@@ -1,9 +1,15 @@
 package interfaces;
 
 public interface User {
-    // ritorna true se passwd è uguale alla password
-    // dell'utente, false altrimenti
+    /*
+     * controlla se passw è la password
+     * di User
+     */
     public boolean authenticate(String passw);
+    /*
+     * RETURNS: restituisce true se passwd è uguale alla password
+     *          di user, false altrimenti
+     */
 
     /*
      * ritorna il nome dello user

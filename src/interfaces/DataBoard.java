@@ -10,7 +10,7 @@ public interface DataBoard<E extends Data> {
      * OVERVIEW: una MyDataBoard è un insieme modificabile di oggetti
      * che implementano l'interfaccia Data e ai quali è assegnata una categoria
      *
-     * Elemento tipico: {dato_1, ..., dato_n}
+     * Elemento tipico: {data_1, ..., data_n}
      */
 
     /*
@@ -25,7 +25,7 @@ public interface DataBoard<E extends Data> {
      * EFFECTS: crea la nuova categoria
      * THROWS: se passwd non è una password valida solleva una UnauthorizedAccessException
      *         se category == null solleva una NullPointerException
-     *         se category è già presente in DataBoard solleva una CategoryAlreadyExistsException
+     *         se category è già presente in this solleva una CategoryAlreadyExistsException
      */
 
     /*
@@ -40,7 +40,7 @@ public interface DataBoard<E extends Data> {
      * EFFECTS: rimuove la categoria
      * THROWS: se passwd non è una password valida solleva una UnauthorizedAccessException
      *         se category == null solleva una NullPointerException
-     *         se category non esiste in DataBoard solleva una CategoryNotFoundException
+     *         se category non esiste in this solleva una CategoryNotFoundException
      */
 
     /*
@@ -55,7 +55,7 @@ public interface DataBoard<E extends Data> {
      * EFFECTS: aggiunge friend a category
      * THROWS: se category == null || friend == null solleva una NullPointerException
      *         se passwd non è una password valida solleva una UnauthorizedAccessException
-     *         se category non esiste in DataBoard solleva una CategoryNotFoundException
+     *         se category non esiste in this solleva una CategoryNotFoundException
      *         se friend è già presente in category solleva una FriendAlreadyAddedException
      */
 
@@ -71,7 +71,7 @@ public interface DataBoard<E extends Data> {
      * EFFECTS: rimuove friend da category
      * THROWS: se category == null || friend == null solleva una NullPointerException
      *         se passwd non è una password valida solleva una UnauthorizedAccessException
-     *         se category non esiste in DataBoard solleva una CategoryNotFoundException
+     *         se category non esiste in this solleva una CategoryNotFoundException
      *         se friend non è presente in category solleva una UserNotFoundException
      */
 
@@ -79,47 +79,47 @@ public interface DataBoard<E extends Data> {
      * Inserisce un dato in bacheca
      * se vengono rispettati i controlli di identità
      */
-    public boolean put(String passw, E dato, String category) throws NullPointerException, UnauthorizedAccessException,
+    public boolean put(String passw, E data, String category) throws NullPointerException, UnauthorizedAccessException,
             CategoryNotFoundException, DataAlreadyPutException;
     /*
-     * REQUIRES: dato != null && category != null
+     * REQUIRES: data != null && category != null
      * MODIFIES: this
-     * EFFECTS: inserisce una deep copy di dato in DataBoard
+     * EFFECTS: inserisce una deep copy di dato in this
      * RETURNS: restituisce true se il dato è stato inserito, false altrimenti
-     * THROWS: se dato == null || category == null solleva una NullPointerException
+     * THROWS: se data == null || category == null solleva una NullPointerException
      *         se passwd non è una password valida solleva una UnauthorizedAccessException
-     *         se category non esiste in DataBoard solleva una CategoryNotFoundException
-     *         se dato è già stato aggiunto in DataBoard solleva una DataAlreadyPutException
+     *         se category non esiste in this solleva una CategoryNotFoundException
+     *         se data è già stato aggiunto in this solleva una DataAlreadyPutException
      */
 
     /*
      * Restituisce una copia del dato in bacheca
      * se vengono rispettati i controlli di identità
      */
-    public E get(String passw, E dato) throws NullPointerException, UnauthorizedAccessException,
+    public E get(String passw, E data) throws NullPointerException, UnauthorizedAccessException,
             DataNotFoundException;
     /*
-     * REQUIRES: dato != null
+     * REQUIRES: data != null
      * RETURNS: restituisce una deep copy di dato
-     * THROWS: se dato == null solleva una NullPointerException
+     * THROWS: se data == null solleva una NullPointerException
      *         se passwd non è una password valida solleva una UnauthorizedAccessException
-     *         se dato non è presente DataBoard solleva una DataNotFoundException
+     *         se data non è presente in this solleva una DataNotFoundException
      */
 
     /*
      * Rimuove il dato dalla bacheca
      * se vengono rispettati i controlli di identità
      */
-    public E remove(String passw, E dato) throws NullPointerException, UnauthorizedAccessException,
+    public E remove(String passw, E data) throws NullPointerException, UnauthorizedAccessException,
             DataNotFoundException;
     /*
-     * REQUIRES: dato != null
+     * REQUIRES: data != null
      * MODIFIES: this
-     * EFFECTS: rimuove il dato da DataBoard
+     * EFFECTS: rimuove il dato da this
      * RETURNS: restituisce una deep copy del dato rimosso
-     * THROWS: se dato == null solleva una NullPointerException
+     * THROWS: se data == null solleva una NullPointerException
      *         se passwd non è una password valida solleva una UnauthorizedAccessException
-     *         se dato non è presente in DataBoard solleva una DataNotFoundException
+     *         se data non è presente in this solleva una DataNotFoundException
      */
 
     /*
@@ -133,7 +133,6 @@ public interface DataBoard<E extends Data> {
      * THROWS: se category == null solleva una NullPointerException
      *         se passwd non è una password valida solleva una UnauthorizedAccessException
      *         se category non è presente solleva una CategoryNotFoundException
-     *         se non è possibile restituire una deep copy della lista dei dati presenti
      */
 
     /*
@@ -147,7 +146,7 @@ public interface DataBoard<E extends Data> {
      * MODIFIES: this
      * EFFECTS: aggiunge un like di friend a data
      * THROWS: se data == null solleva una NullPointerException
-     *         se data non è presente in DataBoard solleva una DataNotFoundException
+     *         se data non è presente in this solleva una DataNotFoundException
      *         se friend non è autorizzato a leggere data solleva una UnauthorizedAccessException
      *         se friend ha già aggiunto un like solleva una FriendAlreadyAddedException
      */
@@ -178,12 +177,12 @@ public interface DataBoard<E extends Data> {
     // … altre operazione da definire a scelta
 
     /*
-     * Controlla se la categoria esiste in DataBoard
+     * Controlla se la categoria esiste nella bacheca
      */
     public boolean hasCategory(String category) throws NullPointerException;
     /*
      * REQUIRES: category != null
-     * RETURNS: ritorna true se category esiste in DataBoard
+     * RETURNS: ritorna true se category esiste in this
      *          false altrimenti
      * THROWS: se category == null solleva una NullPointerException
      */
@@ -218,6 +217,6 @@ public interface DataBoard<E extends Data> {
      * REQUIRES: data != null
      * RETURNS: ritorna la lista degli user che hanno inserito un like al dato
      * THROWS: se data == null solleva una NullPointerException
-     *         se data non è presente in DataBoard solleva una DataNotFoundException
+     *         se data non è presente in this solleva una DataNotFoundException
      */
 }
