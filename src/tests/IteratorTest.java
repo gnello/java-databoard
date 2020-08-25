@@ -36,7 +36,7 @@ public class IteratorTest<E extends DataBoard<Data>> extends AbstractTest<E> {
         }
 
         try {
-            this.dataBoard.put(this.password, new MyData(1), "test");
+            this.dataBoard.put(this.password, new MyData(1, "Lorem ipsum"), "test");
         } catch (UnauthorizedAccessException | CategoryNotFoundException | DataAlreadyPutException e) {
             throw new TestException(testName);
         }
@@ -107,10 +107,10 @@ public class IteratorTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             throw new TestException(testName);
         }
 
-        MyData dato1 = new MyData(1);
-        MyData dato2 = new MyData(2);
-        MyData dato3 = new MyData(3);
-        MyData dato4 = new MyData(4);
+        MyData dato1 = new MyData(1, "Lorem ipsum");
+        MyData dato2 = new MyData(2, "dolor sit amet");
+        MyData dato3 = new MyData(3, "consectetur adipisci elit");
+        MyData dato4 = new MyData(4, "sed do eiusmod tempor incidunt ut labore et dolore magna aliqua");
 
         try {
             this.dataBoard.put(this.password, dato1, "test2");
@@ -280,14 +280,14 @@ public class IteratorTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             throw new TestException(testName);
         }
 
-        Data data1 = new MyData(1);
-        Data data2 = new MyData(2);
-        Data data3 = new MyData(3);
-        Data data4 = new MyData(4);
-        Data data5 = new MyData(5);
-        Data data6 = new MyData(6);
-        Data data7 = new MyData(7);
-        Data data8 = new MyData(8);
+        MyData data1 = new MyData(1, "Lorem ipsum");
+        MyData data2 = new MyData(2, "dolor sit amet");
+        MyData data3 = new MyData(3, "consectetur adipisci elit");
+        MyData data4 = new MyData(4, "sed do eiusmod tempor incidunt ut labore et dolore magna aliqua");
+        MyData data5 = new MyData(5, "Ut enim ad minim veniam");
+        MyData data6 = new MyData(6, "quis nostrum exercitationem ullamco laboriosam");
+        MyData data7 = new MyData(7, "nisi ut aliquid ex ea commodi consequatur");
+        MyData data8 = new MyData(8, "Excepteur sint obcaecat cupiditat non proident");
 
         try {
             this.dataBoard.put(this.password, data1, "category_a");

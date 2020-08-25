@@ -24,7 +24,7 @@ public class MyDataBoardTreeSet<E extends Data> implements DataBoard<E> {
     }
     /*
      * EFFECTS: inizializza this a tree set vuoto
-     * e inizializza l'owner con lo user passato come argomento
+     *          e inizializza l'owner con lo user passato come argomento
      */
 
     @Override

@@ -39,7 +39,7 @@ public class MyDataBoardArrayList<E extends Data> implements DataBoard<E> {
     }
     /*
      * EFFECTS: inizializza this ad array vuoto
-     * e inizializza l'owner con lo user passato come argomento
+     *          e inizializza l'owner con lo user passato come argomento
      */
 
     @Override

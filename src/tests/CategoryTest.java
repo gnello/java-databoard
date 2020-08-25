@@ -209,7 +209,7 @@ public class CategoryTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
         this.beforeRemove();
 
-        MyData data = new MyData(1);
+        MyData data = new MyData(1, "Lorem ipsum");
 
         try {
             this.dataBoard.put(this.password, data, this.categoryName);

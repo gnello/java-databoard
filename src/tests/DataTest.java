@@ -22,7 +22,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
         super(dataBoard, password);
 
         this.categoryName = "test_category";
-        this.data = new MyData(1);
+        this.data = new MyData(1, "Lorem ipsum");
 
         this.friend = new MyUser("jarvis");
     }
@@ -720,7 +720,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
         this.beforeLike();
 
         try {
-            this.dataBoard.insertLike(this.friend.getName(), new MyData(2020));
+            this.dataBoard.insertLike(this.friend.getName(), new MyData(2020, "Lorem Ipsum"));
         } catch (DataNotFoundException e) {
                 AbstractTest.printSuccess(testName);
 
