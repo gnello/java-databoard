@@ -16,8 +16,8 @@ public class Main {
         MyDataBoardTreeSet<Data> myDataBoardTreeSet = new MyDataBoardTreeSet<>(owner);
 
         // crea un'istanza della suite di test per ogni implementazione di DataBoard
-        DataBoardTest<DataBoard<Data>> dataBoardTestsArrayListImplementation = new DataBoardTest<>(myDataBoardArrayList, password);
-        DataBoardTest<DataBoard<Data>> dataBoardTestsTreeSetImplementation = new DataBoardTest<>(myDataBoardTreeSet, password);
+        DataBoardTestSuite<DataBoard<Data>> dataBoardTestsArrayListImplementation = new DataBoardTestSuite<>(myDataBoardArrayList, password);
+        DataBoardTestSuite<DataBoard<Data>> dataBoardTestsTreeSetImplementation = new DataBoardTestSuite<>(myDataBoardTreeSet, password);
 
         // esegui i test
         System.out.println(ANSI_CYAN + "\nStarting ArrayList implementation tests..." + ANSI_RESET);

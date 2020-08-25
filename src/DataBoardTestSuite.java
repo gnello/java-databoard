@@ -6,11 +6,11 @@ import tests.FriendTest;
 import tests.IteratorTest;
 
 
-public class DataBoardTest<E extends DataBoard<Data>> {
+public class DataBoardTestSuite<E extends DataBoard<Data>> {
     E dataBoard;
     String password;
 
-    public DataBoardTest(E dataBoard, String password) {
+    public DataBoardTestSuite(E dataBoard, String password) {
         this.dataBoard = dataBoard;
         this.password = password;
     }
