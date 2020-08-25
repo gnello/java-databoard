@@ -77,8 +77,8 @@ public class MyCategory<E extends Data> implements Category<E> {
     @Override
     public boolean hasData(E data) throws NullPointerException {
         // verifica se il dato è presente nella lista dei dati della categoria
-        for (E tmp : this.dataList) {
-            if (tmp.equals(data)) {
+        for (E item : this.dataList) {
+            if (item.equals(data)) {
                 return true;
             }
         }
@@ -94,11 +94,11 @@ public class MyCategory<E extends Data> implements Category<E> {
         }
 
         // cerca il dato nella lista dei dati della categoria
-        for (E tmp : this.dataList) {
+        for (E item : this.dataList) {
 
             // se lo trovo lo restituisco
-            if (tmp.equals(data)) {
-                return tmp;
+            if (item.equals(data)) {
+                return (E)item.clone();
             }
         }
 
