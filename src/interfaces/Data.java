@@ -8,7 +8,7 @@ public interface Data extends Cloneable, Comparable<Data> {
      * che consistono in un id, un corpo, una categoria ed un elenco
      * di user che hanno inserito un like
      *
-     * Elemento tipico: <Integer, String, String, {user_1, ..., user_n}>
+     * Elemento tipico: <id, body, category, {user_1, ..., user_n}>
      */
 
     /*
