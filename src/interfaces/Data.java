@@ -4,6 +4,14 @@ import java.util.List;
 
 public interface Data extends Cloneable, Comparable<Data> {
     /*
+     * OVERVIEW: un Data è una quadrupla di elementi che consistono
+     *           in un id, un testo, una categoria e un elenco di user
+     *           che hanno inserito un like al dato
+     *
+     * Elemento tipico: <Integer, String, String, {user_1, ..., user_n}>
+     */
+
+    /*
      * Stampa il dato come stringa
      */
     public void display();
