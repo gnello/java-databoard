@@ -39,7 +39,7 @@ public class MyUser implements User, Cloneable {
         return this.name;
     }
 
-    public MyUser clone() { //TODO: rimuovere?
+    public MyUser clone() {
         return new MyUser(this.name, this.password);
     }
 
