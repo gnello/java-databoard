@@ -58,7 +58,7 @@ public class MyData implements Data {
     /*
      * restituisce una copia del dato
      */
-    public MyData clone() { //TODO: rimuovere e creare un metodo in databoard?
+    public MyData clone() {
             // effettua una copia "a mano"
             MyData cloneData = new MyData(this.getId(), this.body);
 

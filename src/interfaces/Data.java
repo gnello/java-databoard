@@ -31,6 +31,9 @@ public interface Data extends Cloneable, Comparable<Data> {
      * Sovrascrive il metodo clone di Object
      */
     public Data clone();
+    /*
+     * RETURNS: ritorna una deep copy di this
+     */
 
     /*
      * Restituisce gli user che hanno inserito un like al dato
