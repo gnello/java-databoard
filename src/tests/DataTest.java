@@ -605,7 +605,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
         try {
             this.dataBoard.insertLike(this.friend.getName(), this.data);
-        } catch (DataNotFoundException | UnauthorizedAccessException | FriendAlreadyAddedException e) {
+        } catch (UnauthorizedAccessException e) {
             throw new TestException(testName);
         }
 

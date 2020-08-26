@@ -21,7 +21,7 @@ public interface DataBoard<E extends Data> {
     /*
      * REQUIRES: category != null
      * MODIFIES: this
-     * EFFECTS: crea la nuova categoria
+     * EFFECTS: la nuova categoria viene creata in this
      * THROWS: se passwd non è una password valida solleva una UnauthorizedAccessException
      *         se category == null solleva una NullPointerException
      *         se category è già presente in this solleva una CategoryAlreadyExistsException
@@ -35,7 +35,7 @@ public interface DataBoard<E extends Data> {
     /*
      * REQUIRES: category != null
      * MODIFIES: this
-     * EFFECTS: rimuove la categoria
+     * EFFECTS: la categoria e tutti i suoi dati vengono rimossi da this
      * THROWS: se passwd non è una password valida solleva una UnauthorizedAccessException
      *         se category == null solleva una NullPointerException
      *         se category non esiste in this solleva una CategoryNotFoundException
@@ -49,7 +49,7 @@ public interface DataBoard<E extends Data> {
     /*
      * REQUIRES: category != null && friend != null
      * MODIFIES: this
-     * EFFECTS: aggiunge friend a category
+     * EFFECTS: friend viene aggiunto alla categoria
      * THROWS: se category == null || friend == null solleva una NullPointerException
      *         se passwd non è una password valida solleva una UnauthorizedAccessException
      *         se category non esiste in this solleva una CategoryNotFoundException
@@ -65,7 +65,7 @@ public interface DataBoard<E extends Data> {
     /*
      * REQUIRES: category != null && friend != null
      * MODIFIES: this
-     * EFFECTS: rimuove friend da category
+     * EFFECTS: friend viene rimosso dalla categoria
      * THROWS: se category == null || friend == null solleva una NullPointerException
      *         se passwd non è una password valida solleva una UnauthorizedAccessException
      *         se category non esiste in this solleva una CategoryNotFoundException
@@ -80,7 +80,7 @@ public interface DataBoard<E extends Data> {
     /*
      * REQUIRES: data != null && category != null
      * MODIFIES: this
-     * EFFECTS: inserisce una deep copy di dato in this
+     * EFFECTS: data viene inserito in this nella categoria indicata
      * RETURNS: restituisce true se il dato è stato inserito, false altrimenti
      * THROWS: se data == null || category == null solleva una NullPointerException
      *         se passwd non è una password valida solleva una UnauthorizedAccessException
@@ -109,7 +109,7 @@ public interface DataBoard<E extends Data> {
     /*
      * REQUIRES: data != null
      * MODIFIES: this
-     * EFFECTS: rimuove il dato da this
+     * EFFECTS: data viene rimosso da this
      * RETURNS: restituisce una deep copy del dato rimosso
      * THROWS: se data == null solleva una NullPointerException
      *         se passwd non è una password valida solleva una UnauthorizedAccessException
@@ -136,7 +136,7 @@ public interface DataBoard<E extends Data> {
     /*
      * REQUIRES: data != null
      * MODIFIES: this
-     * EFFECTS: aggiunge un like di friend a data
+     * EFFECTS: un like di friend viene aggiunto a data
      * THROWS: se data == null solleva una NullPointerException
      *         se data non è presente in this solleva una DataNotFoundException
      *         se friend non è autorizzato a leggere data solleva una UnauthorizedAccessException

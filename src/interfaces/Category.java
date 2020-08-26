@@ -17,8 +17,7 @@ public interface Category<E extends Data> {
     /*
      * REQUIRES: user != null
      * MODIFIES: this
-     * EFFECTS: abilita lo user a leggere i dati della
-     *          categoria
+     * EFFECTS: vengono aggiunti i permessi di lettura di user
      * THROWS: se user == null solleva una NullPointerException
      */
 
@@ -29,8 +28,7 @@ public interface Category<E extends Data> {
     /*
      * REQUIRES: user != null
      * MODIFIES: this
-     * EFFECTS: disabilita lo user a leggere i dati della
-     *          categoria
+     * EFFECTS: vengono rimossi i permessi di lettura di user
      * THROWS: se user == null solleva una NullPointerException
      */
 
@@ -50,7 +48,7 @@ public interface Category<E extends Data> {
     /*
      * REQUIRES: data != null
      * MODIFIES: this
-     * EFFECTS: aggiunge data alla categoria
+     * EFFECTS: data è aggiunto a this
      * THROWS: se data == null solleva una NullPointerException
      * RETURNS: restituisce true se data è stato aggiunto alla categoria,
      *          false altrimenti
@@ -73,19 +71,18 @@ public interface Category<E extends Data> {
     public E getData(E data);
     /*
      * REQUIRES: data != null
-     * EFFECTS: restituisce una shallow copy di data
      * THROWS: se data == null solleva una NullPointerException
      *         se data non esiste nella categoria solleva una DataNotFoundException
-     * RETURNS: restituisce data se data appartiene alla categoria
+     * RETURNS: restituisce una shallow copy di data
      */
 
     /*
-     * Restituisce una shallow copy del dato rimosso
+     * Rimuove il dato dalla categoria
      */
     public E removeData(E data);
     /*
      * REQUIRES: data != null
-     * EFFECTS: rimuove data dalla categoria
+     * EFFECTS: data viene rimosso da this
      * THROWS: se data == null solleva una NullPointerException
      *         se data non esiste nella categoria solleva una DataNotFoundException
      * RETURNS: restituisce una shallow copy di data

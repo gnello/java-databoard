@@ -98,7 +98,7 @@ public class MyCategory<E extends Data> implements Category<E> {
 
             // se lo trovo lo restituisco
             if (item.equals(data)) {
-                return (E)item.clone();
+                return item;
             }
         }
 

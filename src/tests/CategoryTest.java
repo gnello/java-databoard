@@ -4,6 +4,7 @@ import exceptions.*;
 import interfaces.Data;
 import interfaces.DataBoard;
 import models.MyData;
+import models.MyUser;
 
 public class CategoryTest<E extends DataBoard<Data>> extends AbstractTest<E> {
     private final String categoryName;

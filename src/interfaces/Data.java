@@ -16,7 +16,7 @@ public interface Data extends Cloneable, Comparable<Data> {
      */
     public void display();
     /*
-     * EFFECTS: stampa una rappresentazione del dato
+     * EFFECTS: viene stampata una rappresentazione di this
      */
 
     /*
@@ -47,7 +47,7 @@ public interface Data extends Cloneable, Comparable<Data> {
     /*
      * REQUIRES: friend != null
      * MODIFIES: this
-     * EFFECTS: aggiunge un like di friend
+     * EFFECTS: un like di friend è aggiunto a this
      * THROWS: se data == null solleva una NullPointerException
      */
 
@@ -58,7 +58,7 @@ public interface Data extends Cloneable, Comparable<Data> {
     /*
      * REQUIRES: category != null
      * MODIFIES: this
-     * EFFECTS: assegna una categoria a this
+     * EFFECTS: viene assegnata la categoria a this
      * THROWS: se category == null solleva una NullPointerException
      */
 

@@ -58,23 +58,19 @@ public class MyData implements Data {
     /*
      * restituisce una copia del dato
      */
-    public MyData clone() {
-        try {
-            // clona
-            return (MyData) super.clone();
-        } catch (CloneNotSupportedException e) {
-            // se il clone non ha successo,
+    public MyData clone() { //TODO: rimuovere e creare un metodo in databoard?
             // effettua una copia "a mano"
             MyData cloneData = new MyData(this.getId(), this.body);
 
-            cloneData.setCategory(this.getCategory());
+            if (this.getCategory() != null) {
+                cloneData.setCategory(this.getCategory());
+            }
 
             for (User item : this.getLikes()) {
                 cloneData.insertLike(item.getName());
             }
 
             return cloneData;
-        }
     }
     /*
      * RETURNS: restituisce una deep copy di this
