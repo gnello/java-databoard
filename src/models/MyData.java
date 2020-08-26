@@ -55,9 +55,7 @@ public class MyData implements Data {
         return this.id;
     }
 
-    /*
-     * restituisce una copia del dato
-     */
+    @Override
     public MyData clone() {
             // effettua una copia "a mano"
             MyData cloneData = new MyData(this.getId(), this.body);

@@ -154,6 +154,7 @@ public class MyDataBoardArrayList<E extends Data> implements DataBoard<E> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public boolean put(String passw, E data, String category) throws UnauthorizedAccessException {
         // validazione
         if (!this.owner.authenticate(passw)) {
@@ -177,7 +178,7 @@ public class MyDataBoardArrayList<E extends Data> implements DataBoard<E> {
         for (Category<E> item : this.categories) {
             if (item.getName().equals(category)) {
                 // aggiungi una deep copy di data alla categoria
-                return item.addData((E) data.clone());
+                return item.addData((E)data.clone());
             }
         }
 
@@ -185,6 +186,7 @@ public class MyDataBoardArrayList<E extends Data> implements DataBoard<E> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public E get(String passw, E data) throws UnauthorizedAccessException {
         // validazione
         if (!this.owner.authenticate(passw)) {
@@ -208,6 +210,7 @@ public class MyDataBoardArrayList<E extends Data> implements DataBoard<E> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public E remove(String passw, E data) throws UnauthorizedAccessException {
         // validazione
         if (!this.owner.authenticate(passw)) {
@@ -231,6 +234,7 @@ public class MyDataBoardArrayList<E extends Data> implements DataBoard<E> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<E> getDataCategory(String passw, String category) throws UnauthorizedAccessException {
         // validazione
         if (!this.owner.authenticate(passw)) {

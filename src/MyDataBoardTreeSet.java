@@ -131,6 +131,7 @@ public class MyDataBoardTreeSet<E extends Data> implements DataBoard<E> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public boolean put(String passw, E data, String category) throws UnauthorizedAccessException {
         // validazione
         if (!this.owner.authenticate(passw)) {
@@ -153,10 +154,11 @@ public class MyDataBoardTreeSet<E extends Data> implements DataBoard<E> {
         data.setCategory(category);
 
         // aggiungi una deep copy di data
-        return this.dataList.add((E) data.clone());
+        return this.dataList.add((E)data.clone());
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public E get(String passw, E data) throws UnauthorizedAccessException {
         // validazione
         if (!this.owner.authenticate(passw)) {
@@ -179,6 +181,7 @@ public class MyDataBoardTreeSet<E extends Data> implements DataBoard<E> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public E remove(String passw, E data) throws UnauthorizedAccessException {
         // validazione
         if (!this.owner.authenticate(passw)) {
@@ -203,6 +206,7 @@ public class MyDataBoardTreeSet<E extends Data> implements DataBoard<E> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<E> getDataCategory(String passw, String category) throws UnauthorizedAccessException {
         // validazione
         if (!this.owner.authenticate(passw)) {

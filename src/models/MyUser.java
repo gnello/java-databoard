@@ -39,6 +39,7 @@ public class MyUser implements User, Cloneable {
         return this.name;
     }
 
+    @Override
     public MyUser clone() {
         return new MyUser(this.name, this.password);
     }
