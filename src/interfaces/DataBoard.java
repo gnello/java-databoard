@@ -17,8 +17,7 @@ public interface DataBoard<E extends Data> {
      * Crea una categoria di dati
      * se vengono rispettati i controlli di identità
      */
-    public void createCategory(String category, String passw) throws UnauthorizedAccessException,
-            CategoryAlreadyExistsException;
+    public void createCategory(String category, String passw) throws UnauthorizedAccessException;
     /*
      * REQUIRES: category != null
      * MODIFIES: this
@@ -32,8 +31,7 @@ public interface DataBoard<E extends Data> {
      * Rimuove una categoria di dati
      * se vengono rispettati i controlli di identità
      */
-    public void removeCategory(String category, String passw) throws UnauthorizedAccessException,
-            CategoryNotFoundException;
+    public void removeCategory(String category, String passw) throws UnauthorizedAccessException;
     /*
      * REQUIRES: category != null
      * MODIFIES: this
@@ -47,8 +45,7 @@ public interface DataBoard<E extends Data> {
      * Aggiunge un amico ad una categoria di dati
      * se vengono rispettati i controlli di identità
      */
-    public void addFriend(String category, String passw, String friend) throws NullPointerException,
-            UnauthorizedAccessException, CategoryNotFoundException, FriendAlreadyAddedException;
+    public void addFriend(String category, String passw, String friend) throws UnauthorizedAccessException;
     /*
      * REQUIRES: category != null && friend != null
      * MODIFIES: this
@@ -63,8 +60,8 @@ public interface DataBoard<E extends Data> {
      * rimuove un amico da una categoria di dati
      * se vengono rispettati i controlli di identità
      */
-    public void removeFriend(String category, String passw, String friend) throws NullPointerException,
-            UnauthorizedAccessException, CategoryNotFoundException, UserNotFoundException;
+    public void removeFriend(String category, String passw, String friend) throws UnauthorizedAccessException,
+            UserNotFoundException;
     /*
      * REQUIRES: category != null && friend != null
      * MODIFIES: this
@@ -79,8 +76,7 @@ public interface DataBoard<E extends Data> {
      * Inserisce un dato in bacheca
      * se vengono rispettati i controlli di identità
      */
-    public boolean put(String passw, E data, String category) throws NullPointerException, UnauthorizedAccessException,
-            CategoryNotFoundException, DataAlreadyPutException;
+    public boolean put(String passw, E data, String category) throws UnauthorizedAccessException;
     /*
      * REQUIRES: data != null && category != null
      * MODIFIES: this
@@ -96,8 +92,7 @@ public interface DataBoard<E extends Data> {
      * Restituisce una copia del dato in bacheca
      * se vengono rispettati i controlli di identità
      */
-    public E get(String passw, E data) throws NullPointerException, UnauthorizedAccessException,
-            DataNotFoundException;
+    public E get(String passw, E data) throws UnauthorizedAccessException;
     /*
      * REQUIRES: data != null
      * RETURNS: restituisce una deep copy di dato
@@ -110,8 +105,7 @@ public interface DataBoard<E extends Data> {
      * Rimuove il dato dalla bacheca
      * se vengono rispettati i controlli di identità
      */
-    public E remove(String passw, E data) throws NullPointerException, UnauthorizedAccessException,
-            DataNotFoundException;
+    public E remove(String passw, E data) throws UnauthorizedAccessException;
     /*
      * REQUIRES: data != null
      * MODIFIES: this
@@ -126,8 +120,7 @@ public interface DataBoard<E extends Data> {
      * Crea la lista dei dati in bacheca di una determinata categoria
      * se vengono rispettati i controlli di identità
      */
-    public List<E> getDataCategory(String passw, String category) throws NullPointerException,
-            UnauthorizedAccessException, CategoryNotFoundException;
+    public List<E> getDataCategory(String passw, String category) throws UnauthorizedAccessException;
     /*
      * RETURNS: restituisce la lista dei dati della categoria passata come parametro
      * THROWS: se category == null solleva una NullPointerException
@@ -139,8 +132,7 @@ public interface DataBoard<E extends Data> {
      * Aggiunge un like a un dato
      * se vengono rispettati i controlli di identità
      */
-    public void insertLike(String friend, E data) throws NullPointerException, DataNotFoundException,
-            UnauthorizedAccessException, FriendAlreadyAddedException;
+    public void insertLike(String friend, E data) throws UnauthorizedAccessException;
     /*
      * REQUIRES: data != null
      * MODIFIES: this
@@ -171,7 +163,7 @@ public interface DataBoard<E extends Data> {
     /*
      * RETURNS: restituisce un iteratore (senza remove) che genera tutti i dati presenti
      *          in this condivisi con friend
-     * THROWS: se a friend non è stato aggiunto a nessuna categoria solleva una UserNotFoundException
+     * THROWS: se friend non è stato aggiunto a nessuna categoria solleva una UserNotFoundException
      */
 
     // … altre operazione da definire a scelta
@@ -179,7 +171,7 @@ public interface DataBoard<E extends Data> {
     /*
      * Controlla se la categoria esiste nella bacheca
      */
-    public boolean hasCategory(String category) throws NullPointerException;
+    public boolean hasCategory(String category);
     /*
      * REQUIRES: category != null
      * RETURNS: ritorna true se category esiste in this
@@ -190,7 +182,7 @@ public interface DataBoard<E extends Data> {
     /*
      * Controlla se una categoria è leggibile da uno user
      */
-    public boolean isReadableBy(String category, User user) throws NullPointerException;
+    public boolean isReadableBy(String category, User user);
     /*
      * REQUIRES: category != null
      * RETURNS: ritorna true se la categoria è accessibile in
@@ -201,7 +193,7 @@ public interface DataBoard<E extends Data> {
     /*
      * Controlla se il dato è già stato inserito in this
      */
-    public boolean hasData(E data) throws NullPointerException;
+    public boolean hasData(E data);
     /*
      * REQUIRES: data != null
      * RETURNS: ritorna true se data è già stato inserito in this
@@ -212,7 +204,7 @@ public interface DataBoard<E extends Data> {
     /*
      * Restituisce gli user che hanno inserito un like al dato
      */
-    public List<User> getLikes(E data) throws NullPointerException, DataNotFoundException;
+    public List<User> getLikes(E data);
     /*
      * REQUIRES: data != null
      * RETURNS: ritorna la lista degli user che hanno inserito un like al dato

@@ -1,4 +1,4 @@
 package exceptions;
 
-public class FriendAlreadyAddedException extends Exception {
+public class FriendAlreadyAddedException extends RuntimeException {
 }

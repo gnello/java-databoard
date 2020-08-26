@@ -1,4 +1,4 @@
 package exceptions;
 
-public class CategoryAlreadyExistsException extends Exception {
+public class CategoryAlreadyExistsException extends RuntimeException {
 }

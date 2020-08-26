@@ -43,7 +43,7 @@ public interface Data extends Cloneable, Comparable<Data> {
     /*
      * Aggiunge un like di friend
      */
-    public void insertLike(String friend) throws NullPointerException;
+    public void insertLike(String friend);
     /*
      * REQUIRES: friend != null
      * MODIFIES: this
@@ -54,7 +54,7 @@ public interface Data extends Cloneable, Comparable<Data> {
     /*
      * Assegna una categoria
      */
-    public void setCategory(String category) throws NullPointerException;
+    public void setCategory(String category);
     /*
      * REQUIRES: category != null
      * MODIFIES: this

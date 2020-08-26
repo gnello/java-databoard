@@ -29,7 +29,7 @@ public class MyCategory<E extends Data> implements Category<E> {
     }
 
     @Override
-    public void allowRead(User user) throws NullPointerException {
+    public void allowRead(User user) {
         // validazione
         if (user == null) {
             throw new NullPointerException();
@@ -40,7 +40,7 @@ public class MyCategory<E extends Data> implements Category<E> {
     }
 
     @Override
-    public void denyRead(User user) throws NullPointerException {
+    public void denyRead(User user) {
         // validazione
         if (user == null) {
             throw new NullPointerException();
@@ -75,7 +75,7 @@ public class MyCategory<E extends Data> implements Category<E> {
     }
 
     @Override
-    public boolean hasData(E data) throws NullPointerException {
+    public boolean hasData(E data) {
         // verifica se il dato è presente nella lista dei dati della categoria
         for (E item : this.dataList) {
             if (item.equals(data)) {
@@ -87,7 +87,7 @@ public class MyCategory<E extends Data> implements Category<E> {
     }
 
     @Override
-    public E getData(E data) throws NullPointerException, DataNotFoundException {
+    public E getData(E data) {
         // validazione
         if (data == null) {
             throw new NullPointerException();
@@ -107,7 +107,7 @@ public class MyCategory<E extends Data> implements Category<E> {
     }
 
     @Override
-    public E removeData(E data) throws NullPointerException, DataNotFoundException {
+    public E removeData(E data) {
         // validazione
         if (data == null) {
             throw new NullPointerException();

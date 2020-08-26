@@ -43,8 +43,7 @@ public class MyDataBoardArrayList<E extends Data> implements DataBoard<E> {
      */
 
     @Override
-    public void createCategory(String category, String passw) throws UnauthorizedAccessException,
-            CategoryAlreadyExistsException {
+    public void createCategory(String category, String passw) throws UnauthorizedAccessException {
         // validazione
         if (!this.owner.authenticate(passw)) {
             throw new UnauthorizedAccessException();
@@ -63,8 +62,7 @@ public class MyDataBoardArrayList<E extends Data> implements DataBoard<E> {
     }
 
     @Override
-    public void removeCategory(String category, String passw) throws UnauthorizedAccessException,
-            CategoryNotFoundException {
+    public void removeCategory(String category, String passw) throws UnauthorizedAccessException {
         // validazione
         if (!this.owner.authenticate(passw)) {
             throw new UnauthorizedAccessException();
@@ -83,8 +81,7 @@ public class MyDataBoardArrayList<E extends Data> implements DataBoard<E> {
     }
 
     @Override
-    public void addFriend(String category, String passw, String friend) throws NullPointerException,
-            UnauthorizedAccessException, CategoryNotFoundException, FriendAlreadyAddedException {
+    public void addFriend(String category, String passw, String friend) throws UnauthorizedAccessException {
         // validazione
         if (!this.owner.authenticate(passw)) {
             throw new UnauthorizedAccessException();
@@ -119,8 +116,8 @@ public class MyDataBoardArrayList<E extends Data> implements DataBoard<E> {
     }
 
     @Override
-    public void removeFriend(String category, String passw, String friend) throws NullPointerException,
-            UnauthorizedAccessException, CategoryNotFoundException, UserNotFoundException {
+    public void removeFriend(String category, String passw, String friend) throws UnauthorizedAccessException,
+            UserNotFoundException {
         // validazione
         if (!this.owner.authenticate(passw)) {
             throw new UnauthorizedAccessException();
@@ -157,8 +154,7 @@ public class MyDataBoardArrayList<E extends Data> implements DataBoard<E> {
     }
 
     @Override
-    public boolean put(String passw, E data, String category) throws NullPointerException, UnauthorizedAccessException,
-            CategoryNotFoundException, DataAlreadyPutException {
+    public boolean put(String passw, E data, String category) throws UnauthorizedAccessException {
         // validazione
         if (!this.owner.authenticate(passw)) {
             throw new UnauthorizedAccessException();
@@ -189,8 +185,7 @@ public class MyDataBoardArrayList<E extends Data> implements DataBoard<E> {
     }
 
     @Override
-    public E get(String passw, E data) throws NullPointerException, UnauthorizedAccessException,
-            DataNotFoundException {
+    public E get(String passw, E data) throws UnauthorizedAccessException {
         // validazione
         if (!this.owner.authenticate(passw)) {
             throw new UnauthorizedAccessException();
@@ -213,8 +208,7 @@ public class MyDataBoardArrayList<E extends Data> implements DataBoard<E> {
     }
 
     @Override
-    public E remove(String passw, E data) throws NullPointerException, UnauthorizedAccessException,
-            DataNotFoundException {
+    public E remove(String passw, E data) throws UnauthorizedAccessException {
         // validazione
         if (!this.owner.authenticate(passw)) {
             throw new UnauthorizedAccessException();
@@ -237,8 +231,7 @@ public class MyDataBoardArrayList<E extends Data> implements DataBoard<E> {
     }
 
     @Override
-    public List<E> getDataCategory(String passw, String category) throws NullPointerException,
-            UnauthorizedAccessException, CategoryNotFoundException {
+    public List<E> getDataCategory(String passw, String category) throws UnauthorizedAccessException {
         // validazione
         if (!this.owner.authenticate(passw)) {
             throw new UnauthorizedAccessException();
@@ -266,8 +259,7 @@ public class MyDataBoardArrayList<E extends Data> implements DataBoard<E> {
     }
 
     @Override
-    public void insertLike(String friend, E data) throws NullPointerException, DataNotFoundException,
-            UnauthorizedAccessException, FriendAlreadyAddedException {
+    public void insertLike(String friend, E data) throws UnauthorizedAccessException {
         // validazione
         if (data == null) {
             throw new NullPointerException();
@@ -363,7 +355,7 @@ public class MyDataBoardArrayList<E extends Data> implements DataBoard<E> {
     }
 
     @Override
-    public boolean hasCategory(String category) throws NullPointerException {
+    public boolean hasCategory(String category) {
         //validazione
         if (category == null) {
             throw new NullPointerException();
@@ -380,7 +372,7 @@ public class MyDataBoardArrayList<E extends Data> implements DataBoard<E> {
     }
 
     @Override
-    public boolean isReadableBy(String category, User user) throws NullPointerException {
+    public boolean isReadableBy(String category, User user) {
         // trova la categoria
         for (Category<E> item : this.categories) {
             if (item.getName().equals(category)) {
@@ -394,7 +386,7 @@ public class MyDataBoardArrayList<E extends Data> implements DataBoard<E> {
     }
 
     @Override
-    public boolean hasData(E data) throws NullPointerException {
+    public boolean hasData(E data) {
         //validazione
         if (data == null) {
             throw new NullPointerException();
@@ -413,7 +405,7 @@ public class MyDataBoardArrayList<E extends Data> implements DataBoard<E> {
     }
 
     @Override
-    public List<User> getLikes(E data) throws NullPointerException, DataNotFoundException {
+    public List<User> getLikes(E data) {
         //validazione
         if (data == null) {
             throw new NullPointerException();

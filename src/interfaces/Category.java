@@ -13,7 +13,7 @@ public interface Category<E extends Data> {
     /*
      * Abilita uno user alla lettura
      */
-    public void allowRead(User user) throws NullPointerException;
+    public void allowRead(User user);
     /*
      * REQUIRES: user != null
      * MODIFIES: this
@@ -25,7 +25,7 @@ public interface Category<E extends Data> {
     /*
      * Disabilita uno user alla lettura
      */
-    public void denyRead(User user) throws NullPointerException;
+    public void denyRead(User user);
     /*
      * REQUIRES: user != null
      * MODIFIES: this
@@ -46,7 +46,7 @@ public interface Category<E extends Data> {
     /*
      * Aggiunge un dato alla categoria
      */
-    public boolean addData(E data) throws NullPointerException;
+    public boolean addData(E data);
     /*
      * REQUIRES: data != null
      * MODIFIES: this
@@ -59,7 +59,7 @@ public interface Category<E extends Data> {
     /*
      * Controlla il dato esiste nella categoria
      */
-    public boolean hasData(E data) throws NullPointerException;
+    public boolean hasData(E data);
     /*
      * REQUIRES: data != null
      * THROWS: se data == null solleva una NullPointerException
@@ -70,7 +70,7 @@ public interface Category<E extends Data> {
     /*
      * Restituisce una shallow copy del dato se esiste nella categoria
      */
-    public E getData(E data) throws NullPointerException, DataNotFoundException;
+    public E getData(E data);
     /*
      * REQUIRES: data != null
      * EFFECTS: restituisce una shallow copy di data
@@ -82,7 +82,7 @@ public interface Category<E extends Data> {
     /*
      * Restituisce una shallow copy del dato rimosso
      */
-    public E removeData(E data) throws NullPointerException, DataNotFoundException;
+    public E removeData(E data);
     /*
      * REQUIRES: data != null
      * EFFECTS: rimuove data dalla categoria

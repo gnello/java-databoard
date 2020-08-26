@@ -95,7 +95,7 @@ public class MyData implements Data {
     }
 
     @Override
-    public void insertLike(String friend) throws NullPointerException {
+    public void insertLike(String friend) {
         // validazione
         if (friend == null) {
             throw new NullPointerException();
@@ -107,7 +107,7 @@ public class MyData implements Data {
     }
 
     @Override
-    public void setCategory(String category) throws NullPointerException {
+    public void setCategory(String category) {
         // validazione
         if (category == null) {
             throw new NullPointerException();

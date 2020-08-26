@@ -25,19 +25,19 @@ public class IteratorTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
         try {
             this.dataBoard.createCategory("test", this.password);
-        } catch (UnauthorizedAccessException | CategoryAlreadyExistsException e) {
+        } catch (UnauthorizedAccessException e) {
             throw new TestException(testName);
         }
 
         try {
             this.dataBoard.addFriend("test", this.password, this.friend.getName());
-        } catch (UnauthorizedAccessException | CategoryNotFoundException | FriendAlreadyAddedException e) {
+        } catch (UnauthorizedAccessException e) {
             throw new TestException(testName);
         }
 
         try {
             this.dataBoard.put(this.password, new MyData(1, "Lorem ipsum"), "test");
-        } catch (UnauthorizedAccessException | CategoryNotFoundException | DataAlreadyPutException e) {
+        } catch (UnauthorizedAccessException e) {
             throw new TestException(testName);
         }
     }
@@ -47,7 +47,7 @@ public class IteratorTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
         try {
             this.dataBoard.removeCategory("test", this.password);
-        } catch (UnauthorizedAccessException | CategoryNotFoundException e) {
+        } catch (UnauthorizedAccessException e) {
             throw new TestException(testName);
         }
     }
@@ -94,7 +94,7 @@ public class IteratorTest<E extends DataBoard<Data>> extends AbstractTest<E> {
         try {
             this.dataBoard.createCategory("test1", this.password);
             this.dataBoard.createCategory("test2", this.password);
-        } catch (UnauthorizedAccessException | CategoryAlreadyExistsException e) {
+        } catch (UnauthorizedAccessException e) {
             throw new TestException(testName);
         }
 
@@ -103,7 +103,7 @@ public class IteratorTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             this.dataBoard.addFriend("test2", this.password, "luca");
             this.dataBoard.addFriend("test1", this.password, "matteo");
             this.dataBoard.addFriend("test1", this.password, "gabriele");
-        } catch (UnauthorizedAccessException | CategoryNotFoundException | FriendAlreadyAddedException e) {
+        } catch (UnauthorizedAccessException e) {
             throw new TestException(testName);
         }
 
@@ -117,7 +117,7 @@ public class IteratorTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             this.dataBoard.put(this.password, dato2, "test1");
             this.dataBoard.put(this.password, dato3, "test1");
             this.dataBoard.put(this.password, dato4, "test1");
-        } catch (UnauthorizedAccessException | CategoryNotFoundException | DataAlreadyPutException e) {
+        } catch (UnauthorizedAccessException e) {
             throw new TestException(testName);
         }
 
@@ -132,7 +132,7 @@ public class IteratorTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             this.dataBoard.insertLike("matteo", dato3);
             this.dataBoard.insertLike("gabriele", dato3);
 
-        } catch (UnauthorizedAccessException | DataNotFoundException | FriendAlreadyAddedException e) {
+        } catch (UnauthorizedAccessException e) {
             throw new TestException(testName);
         }
 
@@ -149,7 +149,7 @@ public class IteratorTest<E extends DataBoard<Data>> extends AbstractTest<E> {
                 try {
                     this.dataBoard.removeCategory("test1", this.password);
                     this.dataBoard.removeCategory("test2", this.password);
-                } catch (UnauthorizedAccessException | CategoryNotFoundException e) {
+                } catch (UnauthorizedAccessException e) {
                     throw new TestException(testName);
                 }
 
@@ -269,14 +269,14 @@ public class IteratorTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             this.dataBoard.createCategory("category_a", this.password);
             this.dataBoard.createCategory("category_b", this.password);
             this.dataBoard.createCategory("category_c", this.password);
-        } catch (UnauthorizedAccessException | CategoryAlreadyExistsException e) {
+        } catch (UnauthorizedAccessException e) {
             throw new TestException(testName);
         }
 
         try {
             this.dataBoard.addFriend("category_a", this.password, this.friend.getName());
             this.dataBoard.addFriend("category_b", this.password, this.friend.getName());
-        } catch (UnauthorizedAccessException | CategoryNotFoundException | FriendAlreadyAddedException e) {
+        } catch (UnauthorizedAccessException e) {
             throw new TestException(testName);
         }
 
@@ -298,7 +298,7 @@ public class IteratorTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             this.dataBoard.put(this.password, data6, "category_b");
             this.dataBoard.put(this.password, data7, "category_b");
             this.dataBoard.put(this.password, data8, "category_c");
-        } catch (UnauthorizedAccessException | CategoryNotFoundException | DataAlreadyPutException e) {
+        } catch (UnauthorizedAccessException e) {
             throw new TestException(testName);
         }
 
@@ -334,7 +334,7 @@ public class IteratorTest<E extends DataBoard<Data>> extends AbstractTest<E> {
                 this.dataBoard.removeCategory("category_a", this.password);
                 this.dataBoard.removeCategory("category_b", this.password);
                 this.dataBoard.removeCategory("category_c", this.password);
-            } catch (UnauthorizedAccessException | CategoryNotFoundException e) {
+            } catch (UnauthorizedAccessException e) {
                 throw new TestException(testName);
             }
 
@@ -351,14 +351,14 @@ public class IteratorTest<E extends DataBoard<Data>> extends AbstractTest<E> {
         try {
             this.dataBoard.createCategory("category_a", this.password);
             this.dataBoard.createCategory("category_b", this.password);
-        } catch (UnauthorizedAccessException | CategoryAlreadyExistsException e) {
+        } catch (UnauthorizedAccessException e) {
             throw new TestException(testName);
         }
 
         try {
             this.dataBoard.addFriend("category_a", this.password, this.friend.getName());
             this.dataBoard.addFriend("category_b", this.password, this.friend.getName());
-        } catch (UnauthorizedAccessException | CategoryNotFoundException | FriendAlreadyAddedException e) {
+        } catch (UnauthorizedAccessException e) {
             throw new TestException(testName);
         }
 
@@ -376,7 +376,7 @@ public class IteratorTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             try {
                 this.dataBoard.removeCategory("category_a", this.password);
                 this.dataBoard.removeCategory("category_b", this.password);
-            } catch (UnauthorizedAccessException | CategoryNotFoundException e) {
+            } catch (UnauthorizedAccessException e) {
                 throw new TestException(testName);
             }
 

@@ -1,4 +1,4 @@
 package exceptions;
 
-public class DataAlreadyPutException extends Exception {
+public class DataAlreadyPutException extends RuntimeException {
 }

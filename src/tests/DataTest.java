@@ -33,7 +33,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
         try {
             this.dataBoard.createCategory(this.categoryName, this.password);
-        } catch (UnauthorizedAccessException | CategoryAlreadyExistsException e) {
+        } catch (UnauthorizedAccessException e) {
             throw new TestException(testName);
         }
     }
@@ -51,7 +51,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
                 throw new TestException(testName);
             }
 
-        } catch (UnauthorizedAccessException | CategoryNotFoundException | DataAlreadyPutException e) {
+        } catch (UnauthorizedAccessException e) {
             throw new TestException(testName);
         }
     }
@@ -64,7 +64,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
         try {
             this.dataBoard.addFriend(this.categoryName, this.password, this.friend.getName());
-        } catch (UnauthorizedAccessException | CategoryNotFoundException | FriendAlreadyAddedException e) {
+        } catch (UnauthorizedAccessException e) {
             throw new TestException(testName);
         }
     }
@@ -75,7 +75,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
         if (this.dataBoard.hasCategory(this.categoryName)) {
             try {
                 this.dataBoard.removeCategory(this.categoryName, this.password);
-            } catch (UnauthorizedAccessException | CategoryNotFoundException e) {
+            } catch (UnauthorizedAccessException e) {
                 throw new TestException(methodName, "Can't remove category \"" + this.categoryName + "\".");
             }
         }
@@ -102,7 +102,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
             this.afterAll();
 
-        } catch (UnauthorizedAccessException | CategoryNotFoundException | DataAlreadyPutException e) {
+        } catch (UnauthorizedAccessException e) {
             throw new TestException(testName);
         }
     }
@@ -125,8 +125,6 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             this.afterAll();
 
             return;
-        } catch (CategoryNotFoundException | DataAlreadyPutException e) {
-            throw new TestException(testName);
         }
 
         throw new TestException(testName, "The given password it's not valid but a data was put.");
@@ -150,7 +148,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             this.afterAll();
 
             return;
-        } catch (UnauthorizedAccessException | CategoryNotFoundException | DataAlreadyPutException e) {
+        } catch (UnauthorizedAccessException e) {
             throw new TestException(testName);
         }
 
@@ -175,7 +173,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             this.afterAll();
 
             return;
-        } catch (UnauthorizedAccessException | CategoryNotFoundException | DataAlreadyPutException e) {
+        } catch (UnauthorizedAccessException e) {
             throw new TestException(testName);
         }
 
@@ -200,7 +198,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             this.afterAll();
 
             return;
-        } catch (UnauthorizedAccessException | DataAlreadyPutException e) {
+        } catch (UnauthorizedAccessException e) {
             throw new TestException(testName);
         }
 
@@ -219,7 +217,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
         try {
             this.dataBoard.createCategory(this.categoryName + "2", this.password);
-        } catch (UnauthorizedAccessException | CategoryAlreadyExistsException e) {
+        } catch (UnauthorizedAccessException e) {
             throw new TestException(testName);
         }
 
@@ -232,7 +230,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             this.afterAll();
 
             return;
-        } catch (UnauthorizedAccessException | CategoryNotFoundException e) {
+        } catch (UnauthorizedAccessException e) {
             throw new TestException(testName);
         }
 
@@ -252,7 +250,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
         Data data;
         try {
             data = this.dataBoard.get(this.password, this.data);
-        } catch (UnauthorizedAccessException | DataNotFoundException e) {
+        } catch (UnauthorizedAccessException e) {
             throw new TestException(testName);
         }
 
@@ -280,7 +278,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
         Data data;
         try {
             data = this.dataBoard.get(this.password, this.data);
-        } catch (UnauthorizedAccessException | DataNotFoundException e) {
+        } catch (UnauthorizedAccessException e) {
             throw new TestException(testName);
         }
 
@@ -311,8 +309,6 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             this.afterAll();
 
             return;
-        } catch (DataNotFoundException e) {
-            throw new TestException(testName);
         }
 
         throw new TestException(testName, "The given password it's not valid but a data was get.");
@@ -336,7 +332,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             this.afterAll();
 
             return;
-        } catch (UnauthorizedAccessException | DataNotFoundException e) {
+        } catch (UnauthorizedAccessException e) {
             throw new TestException(testName);
         }
 
@@ -380,7 +376,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
         try {
             this.dataBoard.remove(this.password, this.data);
-        } catch (UnauthorizedAccessException | DataNotFoundException e) {
+        } catch (UnauthorizedAccessException e) {
             throw new TestException(testName);
         }
 
@@ -413,8 +409,6 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             this.afterAll();
 
             return;
-        } catch (DataNotFoundException e) {
-            throw new TestException(testName);
         }
 
         throw new TestException(testName, "The given password it's not valid but the data was removed.");
@@ -438,7 +432,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             this.afterAll();
 
             return;
-        } catch (UnauthorizedAccessException | DataNotFoundException e) {
+        } catch (UnauthorizedAccessException e) {
             throw new TestException(testName);
         }
 
@@ -491,7 +485,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
                 return;
             }
-        } catch (UnauthorizedAccessException | DataNotFoundException e) {
+        } catch (UnauthorizedAccessException e) {
             throw new TestException(testName);
         }
 
@@ -519,7 +513,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
                 return;
             }
-        } catch (UnauthorizedAccessException | CategoryNotFoundException e) {
+        } catch (UnauthorizedAccessException e) {
             throw new TestException(testName);
         }
 
@@ -544,8 +538,6 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             this.afterAll();
 
             return;
-        } catch (CategoryNotFoundException e) {
-            throw new TestException(testName);
         }
 
         throw new TestException(testName, "The given password it's not valid but the data list was got.");
@@ -569,7 +561,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             this.afterAll();
 
             return;
-        } catch (UnauthorizedAccessException | CategoryNotFoundException e) {
+        } catch (UnauthorizedAccessException e) {
             throw new TestException(testName);
         }
 
@@ -655,8 +647,6 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
                 this.afterAll();
 
                 return;
-        } catch (DataNotFoundException | FriendAlreadyAddedException e) {
-            throw new TestException(testName);
         }
 
         throw new TestException(testName, "The given user has not access to data but can insert a like.");
@@ -706,7 +696,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
                 this.afterAll();
 
                 return;
-        } catch (DataNotFoundException | UnauthorizedAccessException | FriendAlreadyAddedException e) {
+        } catch (UnauthorizedAccessException e) {
             throw new TestException(testName);
         }
 
@@ -727,7 +717,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
                 this.afterAll();
 
                 return;
-        } catch (UnauthorizedAccessException | FriendAlreadyAddedException e) {
+        } catch (UnauthorizedAccessException e) {
             throw new TestException(testName);
         }
 

@@ -26,7 +26,7 @@ public class FriendTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
         try {
             this.dataBoard.createCategory(this.categoryName, this.password);
-        } catch (UnauthorizedAccessException | CategoryAlreadyExistsException e) {
+        } catch (UnauthorizedAccessException e) {
             throw new TestException(testName);
         }
     }
@@ -39,8 +39,7 @@ public class FriendTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
         try {
             this.dataBoard.addFriend(this.categoryName, this.password, this.friend.getName());
-        } catch (CategoryNotFoundException | UnauthorizedAccessException
-                | FriendAlreadyAddedException e) {
+        } catch (UnauthorizedAccessException e) {
             throw new TestException(testName);
         }
     }
@@ -51,7 +50,7 @@ public class FriendTest<E extends DataBoard<Data>> extends AbstractTest<E> {
         if (this.dataBoard.hasCategory(this.categoryName)) {
             try {
                 this.dataBoard.removeCategory(this.categoryName, this.password);
-            } catch (UnauthorizedAccessException | CategoryNotFoundException e) {
+            } catch (UnauthorizedAccessException e) {
                 throw new TestException(methodName, "Can't remove category \"" + this.categoryName + "\".");
             }
         }
@@ -70,8 +69,7 @@ public class FriendTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
         try {
             this.dataBoard.addFriend(this.categoryName, this.password, this.friend.getName());
-        } catch (UnauthorizedAccessException | CategoryNotFoundException
-                | FriendAlreadyAddedException e) {
+        } catch (UnauthorizedAccessException e) {
             throw new TestException(testName);
         }
 
@@ -103,8 +101,6 @@ public class FriendTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             this.afterAll();
 
             return;
-        } catch (CategoryNotFoundException | FriendAlreadyAddedException e) {
-            throw new TestException(testName);
         }
 
         throw new TestException(testName, "The given password it's not valid but a friend was added to a category.");
@@ -129,7 +125,7 @@ public class FriendTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             this.afterAll();
 
             return;
-        } catch (UnauthorizedAccessException | CategoryNotFoundException | FriendAlreadyAddedException e) {
+        } catch (UnauthorizedAccessException e) {
             throw new TestException(testName);
         }
 
@@ -155,7 +151,7 @@ public class FriendTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             this.afterAll();
 
             return;
-        } catch (CategoryNotFoundException | UnauthorizedAccessException | FriendAlreadyAddedException e) {
+        } catch (UnauthorizedAccessException e) {
             throw new TestException(testName);
         }
 
@@ -176,7 +172,7 @@ public class FriendTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             this.afterAll();
 
             return;
-        } catch (UnauthorizedAccessException | FriendAlreadyAddedException e) {
+        } catch (UnauthorizedAccessException e) {
             throw new TestException(testName);
         }
 
@@ -198,7 +194,7 @@ public class FriendTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             this.afterAll();
 
             return;
-        } catch (UnauthorizedAccessException | CategoryNotFoundException e) {
+        } catch (UnauthorizedAccessException e) {
             throw new TestException(testName);
         }
 
@@ -218,7 +214,7 @@ public class FriendTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
         try {
             this.dataBoard.removeFriend(this.categoryName, this.password, this.friend.getName());
-        } catch (UnauthorizedAccessException | CategoryNotFoundException | UserNotFoundException e) {
+        } catch (UnauthorizedAccessException | UserNotFoundException e) {
             throw new TestException(testName);
         }
 
@@ -250,7 +246,7 @@ public class FriendTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             this.afterAll();
 
             return;
-        } catch (CategoryNotFoundException | UserNotFoundException e) {
+        } catch (UserNotFoundException e) {
             throw new TestException(testName);
         }
 
@@ -276,7 +272,7 @@ public class FriendTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             this.afterAll();
 
             return;
-        } catch (UnauthorizedAccessException | CategoryNotFoundException | UserNotFoundException e) {
+        } catch (UnauthorizedAccessException | UserNotFoundException e) {
             throw new TestException(testName);
         }
 
@@ -302,7 +298,7 @@ public class FriendTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             this.afterAll();
 
             return;
-        } catch (UnauthorizedAccessException | CategoryNotFoundException | UserNotFoundException e) {
+        } catch (UnauthorizedAccessException | UserNotFoundException e) {
             throw new TestException(testName);
         }
 
@@ -342,7 +338,7 @@ public class FriendTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             this.afterAll();
 
             return;
-        } catch (UnauthorizedAccessException | CategoryNotFoundException e) {
+        } catch (UnauthorizedAccessException e) {
             throw new TestException(testName);
         }
 
