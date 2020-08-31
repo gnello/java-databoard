@@ -342,6 +342,10 @@ public class MyDataBoardTreeSet<E extends Data> implements DataBoard<E> {
 
     @Override
     public boolean isReadableBy(String category, User user) {
+        if (!this.hasCategory(category)) {
+            throw new CategoryNotFoundException();
+        }
+
         // scorri gli user di category
         // per vedere se user è presente
         for (User item : this.categories.get(category)) {

@@ -4,7 +4,6 @@ import exceptions.*;
 import interfaces.Data;
 import interfaces.DataBoard;
 import models.MyData;
-import models.MyUser;
 
 public class CategoryTest<E extends DataBoard<Data>> extends AbstractTest<E> {
     private final String categoryName;
@@ -17,6 +16,8 @@ public class CategoryTest<E extends DataBoard<Data>> extends AbstractTest<E> {
         this.categoryName = "test_category";
     }
 
+    // questo metodo è chiamato prima di ogni
+    // test e crea una categoria di default
     private void beforeRemove() {
         String methodName = AbstractTest.getCurrentMethodName();
 
@@ -29,6 +30,9 @@ public class CategoryTest<E extends DataBoard<Data>> extends AbstractTest<E> {
         }
     }
 
+    // questo metodo è chiamato dopo ogni test
+    // ed elimina la categoria creata di default
+    // (resetta lo stato dell'esecuzione)
     private void afterAll() {
         String methodName = AbstractTest.getCurrentMethodName();
 
@@ -45,16 +49,19 @@ public class CategoryTest<E extends DataBoard<Data>> extends AbstractTest<E> {
     {
         String testName = AbstractTest.getCurrentMethodName();
 
+        // la categoria non deve essere presente
         if (this.dataBoard.hasCategory(this.categoryName)) {
             throw new TestException(testName);
         }
 
+        // crea la categoria
         try {
             this.dataBoard.createCategory(this.categoryName, this.password);
         } catch (UnauthorizedAccessException e) {
             throw new TestException(testName);
         }
 
+        // adesso la categoria deve essere presente
         if (!this.dataBoard.hasCategory(this.categoryName)) {
             throw new TestException(testName, "The category \"" + this.categoryName + "\" doesn't exists after create.");
         }
@@ -68,6 +75,7 @@ public class CategoryTest<E extends DataBoard<Data>> extends AbstractTest<E> {
     {
         String testName = AbstractTest.getCurrentMethodName();
 
+        // prova a creare la categoria con una psw errata
         try {
             this.dataBoard.createCategory(this.categoryName, null);
         } catch (UnauthorizedAccessException e) {
@@ -85,6 +93,7 @@ public class CategoryTest<E extends DataBoard<Data>> extends AbstractTest<E> {
     {
         String testName = AbstractTest.getCurrentMethodName();
 
+        // prova a creare una categoria con name errato
         try {
             this.dataBoard.createCategory(null, this.password);
         } catch (NullPointerException e) {
@@ -104,6 +113,7 @@ public class CategoryTest<E extends DataBoard<Data>> extends AbstractTest<E> {
     {
         String testName = AbstractTest.getCurrentMethodName();
 
+        // prova ad creare 2 volte la stessa categoria
         try {
             this.dataBoard.createCategory(this.categoryName, this.password);
             this.dataBoard.createCategory(this.categoryName, this.password);
@@ -126,12 +136,19 @@ public class CategoryTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
         this.beforeRemove();
 
+        // la categoria deve essere presente
+        if (!this.dataBoard.hasCategory(this.categoryName)) {
+            throw new TestException(testName);
+        }
+
+        // rimuovi la categoria
         try {
             this.dataBoard.removeCategory(this.categoryName, this.password);
         } catch (UnauthorizedAccessException e) {
             throw new TestException(testName);
         }
 
+        // adesso la categoria non deve più essere presente
         if (this.dataBoard.hasCategory(this.categoryName)) {
             throw new TestException(testName, "The category \"" + this.categoryName + "\" still exists after remove.");
         }
@@ -147,6 +164,7 @@ public class CategoryTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
         this.beforeRemove();
 
+        // prova a rimuovere una categoria con una psw errata
         try {
             this.dataBoard.removeCategory(this.categoryName, null);
         } catch (UnauthorizedAccessException e) {
@@ -166,6 +184,7 @@ public class CategoryTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
         this.beforeRemove();
 
+        // prova a rimuovere una categoria con name null
         try {
             this.dataBoard.removeCategory(null, this.password);
         } catch (NullPointerException e) {
@@ -185,6 +204,7 @@ public class CategoryTest<E extends DataBoard<Data>> extends AbstractTest<E> {
     {
         String testName = AbstractTest.getCurrentMethodName();
 
+        // prova a rimuovere una categoria che non esiste
         try {
             this.dataBoard.removeCategory(this.categoryName, this.password);
         } catch (CategoryNotFoundException e) {
@@ -208,18 +228,22 @@ public class CategoryTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
         MyData data = new MyData(1, "Lorem ipsum");
 
+        // inserisce un dato nella categoria
         try {
             this.dataBoard.put(this.password, data, this.categoryName);
         } catch (UnauthorizedAccessException e) {
             throw new TestException(testName);
         }
 
+        // rimuovi la categoria
         try {
             this.dataBoard.removeCategory(this.categoryName, this.password);
         } catch (UnauthorizedAccessException e) {
             throw new TestException(testName);
         }
 
+        // prova a recuperare il dato inserito prima
+        // nella categoria
         try {
             this.dataBoard.get(this.password, data);
         } catch (DataNotFoundException e) {

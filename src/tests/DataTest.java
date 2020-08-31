@@ -27,48 +27,61 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
         this.friend = new MyUser("jarvis");
     }
 
+    // questo metodo è chiamato prima di ogni
+    // test e crea una categoria di default
     private void beforeAll()
     {
-        String testName = AbstractTest.getCurrentMethodName();
+        String methodName = AbstractTest.getCurrentMethodName();
 
         try {
             this.dataBoard.createCategory(this.categoryName, this.password);
         } catch (UnauthorizedAccessException e) {
-            throw new TestException(testName);
+            throw new TestException(methodName);
         }
     }
 
+    // questo metodo, chiamato prima di un test,
+    // crea una categoria di default e vi inserisce
+    // un dato
     private void beforeGetOrRemove()
     {
         this.beforeAll();
 
-        String testName = AbstractTest.getCurrentMethodName();
+        String methodName = AbstractTest.getCurrentMethodName();
 
         try {
             boolean res = this.dataBoard.put(this.password, this.data, this.categoryName);
 
             if (!res) {
-                throw new TestException(testName);
+                throw new TestException(methodName);
             }
 
         } catch (UnauthorizedAccessException e) {
-            throw new TestException(testName);
+            throw new TestException(methodName);
         }
     }
 
+    // questo metodo, chiamato prima di un test,
+    // crea una categoria di default , vi inserisce
+    // un dato e abilita un amico a leggere la categoria
     private void beforeLike()
     {
         this.beforeGetOrRemove();
 
-        String testName = AbstractTest.getCurrentMethodName();
+        String methodName = AbstractTest.getCurrentMethodName();
 
         try {
             this.dataBoard.addFriend(this.categoryName, this.password, this.friend.getName());
         } catch (UnauthorizedAccessException e) {
-            throw new TestException(testName);
+            throw new TestException(methodName);
         }
     }
 
+    // questo metodo è chiamato dopo ogni test
+    // ed elimina la categoria e i dati creati
+    // di default e rimuove gli amici dai permessi
+    // di lettura
+    // (resetta lo stato dell'esecuzione)
     private void afterAll() {
         String methodName = AbstractTest.getCurrentMethodName();
 
@@ -79,6 +92,26 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
                 throw new TestException(methodName, "Can't remove category \"" + this.categoryName + "\".");
             }
         }
+
+        if (this.dataBoard.hasData(this.data)) {
+            try {
+                this.dataBoard.remove(this.password, this.data);
+            } catch (UnauthorizedAccessException e) {
+                throw new TestException(methodName, "Can't remove data \"" + this.data.getId() + "\".");
+            }
+        }
+
+        try {
+            if (this.dataBoard.isReadableBy(this.categoryName, this.friend)) {
+                try {
+                    this.dataBoard.removeFriend(this.categoryName, this.password, this.friend.getName());
+                } catch (UserNotFoundException | UnauthorizedAccessException e) {
+                    throw new TestException(methodName, "Can't remove friend \"" + this.friend.getName() + "\".");
+                }
+            }
+        } catch (CategoryNotFoundException e) {
+            // ignore
+        }
     }
 
     public void we_can_put_a_data_into_a_category_with_a_valid_password()
@@ -87,10 +120,12 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
         this.beforeAll();
 
+        // la categoria deve essere presente
         if (!this.dataBoard.hasCategory(this.categoryName)) {
             throw new TestException(testName);
         }
 
+        // inserisci un dato nella categoria
         try {
             boolean res = this.dataBoard.put(this.password, this.data, this.categoryName);
 
@@ -113,10 +148,12 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
         this.beforeAll();
 
+        // la categoria deve essere presente
         if (!this.dataBoard.hasCategory(this.categoryName)) {
             throw new TestException(testName);
         }
 
+        // prova ad inserire un dato con una psw errata
         try {
             this.dataBoard.put("0000", this.data, this.categoryName);
         } catch (UnauthorizedAccessException e) {
@@ -136,10 +173,12 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
         this.beforeAll();
 
+        // la categoria deve essere presente
         if (!this.dataBoard.hasCategory(this.categoryName)) {
             throw new TestException(testName);
         }
 
+        // prova ad inserire un dato null nella categoria
         try {
             this.dataBoard.put(this.password, null, this.categoryName);
         } catch (NullPointerException e) {
@@ -161,10 +200,12 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
         this.beforeAll();
 
+        // la categoria deve essere presente
         if (!this.dataBoard.hasCategory(this.categoryName)) {
             throw new TestException(testName);
         }
 
+        // prova ad inserire un dato in una categoria null
         try {
             this.dataBoard.put(this.password, this.data, null);
         } catch (NullPointerException e) {
@@ -186,10 +227,12 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
         this.beforeAll();
 
+        // la categoria deve essere presente
         if (!this.dataBoard.hasCategory(this.categoryName)) {
             throw new TestException(testName);
         }
 
+        // prova ad inserire un dato in una categoria che non esiste
         try {
             this.dataBoard.put(this.password, this.data, "not_exists");
         } catch (CategoryNotFoundException e) {
@@ -211,16 +254,19 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
         this.beforeAll();
 
+        // la categoria deve essere presente
         if (!this.dataBoard.hasCategory(this.categoryName)) {
             throw new TestException(testName);
         }
 
+        // crea una seconda categoria
         try {
             this.dataBoard.createCategory(this.categoryName + "2", this.password);
         } catch (UnauthorizedAccessException e) {
             throw new TestException(testName);
         }
 
+        // prova ad inserire lo stesso dato in due categorie diverse
         try {
             this.dataBoard.put(this.password, this.data, this.categoryName);
             this.dataBoard.put(this.password, this.data, this.categoryName + "2");
@@ -243,10 +289,12 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
         this.beforeGetOrRemove();
 
+        // la categoria e il dato devono essere presenti
         if (!this.dataBoard.hasCategory(this.categoryName) || !this.dataBoard.hasData(this.data)) {
             throw new TestException(testName);
         }
 
+        // prendi il dato dalla databoard
         Data data;
         try {
             data = this.dataBoard.get(this.password, this.data);
@@ -254,6 +302,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             throw new TestException(testName);
         }
 
+        // controlla che il dato sia quello atteso
         if (this.data.equals(data)) {
             AbstractTest.printSuccess(testName);
 
@@ -271,10 +320,12 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
         this.beforeGetOrRemove();
 
+        // la categoria e il dato devono essere presenti
         if (!this.dataBoard.hasCategory(this.categoryName) || !this.dataBoard.hasData(this.data)) {
             throw new TestException(testName);
         }
 
+        // prendi il dato dalla databoard
         Data data;
         try {
             data = this.dataBoard.get(this.password, this.data);
@@ -282,6 +333,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             throw new TestException(testName);
         }
 
+        // verifica che il dato non sia una shallow copy
         if (this.data.equals(data) && this.data == data) {
             throw new TestException(testName, "A shallow copy of data was get.");
         }
@@ -297,10 +349,12 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
         this.beforeGetOrRemove();
 
+        // la categoria e il dato devono essere presenti
         if (!this.dataBoard.hasCategory(this.categoryName) || !this.dataBoard.hasData(this.data)) {
             throw new TestException(testName);
         }
 
+        // prova a prendere un dato con una psw errata
         try {
             this.dataBoard.get("0000", this.data);
         } catch (UnauthorizedAccessException e) {
@@ -320,10 +374,12 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
         this.beforeGetOrRemove();
 
+        // la categoria e il dato devono essere presenti
         if (!this.dataBoard.hasCategory(this.categoryName) || !this.dataBoard.hasData(this.data)) {
             throw new TestException(testName);
         }
 
+        // prova a prendere un dato null
         try {
             this.dataBoard.get(this.password, null);
         } catch (NullPointerException e) {
@@ -345,10 +401,12 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
         this.beforeAll();
 
+        // la categoria deve essere presente, il dato non deve essere presente
         if (!this.dataBoard.hasCategory(this.categoryName) || this.dataBoard.hasData(this.data)) {
             throw new TestException(testName);
         }
 
+        // prova a prendere un dato che non esiste
         try {
             this.dataBoard.get(this.password, this.data);
         } catch (DataNotFoundException e) {
@@ -370,16 +428,19 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
         this.beforeGetOrRemove();
 
+        // la categoria e il dato devono essere presenti
         if (!this.dataBoard.hasCategory(this.categoryName) || !this.dataBoard.hasData(this.data)) {
             throw new TestException(testName);
         }
 
+        // rimuovi un dato
         try {
             this.dataBoard.remove(this.password, this.data);
         } catch (UnauthorizedAccessException e) {
             throw new TestException(testName);
         }
 
+        // verifica che siano rimossi anche i dati nella categoria
         if (!this.dataBoard.hasData(this.data)) {
             AbstractTest.printSuccess(testName);
 
@@ -397,10 +458,12 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
         this.beforeGetOrRemove();
 
+        // la categoria e il dato devono essere presenti
         if (!this.dataBoard.hasCategory(this.categoryName) || !this.dataBoard.hasData(this.data)) {
             throw new TestException(testName);
         }
 
+        // prova a rimuovere un dato con una psw errata
         try {
             this.dataBoard.remove("0000", this.data);
         } catch (UnauthorizedAccessException e) {
@@ -420,10 +483,12 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
         this.beforeGetOrRemove();
 
+        // la categoria e il dato devono essere presenti
         if (!this.dataBoard.hasCategory(this.categoryName) || !this.dataBoard.hasData(this.data)) {
             throw new TestException(testName);
         }
 
+        // prova a rimuovere un dato null
         try {
             this.dataBoard.remove(this.password, null);
         } catch (NullPointerException e) {
@@ -445,10 +510,12 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
         this.beforeAll();
 
-        if (!this.dataBoard.hasCategory(this.categoryName)) {
+        // la categoria deve essere presente, il dato non deve essere presente
+        if (!this.dataBoard.hasCategory(this.categoryName) || this.dataBoard.hasData(this.data)) {
             throw new TestException(testName);
         }
 
+        // prova a rimuovere un dato che non esiste
         try {
             this.dataBoard.remove(this.password, this.data);
         } catch (DataNotFoundException e) {
@@ -470,14 +537,17 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
         this.beforeGetOrRemove();
 
+        // la categoria e il dato devono essere presenti
         if (!this.dataBoard.hasCategory(this.categoryName) || !this.dataBoard.hasData(this.data)) {
             throw new TestException(testName);
         }
 
+        // rimuovi il dato
         Data data;
         try {
             data = this.dataBoard.remove(this.password, this.data);
 
+            // verifica che venga restituito il dato atteso
             if (this.data.equals(data)) {
                 AbstractTest.printSuccess(testName);
 
@@ -498,14 +568,17 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
         this.beforeGetOrRemove();
 
+        // la categoria e il dato devono essere presenti
         if (!this.dataBoard.hasCategory(this.categoryName) || !this.dataBoard.hasData(this.data)) {
             throw new TestException(testName);
         }
 
+        // prendi la lista di dati
         List<Data> dataList;
         try {
             dataList = this.dataBoard.getDataCategory(this.password, this.categoryName);
 
+            // verifica che la lista di dati sia quella attesa
             if (dataList.contains(this.data)) {
                 AbstractTest.printSuccess(testName);
 
@@ -526,10 +599,12 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
         this.beforeGetOrRemove();
 
+        // la categoria e il dato devono essere presenti
         if (!this.dataBoard.hasCategory(this.categoryName) || !this.dataBoard.hasData(this.data)) {
             throw new TestException(testName);
         }
 
+        // prova a prendere la lista dei dati con una psw errata
         try {
             this.dataBoard.getDataCategory("0000", this.categoryName);
         } catch (UnauthorizedAccessException e) {
@@ -549,10 +624,12 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
         this.beforeGetOrRemove();
 
+        // la categoria e il dato devono essere presenti
         if (!this.dataBoard.hasCategory(this.categoryName) || !this.dataBoard.hasData(this.data)) {
             throw new TestException(testName);
         }
 
+        // prova a prendere la lista dei dati di una categoria null
         try {
             this.dataBoard.getDataCategory(this.password, null);
         } catch (NullPointerException e) {
@@ -574,10 +651,12 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
         this.beforeGetOrRemove();
 
+        // la categoria e il dato devono essere presenti
         if (!this.dataBoard.hasCategory(this.categoryName) || !this.dataBoard.hasData(this.data)) {
             throw new TestException(testName);
         }
 
+        // prova a prendere la lista dei dati di una categoria che non esiste
         try {
             this.dataBoard.getDataCategory(this.password, "not_exists");
         } catch (CategoryNotFoundException e) {
@@ -599,16 +678,19 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
         this.beforeLike();
 
+        // la categoria e il dato devono essere presenti
         if (!this.dataBoard.hasCategory(this.categoryName) || !this.dataBoard.hasData(this.data)) {
             throw new TestException(testName);
         }
 
+        // inserisci un like
         try {
             this.dataBoard.insertLike(this.friend.getName(), this.data);
         } catch (UnauthorizedAccessException e) {
             throw new TestException(testName);
         }
 
+        // prendi tutti i like
         List<User> list;
         try {
             list = this.dataBoard.getLikes(this.data);
@@ -616,6 +698,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             throw new TestException(testName);
         }
 
+        // verifica che il like inserito sia presente nella lista dei like
         for (User item : list) {
             if (item.equals(this.friend)) {
                 AbstractTest.printSuccess(testName);
@@ -635,10 +718,12 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
         this.beforeLike();
 
+        // la categoria e il dato devono essere presenti
         if (!this.dataBoard.hasCategory(this.categoryName) || !this.dataBoard.hasData(this.data)) {
             throw new TestException(testName);
         }
 
+        // prova ad inserire un like con uno user che non ha i permessi
         try {
             this.dataBoard.insertLike("tony", this.data);
         } catch (UnauthorizedAccessException e) {
@@ -658,10 +743,12 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
         this.beforeLike();
 
+        // la categoria e il dato devono essere presenti
         if (!this.dataBoard.hasCategory(this.categoryName) || !this.dataBoard.hasData(this.data)) {
             throw new TestException(testName);
         }
 
+        // prova ad inserire un like due volte con lo stesso friend sullo stesso dato
         try {
             this.dataBoard.insertLike(this.friend.getName(), this.data);
             this.dataBoard.insertLike(this.friend.getName(), this.data);
@@ -684,10 +771,12 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
         this.beforeLike();
 
+        // la categoria e il dato devono essere presenti
         if (!this.dataBoard.hasCategory(this.categoryName) || !this.dataBoard.hasData(this.data)) {
             throw new TestException(testName);
         }
 
+        // prova ad inserire un like su un dato null
         try {
             this.dataBoard.insertLike(this.friend.getName(), null);
         } catch (NullPointerException e) {
@@ -709,6 +798,7 @@ public class DataTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
         this.beforeLike();
 
+        // prova ad inserire un like su un dato che non esiste
         try {
             this.dataBoard.insertLike(this.friend.getName(), new MyData(2020, "Lorem Ipsum"));
         } catch (DataNotFoundException e) {

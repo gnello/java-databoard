@@ -20,35 +20,64 @@ public class IteratorTest<E extends DataBoard<Data>> extends AbstractTest<E> {
         this.friend = new MyUser("tony");
     }
 
+    // questo metodo è chiamato prima di ogni
+    // test e crea una categoria di default,
+    // aggiunge friend ai permessi di lettura
+    // ed inserisce un dato nella categoria
     private void before() {
-        String testName = AbstractTest.getCurrentMethodName();
+        String methodName = AbstractTest.getCurrentMethodName();
 
         try {
             this.dataBoard.createCategory("test", this.password);
         } catch (UnauthorizedAccessException e) {
-            throw new TestException(testName);
+            throw new TestException(methodName);
         }
 
         try {
             this.dataBoard.addFriend("test", this.password, this.friend.getName());
         } catch (UnauthorizedAccessException e) {
-            throw new TestException(testName);
+            throw new TestException(methodName);
         }
 
         try {
             this.dataBoard.put(this.password, new MyData(1, "Lorem ipsum"), "test");
         } catch (UnauthorizedAccessException e) {
-            throw new TestException(testName);
+            throw new TestException(methodName);
         }
     }
 
+    // questo metodo è chiamato dopo ogni test
+    // ed elimina la categoria, rimuove gli amici
+    // dai permessi di lettura e rimuove il dato
+    // (resetta lo stato dell'esecuzione)
     private void after() {
-        String testName = AbstractTest.getCurrentMethodName();
+        String methodName = AbstractTest.getCurrentMethodName();
 
         try {
             this.dataBoard.removeCategory("test", this.password);
         } catch (UnauthorizedAccessException e) {
-            throw new TestException(testName);
+            throw new TestException(methodName);
+        }
+
+        try {
+            if (this.dataBoard.isReadableBy("test", this.friend)) {
+                try {
+                    this.dataBoard.removeFriend("test", this.password, this.friend.getName());
+                } catch (UserNotFoundException | UnauthorizedAccessException e) {
+                    throw new TestException(methodName, "Can't remove friend \"" + this.friend.getName() + "\".");
+                }
+            }
+        } catch (CategoryNotFoundException e) {
+            // ignore
+        }
+
+        Data data = new MyData(1, "Lorem ipsum");
+        if (this.dataBoard.hasData(data)) {
+            try {
+                this.dataBoard.remove(this.password, data);
+            } catch (UnauthorizedAccessException e) {
+                throw new TestException(methodName, "Can't remove data \"" + this.friend.getName() + "\".");
+            }
         }
     }
 
@@ -56,6 +85,7 @@ public class IteratorTest<E extends DataBoard<Data>> extends AbstractTest<E> {
     {
         String testName = AbstractTest.getCurrentMethodName();
 
+        // prendi un iteratore
         Iterator<Data> iterator;
         try {
             iterator = this.dataBoard.getIterator(this.password);
@@ -63,6 +93,7 @@ public class IteratorTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             throw new TestException(testName);
         }
 
+        // verifica che l'iteratore non sia null
         if (iterator != null) {
             AbstractTest.printSuccess(testName);
 
@@ -76,6 +107,7 @@ public class IteratorTest<E extends DataBoard<Data>> extends AbstractTest<E> {
     {
         String testName = AbstractTest.getCurrentMethodName();
 
+        // prova a prendere un iteratore con psw errata
         try {
             this.dataBoard.getIterator("0000");
         } catch (UnauthorizedAccessException e) {
@@ -91,6 +123,7 @@ public class IteratorTest<E extends DataBoard<Data>> extends AbstractTest<E> {
     {
         String testName = AbstractTest.getCurrentMethodName();
 
+        // crea due categorie di test
         try {
             this.dataBoard.createCategory("test1", this.password);
             this.dataBoard.createCategory("test2", this.password);
@@ -98,6 +131,7 @@ public class IteratorTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             throw new TestException(testName);
         }
 
+        // inserisci 3 amici ai permessi di lettura delle categorie
         try {
             this.dataBoard.addFriend("test1", this.password, "luca");
             this.dataBoard.addFriend("test2", this.password, "luca");
@@ -107,50 +141,75 @@ public class IteratorTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             throw new TestException(testName);
         }
 
-        MyData dato1 = new MyData(1, "Lorem ipsum");
-        MyData dato2 = new MyData(2, "dolor sit amet");
-        MyData dato3 = new MyData(3, "consectetur adipisci elit");
-        MyData dato4 = new MyData(4, "sed do eiusmod tempor incidunt ut labore et dolore magna aliqua");
+        // crea 4 dati
+        MyData data1 = new MyData(1, "Lorem ipsum");
+        MyData data2 = new MyData(2, "dolor sit amet");
+        MyData data3 = new MyData(3, "consectetur adipisci elit");
+        MyData data4 = new MyData(4, "sed do eiusmod tempor incidunt ut labore et dolore magna aliqua");
 
+        // inserisci i dati casualmente fra le categorie
         try {
-            this.dataBoard.put(this.password, dato1, "test2");
-            this.dataBoard.put(this.password, dato2, "test1");
-            this.dataBoard.put(this.password, dato3, "test1");
-            this.dataBoard.put(this.password, dato4, "test1");
+            this.dataBoard.put(this.password, data1, "test2");
+            this.dataBoard.put(this.password, data2, "test1");
+            this.dataBoard.put(this.password, data3, "test1");
+            this.dataBoard.put(this.password, data4, "test1");
         } catch (UnauthorizedAccessException e) {
             throw new TestException(testName);
         }
 
         try {
-            //expected order: dato2, dato3, dato1, dato4
-            this.dataBoard.insertLike("luca", dato1);
+            // inserisci i like ai dati in modo da avere
+            // in ordine decrescente (dal dato con più like
+            // al dato con meno like): data2, data3, data1, data4
+            this.dataBoard.insertLike("luca", data1);
 
-            this.dataBoard.insertLike("luca", dato2);
-            this.dataBoard.insertLike("matteo", dato2);
-            this.dataBoard.insertLike("gabriele", dato2);
+            this.dataBoard.insertLike("luca", data2);
+            this.dataBoard.insertLike("matteo", data2);
+            this.dataBoard.insertLike("gabriele", data2);
 
-            this.dataBoard.insertLike("matteo", dato3);
-            this.dataBoard.insertLike("gabriele", dato3);
+            this.dataBoard.insertLike("matteo", data3);
+            this.dataBoard.insertLike("gabriele", data3);
 
         } catch (UnauthorizedAccessException e) {
             throw new TestException(testName);
         }
 
+        // prendi l'iteratore
         try {
             Iterator<Data> iterator = this.dataBoard.getIterator(this.password);
 
-            //expected order: dato2, dato3, dato1, dato4
-            if (iterator.next().equals(dato2)
-                    && iterator.next().equals(dato3)
-                    && iterator.next().equals(dato1)
-                    && iterator.next().equals(dato4)) {
+            // verifica che sia ordinato per ordine decrescente in
+            // base ai like inseriti
+            // ordine atteso: data2, data3, data1, data4
+            if (iterator.next().equals(data2)
+                    && iterator.next().equals(data3)
+                    && iterator.next().equals(data1)
+                    && iterator.next().equals(data4)) {
                 AbstractTest.printSuccess(testName);
 
+                // resetta lo stato dell'esecuzione rimuovendo le categorie
+                // e tutti i relativi dati/permessi
                 try {
                     this.dataBoard.removeCategory("test1", this.password);
                     this.dataBoard.removeCategory("test2", this.password);
+
+                    try {
+                        this.dataBoard.removeFriend("test1", this.password, this.friend.getName());
+                        this.dataBoard.removeFriend("test2", this.password, this.friend.getName());
+                    } catch (UserNotFoundException e) {
+                        throw new TestException(testName, "Can't remove friend \"" + this.friend.getName() + "\".");
+                    } catch (CategoryNotFoundException e) {
+                        //ignore
+                    }
+
+                    this.dataBoard.remove(this.password, data1);
+                    this.dataBoard.remove(this.password, data2);
+                    this.dataBoard.remove(this.password, data3);
+                    this.dataBoard.remove(this.password, data4);
                 } catch (UnauthorizedAccessException e) {
                     throw new TestException(testName);
+                } catch (DataNotFoundException e) {
+                    //ignore
                 }
 
                 return;
@@ -168,14 +227,15 @@ public class IteratorTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
         this.before();
 
+        // prendi l'iteratore
         Iterator<Data> iterator;
-
         try {
             iterator = this.dataBoard.getIterator(this.password);
         } catch (UnauthorizedAccessException e) {
             throw new TestException(testName + e);
         }
 
+        // verifica che non sia possibile chiamare il metodo remove
         try {
             iterator.next();
             iterator.remove();
@@ -196,6 +256,7 @@ public class IteratorTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
         this.before();
 
+        // prendi un friend iterator
         Iterator<Data> iterator;
         try {
             iterator = this.dataBoard.getFriendIterator(this.friend.getName());
@@ -203,6 +264,7 @@ public class IteratorTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             throw new TestException(testName);
         }
 
+        // verifica che non sia null
         if (iterator != null) {
             AbstractTest.printSuccess(testName);
 
@@ -220,6 +282,8 @@ public class IteratorTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
         this.before();
 
+        // prova a prendere un friend iterator
+        // di un friend che non esiste
         try {
             this.dataBoard.getFriendIterator("gino");
         } catch (UserNotFoundException e) {
@@ -239,14 +303,15 @@ public class IteratorTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
         this.before();
 
+        // prendi il friend iterator
         Iterator<Data> iterator;
-
         try {
             iterator = this.dataBoard.getFriendIterator(this.friend.getName());
         } catch (UserNotFoundException e) {
             throw new TestException(testName + e);
         }
 
+        // verifica che non sia possibile chiamare il metodo remove
         try {
             iterator.next();
             iterator.remove();
@@ -265,6 +330,7 @@ public class IteratorTest<E extends DataBoard<Data>> extends AbstractTest<E> {
     {
         String testName = AbstractTest.getCurrentMethodName();
 
+        // crea tre categorie di test
         try {
             this.dataBoard.createCategory("category_a", this.password);
             this.dataBoard.createCategory("category_b", this.password);
@@ -273,6 +339,7 @@ public class IteratorTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             throw new TestException(testName);
         }
 
+        // aggiungi friend ai permessi di lettura di 2 categorie
         try {
             this.dataBoard.addFriend("category_a", this.password, this.friend.getName());
             this.dataBoard.addFriend("category_b", this.password, this.friend.getName());
@@ -280,6 +347,7 @@ public class IteratorTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             throw new TestException(testName);
         }
 
+        // crea 8 dati
         MyData data1 = new MyData(1, "Lorem ipsum");
         MyData data2 = new MyData(2, "dolor sit amet");
         MyData data3 = new MyData(3, "consectetur adipisci elit");
@@ -289,6 +357,8 @@ public class IteratorTest<E extends DataBoard<Data>> extends AbstractTest<E> {
         MyData data7 = new MyData(7, "nisi ut aliquid ex ea commodi consequatur");
         MyData data8 = new MyData(8, "Excepteur sint obcaecat cupiditat non proident");
 
+        // inserisci 7 degli 8 dati sparsi fra
+        // le categorie leggibili da friend
         try {
             this.dataBoard.put(this.password, data1, "category_a");
             this.dataBoard.put(this.password, data2, "category_a");
@@ -302,8 +372,8 @@ public class IteratorTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             throw new TestException(testName);
         }
 
+        // prendi il friend iterator
         Iterator<Data> iterator;
-
         try {
             iterator = this.dataBoard.getFriendIterator(this.friend.getName());
         } catch (UserNotFoundException e) {
@@ -312,6 +382,8 @@ public class IteratorTest<E extends DataBoard<Data>> extends AbstractTest<E> {
 
         boolean containsAllData = true;
 
+        // verifica che friend iterator contenga solamente
+        // i dati delle categorie leggibili da friend
         while (iterator.hasNext()) {
             Data iteratorData = iterator.next();
 
@@ -330,12 +402,34 @@ public class IteratorTest<E extends DataBoard<Data>> extends AbstractTest<E> {
         if (containsAllData) {
             AbstractTest.printSuccess(testName);
 
+            // resetta lo stato dell'esecuzione rimuovendo le categorie
+            // e tutti i relativi dati/permessi
             try {
                 this.dataBoard.removeCategory("category_a", this.password);
                 this.dataBoard.removeCategory("category_b", this.password);
                 this.dataBoard.removeCategory("category_c", this.password);
+
+                try {
+                    this.dataBoard.removeFriend("category_a", this.password, this.friend.getName());
+                    this.dataBoard.removeFriend("category_b", this.password, this.friend.getName());
+                } catch (UserNotFoundException e) {
+                    throw new TestException(testName, "Can't remove friend \"" + this.friend.getName() + "\".");
+                } catch (CategoryNotFoundException e) {
+                    //ignore
+                }
+                
+                this.dataBoard.remove(this.password, data1);
+                this.dataBoard.remove(this.password, data2);
+                this.dataBoard.remove(this.password, data3);
+                this.dataBoard.remove(this.password, data4);
+                this.dataBoard.remove(this.password, data5);
+                this.dataBoard.remove(this.password, data6);
+                this.dataBoard.remove(this.password, data7);
+                this.dataBoard.remove(this.password, data8);
             } catch (UnauthorizedAccessException e) {
                 throw new TestException(testName);
+            } catch (DataNotFoundException e) {
+                //ignore
             }
 
             return;
@@ -348,6 +442,7 @@ public class IteratorTest<E extends DataBoard<Data>> extends AbstractTest<E> {
     {
         String testName = AbstractTest.getCurrentMethodName();
 
+        // crea due categorie
         try {
             this.dataBoard.createCategory("category_a", this.password);
             this.dataBoard.createCategory("category_b", this.password);
@@ -355,6 +450,7 @@ public class IteratorTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             throw new TestException(testName);
         }
 
+        // aggiungi friend ai permessi di lettura delle 2 categorie
         try {
             this.dataBoard.addFriend("category_a", this.password, this.friend.getName());
             this.dataBoard.addFriend("category_b", this.password, this.friend.getName());
@@ -362,20 +458,32 @@ public class IteratorTest<E extends DataBoard<Data>> extends AbstractTest<E> {
             throw new TestException(testName);
         }
 
+        // prendi il friend iterator
         Iterator<Data> iterator;
-
         try {
             iterator = this.dataBoard.getFriendIterator(this.friend.getName());
         } catch (UserNotFoundException e) {
             throw new TestException(testName);
         }
 
+        // verifica che il friend iterator sia vuoto
         if (!iterator.hasNext()) {
             AbstractTest.printSuccess(testName);
 
+            // resetta lo stato dell'esecuzione rimuovendo le categorie
+            // e tutti i relativi dati/permessi
             try {
                 this.dataBoard.removeCategory("category_a", this.password);
                 this.dataBoard.removeCategory("category_b", this.password);
+
+                try {
+                    this.dataBoard.removeFriend("category_a", this.password, this.friend.getName());
+                    this.dataBoard.removeFriend("category_b", this.password, this.friend.getName());
+                } catch (UserNotFoundException e) {
+                    throw new TestException(testName, "Can't remove friend \"" + this.friend.getName() + "\".");
+                } catch (CategoryNotFoundException e) {
+                    //ignore
+                }
             } catch (UnauthorizedAccessException e) {
                 throw new TestException(testName);
             }
